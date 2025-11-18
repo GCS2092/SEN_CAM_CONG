@@ -53,7 +53,32 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Si Cloudinary est configuré, l'utiliser
+    // Fonction helper pour upload Vercel Blob
+    const uploadToVercelBlob = async (file: File) => {
+      if (!process.env.BLOB_READ_WRITE_TOKEN) {
+        throw new Error('BLOB_READ_WRITE_TOKEN non configuré')
+      }
+      
+      const { put } = await import('@vercel/blob')
+      const timestamp = Date.now()
+      const randomStr = Math.random().toString(36).substring(2, 15)
+      const extension = file.name.split('.').pop()
+      const filename = `sec-cam-cong/${timestamp}-${randomStr}.${extension}`
+      const bytes = await file.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+      
+      const blob = await put(filename, buffer, {
+        access: 'public',
+        contentType: file.type,
+      })
+      
+      return NextResponse.json({
+        url: blob.url,
+        filename: filename,
+      })
+    }
+
+    // Si Cloudinary est configuré, l'utiliser avec fallback
     if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
       try {
         return await uploadToCloudinary(file)
@@ -64,60 +89,41 @@ export async function POST(request: NextRequest) {
         // Essayer Vercel Blob si disponible
         if (process.env.BLOB_READ_WRITE_TOKEN) {
           try {
-            const { put } = await import('@vercel/blob')
-            const timestamp = Date.now()
-            const randomStr = Math.random().toString(36).substring(2, 15)
-            const extension = file.name.split('.').pop()
-            const filename = `sec-cam-cong/${timestamp}-${randomStr}.${extension}`
-            const bytes = await file.arrayBuffer()
-            const buffer = Buffer.from(bytes)
-            
-            const blob = await put(filename, buffer, {
-              access: 'public',
-              contentType: file.type,
-            })
-            
-            return NextResponse.json({
-              url: blob.url,
-              filename: filename,
-            })
-          } catch (blobError) {
-            console.error('Vercel Blob upload failed:', blobError)
+            console.log('Trying Vercel Blob Storage as fallback...')
+            return await uploadToVercelBlob(file)
+          } catch (blobError: any) {
+            console.error('Vercel Blob upload failed:', blobError.message)
           }
         }
         
         // Fallback vers local (développement uniquement)
         if (process.env.NODE_ENV === 'development') {
+          console.log('Falling back to local storage (development only)...')
           return await uploadLocal(file)
         }
         
-        // En production, si tout échoue, retourner l'erreur Cloudinary
-        throw cloudinaryError
+        // En production, si tout échoue, retourner un message d'erreur clair
+        return NextResponse.json(
+          { 
+            error: 'Upload échoué. Cloudinary nécessite un preset configuré. Configurez Vercel Blob Storage ou corrigez Cloudinary.',
+            details: cloudinaryError.message
+          },
+          { status: 500 }
+        )
       }
     }
 
-    // Si Vercel Blob est configuré, l'utiliser
+    // Si Vercel Blob est configuré, l'utiliser directement
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
-        const { put } = await import('@vercel/blob')
-        const timestamp = Date.now()
-        const randomStr = Math.random().toString(36).substring(2, 15)
-        const extension = file.name.split('.').pop()
-        const filename = `sec-cam-cong/${timestamp}-${randomStr}.${extension}`
-        const bytes = await file.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-        
-        const blob = await put(filename, buffer, {
-          access: 'public',
-          contentType: file.type,
-        })
-        
-        return NextResponse.json({
-          url: blob.url,
-          filename: filename,
-        })
-      } catch (blobError) {
-        console.error('Vercel Blob upload error:', blobError)
+        return await uploadToVercelBlob(file)
+      } catch (blobError: any) {
+        console.error('Vercel Blob upload error:', blobError.message)
+        // Fallback vers local en développement
+        if (process.env.NODE_ENV === 'development') {
+          return await uploadLocal(file)
+        }
+        throw blobError
       }
     }
 
