@@ -258,7 +258,7 @@ function AdminImagesPageContent() {
             <div>
               <h2 className="text-xl md:text-2xl font-bold mb-2">Image de fond du site (Hero)</h2>
               <p className="text-gray-600 text-sm">
-                Cette image est affichée en arrière-plan de la section Hero sur la page d'accueil
+                Cette image est affichée en arrière-plan de la section Hero sur la page d&apos;accueil
               </p>
             </div>
             <button
