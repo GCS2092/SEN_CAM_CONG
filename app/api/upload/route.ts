@@ -75,13 +75,11 @@ export async function POST(request: NextRequest) {
       console.log('Vercel Blob upload success:', {
         url: blob.url,
         filename: filename,
-        size: blob.size,
       })
       
       return NextResponse.json({
         url: blob.url,
         filename: filename,
-        size: blob.size,
       })
     }
 
