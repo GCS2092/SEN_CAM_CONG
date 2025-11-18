@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { formatDate } from '@/lib/utils'
+import { toast } from 'react-hot-toast'
 import ArtistGuard from '@/components/ArtistGuard'
 import Image from 'next/image'
 
@@ -77,16 +78,17 @@ function ArtistDashboardContent() {
 
       if (!res.ok) {
         const data = await res.json()
-        alert(data.error || 'Erreur lors de la suppression')
+        toast.error(data.error || 'Erreur lors de la suppression')
         return
       }
 
+      toast.success('Performance supprimée avec succès !')
       // Recharger la liste
       setPerformances(performances.filter(p => p.id !== id))
       setStats(prev => ({ ...prev, total: prev.total - 1 }))
     } catch (error) {
       console.error('Error deleting performance:', error)
-      alert('Erreur lors de la suppression')
+      toast.error('Erreur lors de la suppression')
     }
   }
 

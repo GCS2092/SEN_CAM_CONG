@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: sec-cam-cong
+    name: sen-cam-cong
     env: node
     plan: starter
     buildCommand: npm install && npm run build
@@ -15,8 +15,8 @@ services:
     healthCheckPath: /
 
 databases:
-  - name: sec-cam-cong-db
+  - name: sen-cam-cong-db
     plan: starter
-    databaseName: sec_cam_cong
-    user: sec_cam_cong_user
+    databaseName: sen_cam_cong
+    user: sen_cam_cong_user
 

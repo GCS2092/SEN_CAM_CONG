@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
+import { toast } from 'react-hot-toast'
 import AdminGuard from '@/components/AdminGuard'
 
 interface Performance {
@@ -47,10 +48,15 @@ function AdminPerformancesPageContent() {
       })
 
       if (res.ok) {
+        toast.success('Performance supprimée avec succès !')
         setPerformances(performances.filter(p => p.id !== id))
+      } else {
+        const data = await res.json()
+        toast.error(data.error || 'Erreur lors de la suppression')
       }
     } catch (error) {
       console.error('Error deleting performance:', error)
+      toast.error('Erreur lors de la suppression de la performance')
     }
   }
 

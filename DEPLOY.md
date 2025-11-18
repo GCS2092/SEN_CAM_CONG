@@ -1,6 +1,6 @@
 # Guide de Déploiement sur Render
 
-Ce guide vous explique comment déployer le site SEC CAM CONG sur Render.
+Ce guide vous explique comment déployer le site SEN CAM CONG sur Render.
 
 ## 📋 Prérequis
 
@@ -13,9 +13,9 @@ Ce guide vous explique comment déployer le site SEC CAM CONG sur Render.
 1. Connectez-vous à votre dashboard Render
 2. Cliquez sur **"New +"** → **"PostgreSQL"**
 3. Configurez :
-   - **Name** : `sec-cam-cong-db`
-   - **Database** : `sec_cam_cong`
-   - **User** : `sec_cam_cong_user`
+   - **Name** : `sen-cam-cong-db`
+   - **Database** : `sen_cam_cong`
+   - **User** : `sen_cam_cong_user`
    - **Region** : Choisissez la région la plus proche
    - **Plan** : Sélectionnez votre plan (Starter ou supérieur)
 4. Cliquez sur **"Create Database"**
@@ -25,9 +25,9 @@ Ce guide vous explique comment déployer le site SEC CAM CONG sur Render.
 
 1. Dans le dashboard Render, cliquez sur **"New +"** → **"Web Service"**
 2. Connectez votre repository (GitHub/GitLab/Bitbucket)
-3. Sélectionnez le repository `SEC_CAM_CONG`
+3. Sélectionnez le repository `SEN_CAM_CONG` (ou `GCS2092/SEN_CAM_CONG`)
 4. Configurez le service :
-   - **Name** : `sec-cam-cong`
+   - **Name** : `sen-cam-cong`
    - **Region** : Même région que votre base de données
    - **Branch** : `main` (ou votre branche principale)
    - **Root Directory** : `/` (laisser vide)

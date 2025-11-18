@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
+import { toast } from 'react-hot-toast'
 import AdminGuard from '@/components/AdminGuard'
 
 interface Event {
@@ -50,10 +51,15 @@ function AdminEventsPageContent() {
       })
 
       if (res.ok) {
+        toast.success('Événement supprimé avec succès !')
         setEvents(events.filter(e => e.id !== id))
+      } else {
+        const data = await res.json()
+        toast.error(data.error || 'Erreur lors de la suppression')
       }
     } catch (error) {
       console.error('Error deleting event:', error)
+      toast.error('Erreur lors de la suppression de l\'événement')
     }
   }
 

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-hot-toast'
 import AdminGuard from '@/components/AdminGuard'
 
 interface SocialLink {
@@ -50,6 +51,7 @@ function AdminSocialLinksPageContent() {
 
     const token = localStorage.getItem('token')
     if (!token) {
+      toast.error('Vous devez être connecté')
       return
     }
 
@@ -62,13 +64,19 @@ function AdminSocialLinksPageContent() {
       })
 
       if (res.ok) {
+        toast.success('Lien social supprimé avec succès !')
         setSocialLinks(socialLinks.filter((link) => link.id !== id))
+        setError(null)
       } else {
         const data = await res.json()
-        setError(data.error || 'Erreur lors de la suppression')
+        const errorMsg = data.error || 'Erreur lors de la suppression'
+        setError(errorMsg)
+        toast.error(errorMsg)
       }
     } catch (err) {
-      setError('Une erreur est survenue lors de la suppression')
+      const errorMsg = 'Une erreur est survenue lors de la suppression'
+      setError(errorMsg)
+      toast.error(errorMsg)
       console.error('Error deleting social link:', err)
     }
   }
@@ -76,6 +84,7 @@ function AdminSocialLinksPageContent() {
   const handleToggleActive = async (link: SocialLink) => {
     const token = localStorage.getItem('token')
     if (!token) {
+      toast.error('Vous devez être connecté')
       return
     }
 
@@ -92,17 +101,24 @@ function AdminSocialLinksPageContent() {
       })
 
       if (res.ok) {
+        const newStatus = !link.active
+        toast.success(`Lien ${newStatus ? 'activé' : 'désactivé'} avec succès !`)
         setSocialLinks(
           socialLinks.map((l) =>
             l.id === link.id ? { ...l, active: !l.active } : l
           )
         )
+        setError(null)
       } else {
         const data = await res.json()
-        setError(data.error || 'Erreur lors de la mise à jour')
+        const errorMsg = data.error || 'Erreur lors de la mise à jour'
+        setError(errorMsg)
+        toast.error(errorMsg)
       }
     } catch (err) {
-      setError('Une erreur est survenue')
+      const errorMsg = 'Une erreur est survenue'
+      setError(errorMsg)
+      toast.error(errorMsg)
       console.error('Error updating social link:', err)
     }
   }

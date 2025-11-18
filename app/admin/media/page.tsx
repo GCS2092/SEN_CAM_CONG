@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { toast } from 'react-hot-toast'
 import AdminGuard from '@/components/AdminGuard'
 
 interface Media {
@@ -47,10 +48,15 @@ function AdminMediaPageContent() {
       })
 
       if (res.ok) {
+        toast.success('Média supprimé avec succès !')
         setMedia(media.filter(m => m.id !== id))
+      } else {
+        const data = await res.json()
+        toast.error(data.error || 'Erreur lors de la suppression')
       }
     } catch (error) {
       console.error('Error deleting media:', error)
+      toast.error('Erreur lors de la suppression du média')
     }
   }
 
