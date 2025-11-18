@@ -134,7 +134,7 @@ function UserDashboardContent() {
             <h2 className="text-xl font-bold mb-6">Événements aimés</h2>
             {likedEvents.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
-                <p className="mb-4">Vous n'avez pas encore aimé d'événement</p>
+                <p className="mb-4">Vous n&apos;avez pas encore aimé d&apos;événement</p>
                 <Link href="/events" className="btn-primary text-sm">
                   Découvrir les événements
                 </Link>
@@ -162,7 +162,7 @@ function UserDashboardContent() {
             <h2 className="text-xl font-bold mb-6">Mes commentaires</h2>
             {comments.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
-                <p className="mb-4">Vous n'avez pas encore commenté</p>
+                <p className="mb-4">Vous n&apos;avez pas encore commenté</p>
                 <Link href="/events" className="btn-primary text-sm">
                   Découvrir les événements
                 </Link>

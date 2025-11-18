@@ -119,10 +119,12 @@ export default function PerformanceDetailPage() {
 
         {!performance.videoUrl && performance.imageUrl && (
           <div className="relative h-96 mb-8 rounded-xl overflow-hidden">
-            <img
+            <Image
               src={performance.imageUrl}
               alt={performance.title}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 80vw"
             />
           </div>
         )}
