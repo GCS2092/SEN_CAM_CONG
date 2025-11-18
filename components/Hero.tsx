@@ -17,15 +17,16 @@ export default function Hero() {
   useEffect(() => {
     async function loadSettings() {
       try {
+        // Charger les settings avec un délai pour éviter la surcharge
         const [bgRes, titleRes, subtitleRes] = await Promise.all([
-          fetch('/api/site-settings?key=hero_background_image'),
-          fetch('/api/site-settings?key=hero_title'),
-          fetch('/api/site-settings?key=hero_subtitle'),
+          fetch('/api/site-settings?key=hero_background_image').catch(() => ({ json: async () => ({ setting: null }) })),
+          fetch('/api/site-settings?key=hero_title').catch(() => ({ json: async () => ({ setting: null }) })),
+          fetch('/api/site-settings?key=hero_subtitle').catch(() => ({ json: async () => ({ setting: null }) })),
         ])
 
-        const bgData = await bgRes.json()
-        const titleData = await titleRes.json()
-        const subtitleData = await subtitleRes.json()
+        const bgData = await bgRes.json().catch(() => ({ setting: null }))
+        const titleData = await titleRes.json().catch(() => ({ setting: null }))
+        const subtitleData = await subtitleRes.json().catch(() => ({ setting: null }))
 
         setSettings({
           hero_background_image: bgData.setting,
@@ -34,6 +35,8 @@ export default function Hero() {
         })
       } catch (error) {
         console.error('Error loading hero settings:', error)
+        // En cas d'erreur, utiliser les valeurs par défaut
+        setSettings({})
       } finally {
         setLoading(false)
       }

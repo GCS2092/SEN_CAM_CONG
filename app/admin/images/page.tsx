@@ -47,12 +47,12 @@ function AdminImagesPageContent() {
   async function loadAllImages() {
     setLoading(true)
     try {
-      // Charger toutes les images depuis différentes sources
+      // Charger toutes les images depuis différentes sources avec gestion d'erreur
       const [eventsRes, performancesRes, mediaRes, globalMediaRes] = await Promise.all([
-        fetch('/api/events'),
-        fetch('/api/performances'),
-        fetch('/api/media'),
-        fetch('/api/global-media?type=IMAGE'),
+        fetch('/api/events').catch(() => ({ json: async () => ({ events: [] }) })),
+        fetch('/api/performances').catch(() => ({ json: async () => ({ performances: [] }) })),
+        fetch('/api/media').catch(() => ({ json: async () => ({ media: [] }) })),
+        fetch('/api/global-media?type=IMAGE').catch(() => ({ json: async () => ({ media: [] }) })),
       ])
 
       const events = await eventsRes.json()
