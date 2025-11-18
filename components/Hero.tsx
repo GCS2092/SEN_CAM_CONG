@@ -2,8 +2,50 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
+interface HeroSettings {
+  hero_background_image?: { value: string | null }
+  hero_title?: { value: string | null }
+  hero_subtitle?: { value: string | null }
+}
 
 export default function Hero() {
+  const [settings, setSettings] = useState<HeroSettings>({})
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const [bgRes, titleRes, subtitleRes] = await Promise.all([
+          fetch('/api/site-settings?key=hero_background_image'),
+          fetch('/api/site-settings?key=hero_title'),
+          fetch('/api/site-settings?key=hero_subtitle'),
+        ])
+
+        const bgData = await bgRes.json()
+        const titleData = await titleRes.json()
+        const subtitleData = await subtitleRes.json()
+
+        setSettings({
+          hero_background_image: bgData.setting,
+          hero_title: titleData.setting,
+          hero_subtitle: subtitleData.setting,
+        })
+      } catch (error) {
+        console.error('Error loading hero settings:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadSettings()
+  }, [])
+
+  const backgroundImage = settings.hero_background_image?.value || '/uploads/IMG-20251117-WA0001.jpg'
+  const title = settings.hero_title?.value || 'SEN CAM CONG'
+  const subtitle = settings.hero_subtitle?.value || 'La fusion musicale du Cameroun, du Sénégal et du Congo'
+
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image avec overlay gradient fusion */}
@@ -11,7 +53,7 @@ export default function Hero() {
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: "url('/uploads/IMG-20251117-WA0001.jpg')",
+          backgroundImage: `url('${backgroundImage}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -30,7 +72,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 text-white drop-shadow-2xl px-4"
         >
-          SEN CAM CONG
+          {title}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -38,7 +80,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 md:mb-8 text-gray-100 font-medium px-4"
         >
-          La fusion musicale du Cameroun, du Sénégal et du Congo
+          {subtitle}
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

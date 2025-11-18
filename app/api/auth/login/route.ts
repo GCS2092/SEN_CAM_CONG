@@ -10,6 +10,7 @@ async function login(request: NextRequest) {
     const validation = loginSchema.safeParse(body)
 
     if (!validation.success) {
+      console.error('Validation error:', validation.error.errors)
       return handleValidationError(validation.error)
     }
 
@@ -20,7 +21,16 @@ async function login(request: NextRequest) {
       where: { email },
     })
 
-    if (!user || !user.password) {
+    if (!user) {
+      console.error(`User not found: ${email}`)
+      return NextResponse.json(
+        { error: 'Email ou mot de passe incorrect' },
+        { status: 401 }
+      )
+    }
+
+    if (!user.password) {
+      console.error(`User has no password: ${email}`)
       return NextResponse.json(
         { error: 'Email ou mot de passe incorrect' },
         { status: 401 }
@@ -30,6 +40,7 @@ async function login(request: NextRequest) {
     // Vérifier le mot de passe
     const isValid = await verifyPassword(password, user.password)
     if (!isValid) {
+      console.error(`Invalid password for user: ${email}`)
       return NextResponse.json(
         { error: 'Email ou mot de passe incorrect' },
         { status: 401 }
@@ -43,6 +54,8 @@ async function login(request: NextRequest) {
       role: user.role,
     })
 
+    console.log(`Login successful for user: ${email}, role: ${user.role}`)
+
     return NextResponse.json({
       token,
       user: {
@@ -54,6 +67,7 @@ async function login(request: NextRequest) {
       },
     })
   } catch (error) {
+    console.error('Login error:', error)
     return handleServerError(error, 'Erreur lors de la connexion')
   }
 }
