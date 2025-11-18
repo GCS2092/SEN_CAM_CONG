@@ -1,0 +1,186 @@
+{
+  "users": [
+    {
+      "id": "cmi3ghc6y0000ygfbufj4mfzg",
+      "email": "slovengama@gmail.com",
+      "name": "coeurson",
+      "role": "ADMIN",
+      "avatar": null,
+      "bio": null,
+      "createdAt": "2025-11-17T18:06:13.495Z",
+      "updatedAt": "2025-11-17T18:11:30.391Z"
+    },
+    {
+      "id": "cmi3s4dbw0000f9w0zzi770w3",
+      "email": "stemk2151@gmail.com",
+      "name": "Coeurson ",
+      "role": "ARTIST",
+      "avatar": null,
+      "bio": null,
+      "createdAt": "2025-11-17T23:32:03.834Z",
+      "updatedAt": "2025-11-17T23:32:03.834Z"
+    },
+    {
+      "id": "cmi3s4wlk0001f9w0i0ms63da",
+      "email": "coeurson.gama@estm.sn",
+      "name": "Gama",
+      "role": "USER",
+      "avatar": null,
+      "bio": null,
+      "createdAt": "2025-11-17T23:32:28.808Z",
+      "updatedAt": "2025-11-17T23:32:28.808Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "cmi3ghloy00017tneenem9zvj",
+      "title": "Concert Fusion - Paris",
+      "description": "Venez découvrir la fusion unique des rythmes du Cameroun, du Sénégal et du Congo ! Une soirée exceptionnelle où les trois cultures se rencontrent pour créer une expérience musicale inoubliable. Ouverture des portes à 19h, début du concert à 20h30.\n\nAu programme :\n- Musique traditionnelle revisitée\n- Rythmes afrobeat et soukous\n- Collaboration avec des artistes invités\n- Ambiance festive garantie !",
+      "date": "2025-06-15T20:30:00.000Z",
+      "location": "Paris, France",
+      "venue": "Zénith de Paris",
+      "imageUrl": "/uploads/IMG-20251117-WA0001.jpg",
+      "externalUrl": "https://www.fnac.com",
+      "ticketPrice": 25000,
+      "status": "UPCOMING",
+      "createdAt": "2025-11-17T18:06:25.808Z",
+      "updatedAt": "2025-11-17T18:06:25.808Z",
+      "userId": "cmi3ghc6y0000ygfbufj4mfzg",
+      "user": {
+        "email": "slovengama@gmail.com"
+      }
+    },
+    {
+      "id": "cmi3ghly600037tnenr3j2lhj",
+      "title": "Festival Afro-Caribéen - Dakar",
+      "description": "Performance exceptionnelle au Festival Afro-Caribéen de Dakar. Nous partagerons la scène avec d'autres artistes internationaux dans un cadre magnifique. Une célébration de la musique africaine et de sa diversité.\n\nCe concert marque notre retour au Sénégal, berceau de notre inspiration musicale.",
+      "date": "2025-08-20T21:00:00.000Z",
+      "location": "Dakar, Sénégal",
+      "venue": "Place de l'Indépendance",
+      "imageUrl": "/uploads/IMG-20251117-WA0002.jpg",
+      "externalUrl": "https://www.festival-afro-caribeen.sn",
+      "ticketPrice": 15000,
+      "status": "UPCOMING",
+      "createdAt": "2025-11-17T18:06:26.142Z",
+      "updatedAt": "2025-11-17T18:06:26.142Z",
+      "userId": "cmi3ghc6y0000ygfbufj4mfzg",
+      "user": {
+        "email": "slovengama@gmail.com"
+      }
+    },
+    {
+      "id": "cmi3ghlyp00057tne4tlmwsl0",
+      "title": "Concert Intime - Yaoundé",
+      "description": "Un concert acoustique dans l'ambiance chaleureuse de Yaoundé. Un moment privilégié pour découvrir nos chansons dans une version plus intimiste, avec des arrangements acoustiques qui mettent en valeur la beauté des mélodies traditionnelles.\n\nRetour aux sources dans la capitale camerounaise !",
+      "date": "2025-07-10T20:00:00.000Z",
+      "location": "Yaoundé, Cameroun",
+      "venue": "Palais des Congrès",
+      "imageUrl": "/uploads/IMG-20251117-WA0003.jpg",
+      "externalUrl": null,
+      "ticketPrice": 12000,
+      "status": "UPCOMING",
+      "createdAt": "2025-11-17T18:06:26.161Z",
+      "updatedAt": "2025-11-17T18:06:26.161Z",
+      "userId": "cmi3ghc6y0000ygfbufj4mfzg",
+      "user": {
+        "email": "slovengama@gmail.com"
+      }
+    },
+    {
+      "id": "cmi3ghlz900077tneqmljoy5l",
+      "title": "Tournée Africaine - Brazzaville",
+      "description": "Première date de notre tournée africaine à Brazzaville ! Nous sommes ravis de vous retrouver dans cette ville emblématique du Congo pour une soirée mémorable. Un hommage aux rythmes congolais qui ont influencé notre musique.",
+      "date": "2025-09-05T19:30:00.000Z",
+      "location": "Brazzaville, Congo",
+      "venue": "Palais des Sports",
+      "imageUrl": "/uploads/IMG-20251117-WA0004.jpg",
+      "externalUrl": null,
+      "ticketPrice": 18000,
+      "status": "UPCOMING",
+      "createdAt": "2025-11-17T18:06:26.181Z",
+      "updatedAt": "2025-11-17T18:06:26.181Z",
+      "userId": "cmi3ghc6y0000ygfbufj4mfzg",
+      "user": {
+        "email": "slovengama@gmail.com"
+      }
+    },
+    {
+      "id": "cmi3ghm5j00097tneiehp8109",
+      "title": "Concert de Gala - Douala",
+      "description": "Concert de gala à Douala pour célébrer la fusion musicale SEC CAM CONG. Tous les bénéfices seront reversés à une association caritative locale. Une soirée exceptionnelle pour une cause noble.\n\nRejoignez-nous pour cette soirée solidaire !",
+      "date": "2024-11-20T20:00:00.000Z",
+      "location": "Douala, Cameroun",
+      "venue": "Salle des Fêtes",
+      "imageUrl": "/uploads/IMG-20251117-WA0005.jpg",
+      "externalUrl": "https://www.douala-events.cm",
+      "ticketPrice": 20000,
+      "status": "PAST",
+      "createdAt": "2025-11-17T18:06:26.407Z",
+      "updatedAt": "2025-11-17T18:06:26.407Z",
+      "userId": "cmi3ghc6y0000ygfbufj4mfzg",
+      "user": {
+        "email": "slovengama@gmail.com"
+      }
+    },
+    {
+      "id": "cmi3ghmc2000b7tnes9fn1zva",
+      "title": "Festival des Musiques du Monde - Lyon",
+      "description": "Participation au Festival des Musiques du Monde à Lyon. Un des plus grands festivals de musique en France ! Nous représenterons la richesse musicale de l'Afrique centrale et de l'ouest.",
+      "date": "2025-07-18T22:00:00.000Z",
+      "location": "Lyon, France",
+      "venue": "Festival des Musiques du Monde",
+      "imageUrl": "/uploads/IMG-20251117-WA0006.jpg",
+      "externalUrl": "https://www.festival-musiques-monde.fr",
+      "ticketPrice": 30000,
+      "status": "UPCOMING",
+      "createdAt": "2025-11-17T18:06:26.642Z",
+      "updatedAt": "2025-11-17T18:06:26.642Z",
+      "userId": "cmi3ghc6y0000ygfbufj4mfzg",
+      "user": {
+        "email": "slovengama@gmail.com"
+      }
+    },
+    {
+      "id": "cmi3ghmcn000d7tnetoietqpr",
+      "title": "Concert à l'Olympia - Paris",
+      "description": "Concert historique à l'Olympia de Paris. Une salle mythique pour une soirée exceptionnelle avec notre répertoire complet. Venez vivre une expérience unique où se mêlent les sonorités du Cameroun, du Sénégal et du Congo.",
+      "date": "2024-10-15T20:00:00.000Z",
+      "location": "Paris, France",
+      "venue": "Olympia",
+      "imageUrl": "/uploads/IMG-20251117-WA0007.jpg",
+      "externalUrl": "https://www.olympiahall.com",
+      "ticketPrice": 35000,
+      "status": "PAST",
+      "createdAt": "2025-11-17T18:06:26.663Z",
+      "updatedAt": "2025-11-17T18:06:26.663Z",
+      "userId": "cmi3ghc6y0000ygfbufj4mfzg",
+      "user": {
+        "email": "slovengama@gmail.com"
+      }
+    },
+    {
+      "id": "cmi3ghmcx000f7tne7xykg3r2",
+      "title": "Soirée Fusion - Marseille",
+      "description": "Première fois à Marseille ! Nous sommes impatients de découvrir cette ville cosmopolite et de partager notre musique avec le public marseillais. Une soirée qui promet d'être mémorable avec nos plus grands hits et quelques surprises.",
+      "date": "2025-10-12T20:30:00.000Z",
+      "location": "Marseille, France",
+      "venue": "Le Dôme",
+      "imageUrl": "/uploads/IMG-20251117-WA0008.jpg",
+      "externalUrl": null,
+      "ticketPrice": 22000,
+      "status": "UPCOMING",
+      "createdAt": "2025-11-17T18:06:26.673Z",
+      "updatedAt": "2025-11-17T18:06:26.673Z",
+      "userId": "cmi3ghc6y0000ygfbufj4mfzg",
+      "user": {
+        "email": "slovengama@gmail.com"
+      }
+    }
+  ],
+  "performances": [],
+  "media": [],
+  "likes": [],
+  "comments": [],
+  "socialLinks": [],
+  "exportedAt": "2025-11-18T18:08:17.665Z"
+}

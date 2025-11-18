@@ -58,9 +58,12 @@ export function rateLimit(identifier: string, options: RateLimitOptions): { allo
 
 // Helper pour obtenir l'identifiant depuis une requête
 export function getRateLimitIdentifier(request: Request): string {
-  // Utiliser l'IP ou un token d'authentification
+  // Sur Vercel, utiliser l'IP réelle depuis les headers
   const forwarded = request.headers.get('x-forwarded-for')
-  const ip = forwarded ? forwarded.split(',')[0] : request.headers.get('x-real-ip') || 'unknown'
-  return ip
+  const ip = forwarded ? forwarded.split(',')[0].trim() : request.headers.get('x-real-ip') || 'unknown'
+  
+  // Pour le login, on peut aussi utiliser l'email si disponible dans le body
+  // Mais pour l'instant, on garde l'IP pour la simplicité
+  return `login:${ip}`
 }
 

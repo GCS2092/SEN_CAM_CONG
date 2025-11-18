@@ -58,6 +58,6 @@ async function login(request: NextRequest) {
   }
 }
 
-// Rate limit strict pour la connexion : 5 tentatives par 15 minutes
-export const POST = withRateLimit(login, { windowMs: 15 * 60 * 1000, max: 5 })
+// Rate limit pour la connexion : 20 tentatives par 15 minutes (plus tolérant pour éviter les faux positifs sur Vercel)
+export const POST = withRateLimit(login, { windowMs: 15 * 60 * 1000, max: 20 })
 
