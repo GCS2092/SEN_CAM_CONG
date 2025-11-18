@@ -55,11 +55,82 @@ export async function POST(request: NextRequest) {
 
     // Si Cloudinary est configuré, l'utiliser
     if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
-      return await uploadToCloudinary(file)
+      try {
+        return await uploadToCloudinary(file)
+      } catch (cloudinaryError: any) {
+        // Si Cloudinary échoue, fallback vers Vercel Blob ou local
+        console.error('Cloudinary upload failed, trying fallback:', cloudinaryError.message)
+        
+        // Essayer Vercel Blob si disponible
+        if (process.env.BLOB_READ_WRITE_TOKEN) {
+          try {
+            const { put } = await import('@vercel/blob')
+            const timestamp = Date.now()
+            const randomStr = Math.random().toString(36).substring(2, 15)
+            const extension = file.name.split('.').pop()
+            const filename = `sec-cam-cong/${timestamp}-${randomStr}.${extension}`
+            const bytes = await file.arrayBuffer()
+            const buffer = Buffer.from(bytes)
+            
+            const blob = await put(filename, buffer, {
+              access: 'public',
+              contentType: file.type,
+            })
+            
+            return NextResponse.json({
+              url: blob.url,
+              filename: filename,
+            })
+          } catch (blobError) {
+            console.error('Vercel Blob upload failed:', blobError)
+          }
+        }
+        
+        // Fallback vers local (développement uniquement)
+        if (process.env.NODE_ENV === 'development') {
+          return await uploadLocal(file)
+        }
+        
+        // En production, si tout échoue, retourner l'erreur Cloudinary
+        throw cloudinaryError
+      }
     }
 
-    // Sinon, upload local (développement)
-    return await uploadLocal(file)
+    // Si Vercel Blob est configuré, l'utiliser
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      try {
+        const { put } = await import('@vercel/blob')
+        const timestamp = Date.now()
+        const randomStr = Math.random().toString(36).substring(2, 15)
+        const extension = file.name.split('.').pop()
+        const filename = `sec-cam-cong/${timestamp}-${randomStr}.${extension}`
+        const bytes = await file.arrayBuffer()
+        const buffer = Buffer.from(bytes)
+        
+        const blob = await put(filename, buffer, {
+          access: 'public',
+          contentType: file.type,
+        })
+        
+        return NextResponse.json({
+          url: blob.url,
+          filename: filename,
+        })
+      } catch (blobError) {
+        console.error('Vercel Blob upload error:', blobError)
+      }
+    }
+
+    // Sinon, upload local (développement uniquement)
+    if (process.env.NODE_ENV === 'development') {
+      return await uploadLocal(file)
+    }
+
+    // En production sans Cloudinary ni Blob, erreur
+    return NextResponse.json(
+      { error: 'Aucun service de stockage configuré. Configurez Cloudinary ou Vercel Blob Storage.' },
+      { status: 500 }
+    )
   } catch (error) {
     console.error('Error uploading file:', error)
     return NextResponse.json(
@@ -71,6 +142,29 @@ export async function POST(request: NextRequest) {
 
 async function uploadToCloudinary(file: File) {
   try {
+    // Vérifier la configuration
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME
+    const apiKey = process.env.CLOUDINARY_API_KEY
+    const apiSecret = process.env.CLOUDINARY_API_SECRET
+    const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET || 'unsigned'
+
+    if (!cloudName || !apiKey || !apiSecret) {
+      console.error('Cloudinary config missing:', {
+        hasCloudName: !!cloudName,
+        hasApiKey: !!apiKey,
+        hasApiSecret: !!apiSecret,
+      })
+      throw new Error('Configuration Cloudinary incomplète')
+    }
+
+    console.log('Cloudinary upload attempt:', {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      cloudName,
+      uploadPreset,
+    })
+
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
     const base64 = buffer.toString('base64')
@@ -79,35 +173,48 @@ async function uploadToCloudinary(file: File) {
     // Créer FormData pour Cloudinary
     const cloudinaryFormData = new URLSearchParams()
     cloudinaryFormData.append('file', dataURI)
-    cloudinaryFormData.append('upload_preset', process.env.CLOUDINARY_UPLOAD_PRESET || 'unsigned')
+    cloudinaryFormData.append('upload_preset', uploadPreset)
     cloudinaryFormData.append('folder', 'sec-cam-cong')
     // Garder la qualité maximale - pas de compression
     cloudinaryFormData.append('quality', 'auto:best')
     cloudinaryFormData.append('fetch_format', 'auto')
 
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: cloudinaryFormData.toString(),
-      }
-    )
+    const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`
+    console.log('Uploading to:', uploadUrl)
+
+    const response = await fetch(uploadUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: cloudinaryFormData.toString(),
+    })
 
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.error?.message || 'Erreur Cloudinary')
+      console.error('Cloudinary API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: data,
+      })
+      throw new Error(data.error?.message || `Erreur Cloudinary: ${response.status} ${response.statusText}`)
     }
+
+    console.log('Cloudinary upload success:', {
+      url: data.secure_url,
+      publicId: data.public_id,
+    })
 
     return NextResponse.json({
       url: data.secure_url,
       publicId: data.public_id,
     })
-  } catch (error) {
-    console.error('Cloudinary upload error:', error)
+  } catch (error: any) {
+    console.error('Cloudinary upload error:', {
+      message: error.message,
+      stack: error.stack,
+    })
     throw error
   }
 }
