@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { toast } from 'react-hot-toast'
 
 interface ImageUploadProps {
   value: string
@@ -81,11 +82,14 @@ export default function ImageUpload({ value, onChange, label = "Image" }: ImageU
       }
 
       // Mettre à jour l'URL
-      const imageUrl = data.url || data.secure_url || ''
+      const imageUrl = data.url || data.secure_url || data.blob?.url || ''
       if (imageUrl) {
         // Garder l'URL telle quelle (relative ou absolue) pour la validation
         // La prévisualisation utilisera l'URL complète si nécessaire
         console.log('Image uploadée, URL reçue:', imageUrl)
+        console.log('Données complètes reçues:', data)
+        
+        // Appeler onChange avec l'URL
         onChange(imageUrl)
         
         // Pour la prévisualisation, utiliser l'URL complète si c'est une URL relative
@@ -96,7 +100,11 @@ export default function ImageUpload({ value, onChange, label = "Image" }: ImageU
             : imageUrl
         setPreview(previewUrl)
         setError('')
+        
+        // Afficher un message de succès
+        toast.success('Image uploadée avec succès !')
       } else {
+        console.error('Aucune URL dans la réponse:', data)
         throw new Error('Aucune URL retournée par le serveur')
       }
     } catch (err: any) {

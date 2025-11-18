@@ -51,6 +51,13 @@ function NewEventPageContent() {
         imageUrl,
         ticketPrice: formData.ticketPrice ? parseFloat(formData.ticketPrice) : null,
       })
+      
+      // Vérifier que l'image est bien présente
+      if (!imageUrl) {
+        console.warn('⚠️  Aucune image URL dans le formulaire')
+      } else {
+        console.log('✅ Image URL présente:', imageUrl)
+      }
 
       const validation = eventSchema.safeParse({
         ...formData,

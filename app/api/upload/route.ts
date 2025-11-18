@@ -116,7 +116,9 @@ export async function POST(request: NextRequest) {
     // Si Vercel Blob est configuré, l'utiliser directement
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
-        return await uploadToVercelBlob(file)
+        const result = await uploadToVercelBlob(file)
+        console.log('Vercel Blob upload success:', result)
+        return result
       } catch (blobError: any) {
         console.error('Vercel Blob upload error:', blobError.message)
         // Fallback vers local en développement
