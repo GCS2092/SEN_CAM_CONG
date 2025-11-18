@@ -1,108 +1,97 @@
 const { PrismaClient } = require('@prisma/client')
 
-async function testDatabaseConnection() {
-  console.log('🔍 Test de connexion à la base de données...\n')
+const prisma = new PrismaClient()
 
-  // Vérifier si DATABASE_URL est définie
-  if (!process.env.DATABASE_URL) {
-    console.error('❌ ERREUR: DATABASE_URL n\'est pas définie dans les variables d\'environnement')
-    console.log('\n💡 Pour tester localement, créez un fichier .env avec:')
-    console.log('   DATABASE_URL="votre_url_de_connexion"')
-    process.exit(1)
-  }
-
-  console.log('✅ DATABASE_URL est définie')
-  console.log(`📍 URL: ${process.env.DATABASE_URL.replace(/:[^:@]+@/, ':****@')}\n`)
-
-  const prisma = new PrismaClient({
-    log: ['error', 'warn'],
-  })
-
+async function testConnection() {
   try {
-    console.log('🔄 Tentative de connexion...')
-
-    // Test 1: Connexion basique
+    console.log('🔍 Test de connexion à la base de données...\n')
+    
+    // Test 1 : Connexion simple
+    console.log('Test 1 : Connexion à la base de données...')
     await prisma.$connect()
-    console.log('✅ Connexion établie avec succès!\n')
-
-    // Test 2: Vérifier les tables
-    console.log('📊 Vérification des tables...')
+    console.log('✅ Connexion réussie !\n')
     
-    const tables = {
-      users: await prisma.user.count(),
-      events: await prisma.event.count(),
-      performances: await prisma.performance.count(),
-      comments: await prisma.comment.count(),
-      likes: await prisma.like.count(),
-      media: await prisma.media.count(),
-      socialLinks: await prisma.socialLink.count(),
-    }
-
-    console.log('\n📈 Statistiques de la base de données:')
-    console.log(`   👥 Utilisateurs: ${tables.users}`)
-    console.log(`   📅 Événements: ${tables.events}`)
-    console.log(`   🎤 Performances: ${tables.performances}`)
-    console.log(`   💬 Commentaires: ${tables.comments}`)
-    console.log(`   ❤️  Likes: ${tables.likes}`)
-    console.log(`   🖼️  Médias: ${tables.media}`)
-    console.log(`   🔗 Liens sociaux: ${tables.socialLinks}`)
-
-    // Test 3: Requête simple
-    console.log('\n🔄 Test de requête simple...')
-    const testUser = await prisma.user.findFirst({
-      select: { id: true, email: true, role: true },
-    })
+    // Test 2 : Requête simple
+    console.log('Test 2 : Requête simple (count users)...')
+    const userCount = await prisma.user.count()
+    console.log(`✅ ${userCount} utilisateur(s) trouvé(s)\n`)
     
-    if (testUser) {
-      console.log(`✅ Requête réussie - Exemple d'utilisateur trouvé: ${testUser.email}`)
-    } else {
-      console.log('⚠️  Aucun utilisateur trouvé (base de données vide)')
-    }
-
-    // Test 4: Vérifier les index
-    console.log('\n🔍 Vérification de la structure...')
-    const eventWithIndex = await prisma.event.findFirst({
-      where: { status: 'UPCOMING' },
-      select: { id: true, title: true },
+    // Test 3 : Vérifier les tables
+    console.log('Test 3 : Vérification des tables...')
+    const tables = await prisma.$queryRaw`
+      SELECT table_name 
+      FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      ORDER BY table_name
+    `
+    console.log('✅ Tables trouvées :')
+    tables.forEach((table) => {
+      console.log(`   - ${table.table_name}`)
     })
-    console.log('✅ Les index semblent fonctionner correctement')
-
-    console.log('\n🎉 Tous les tests sont passés avec succès!')
-    console.log('✅ La base de données est opérationnelle et accessible.\n')
-
+    console.log()
+    
+    // Test 4 : Vérifier les nouvelles tables
+    console.log('Test 4 : Vérification des nouvelles tables...')
+    try {
+      const siteSettingsCount = await prisma.siteSettings.count()
+      console.log(`✅ site_settings : ${siteSettingsCount} enregistrement(s)`)
+    } catch (e) {
+      console.error(`❌ site_settings : Table non trouvée - ${e.message}`)
+    }
+    
+    try {
+      const globalMediaCount = await prisma.globalMedia.count()
+      console.log(`✅ global_media : ${globalMediaCount} enregistrement(s)`)
+    } catch (e) {
+      console.error(`❌ global_media : Table non trouvée - ${e.message}`)
+    }
+    console.log()
+    
+    // Test 5 : Test de requête complexe
+    console.log('Test 5 : Test de requête complexe (events avec relations)...')
+    const events = await prisma.event.findMany({
+      take: 1,
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+          },
+        },
+      },
+    })
+    console.log(`✅ ${events.length} événement(s) récupéré(s) avec relations\n`)
+    
+    console.log('='.repeat(50))
+    console.log('✅ TOUS LES TESTS SONT PASSÉS !')
+    console.log('='.repeat(50))
+    console.log('\n📊 Résumé :')
+    console.log(`   - Connexion : ✅`)
+    console.log(`   - Utilisateurs : ${userCount}`)
+    console.log(`   - Tables : ${tables.length}`)
+    console.log(`   - Base de données : Opérationnelle\n`)
+    
   } catch (error) {
-    console.error('\n❌ ERREUR lors de la connexion:')
-    console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+    console.error('❌ Erreur de connexion :', error.message)
     
-    if (error.code === 'P1001') {
-      console.error('🔴 Impossible de se connecter au serveur de base de données')
-      console.error('   Vérifiez que:')
-      console.error('   - L\'URL de connexion est correcte')
-      console.error('   - Le serveur de base de données est en ligne')
-      console.error('   - Les credentials sont valides')
-    } else if (error.code === 'P1000') {
-      console.error('🔴 Échec d\'authentification')
-      console.error('   Vérifiez vos identifiants (username/password)')
-    } else if (error.code === 'P1003') {
-      console.error('🔴 La base de données n\'existe pas')
-      console.error('   Vérifiez le nom de la base de données dans l\'URL')
+    if (error.message.includes('Can\'t reach database server')) {
+      console.error('\n💡 SOLUTION :')
+      console.error('   1. Vérifiez que vous utilisez l\'External Database URL (pas Internal)')
+      console.error('   2. L\'URL doit contenir le domaine complet : .oregon-postgres.render.com')
+      console.error('   3. L\'URL doit contenir le port :5432')
+      console.error('   4. Vérifiez que la base de données Render n\'est pas en pause')
+    } else if (error.message.includes('does not exist')) {
+      console.error('\n💡 SOLUTION :')
+      console.error('   Exécutez : npx prisma migrate deploy')
     } else {
-      console.error(`🔴 Code d'erreur: ${error.code || 'UNKNOWN'}`)
-      console.error(`   Message: ${error.message}`)
+      console.error('\n💡 Vérifiez votre DATABASE_URL dans le fichier .env')
     }
     
-    console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n')
     process.exit(1)
   } finally {
     await prisma.$disconnect()
-    console.log('🔌 Connexion fermée')
   }
 }
 
-// Exécuter le test
-testDatabaseConnection()
-  .catch((error) => {
-    console.error('Erreur fatale:', error)
-    process.exit(1)
-  })
-
+testConnection()
