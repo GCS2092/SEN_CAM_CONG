@@ -136,7 +136,7 @@ function AdminSettingsPageContent() {
         <div className="space-y-8">
           {/* Section Hero */}
           <div className="card p-6 md:p-8">
-            <h2 className="text-xl md:text-2xl font-bold mb-6">Section Hero (Page d'accueil)</h2>
+            <h2 className="text-xl md:text-2xl font-bold mb-6">Section Hero (Page d&apos;accueil)</h2>
             
             <div className="space-y-6">
               <div>
@@ -149,7 +149,7 @@ function AdminSettingsPageContent() {
                   label=""
                 />
                 <p className="text-xs text-gray-500 mt-2">
-                  Cette image sera utilisée comme arrière-plan de la section Hero sur la page d'accueil
+                  Cette image sera utilisée comme arrière-plan de la section Hero sur la page d&apos;accueil
                 </p>
               </div>
 
