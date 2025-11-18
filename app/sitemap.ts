@@ -4,15 +4,27 @@ import { prisma } from '@/lib/prisma'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://sec-cam-cong.com'
 
-  // Récupérer les événements et performances
-  const [events, performances] = await Promise.all([
-    prisma.event.findMany({
-      select: { id: true, updatedAt: true },
-    }),
-    prisma.performance.findMany({
-      select: { id: true, updatedAt: true },
-    }),
-  ])
+  // Récupérer les événements et performances (avec gestion d'erreur si DB non disponible)
+  let events: { id: string; updatedAt: Date }[] = []
+  let performances: { id: string; updatedAt: Date }[] = []
+
+  try {
+    if (process.env.DATABASE_URL) {
+      const results = await Promise.all([
+        prisma.event.findMany({
+          select: { id: true, updatedAt: true },
+        }),
+        prisma.performance.findMany({
+          select: { id: true, updatedAt: true },
+        }),
+      ])
+      events = results[0]
+      performances = results[1]
+    }
+  } catch (error) {
+    // Si la connexion DB échoue (par exemple pendant le build), on continue avec un sitemap de base
+    console.warn('Could not fetch events/performances for sitemap:', error)
+  }
 
   const routes = [
     {
