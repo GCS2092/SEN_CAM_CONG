@@ -83,10 +83,11 @@ function AdminSettingsPageContent() {
       // Mettre à jour les settings locaux
       setSettings(prev => {
         const existing = prev.find(s => s.key === key)
+        const descriptionValue = description ?? null
         if (existing) {
-          return prev.map(s => s.key === key ? { ...s, value, type, description } : s)
+          return prev.map(s => s.key === key ? { ...s, value, type, description: descriptionValue } : s)
         }
-        return [...prev, { id: data.setting.id, key, value, type, description, updatedAt: new Date().toISOString() }]
+        return [...prev, { id: data.setting.id, key, value, type, description: descriptionValue, updatedAt: new Date().toISOString() }]
       })
     } catch (error: any) {
       toast.error(error.message || 'Erreur lors de la sauvegarde')
