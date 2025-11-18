@@ -32,6 +32,7 @@ export default function CommentsSection({ eventId }: CommentsSectionProps) {
 
   useEffect(() => {
     loadComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId])
 
   async function loadComments() {

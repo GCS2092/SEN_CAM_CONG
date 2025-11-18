@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { formatDateShort } from '@/lib/utils'
 
 interface Performance {
@@ -55,10 +56,12 @@ export default function PerformancesSection({ performances, loading }: Performan
                 <div className="card cursor-pointer h-full">
                   {performance.imageUrl ? (
                     <div className="relative h-48 overflow-hidden">
-                      <img
+                      <Image
                         src={performance.imageUrl}
                         alt={performance.title}
-                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                        fill
+                        className="object-cover hover:scale-110 transition-transform duration-300"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                       {performance.videoUrl && (
                         <div className="absolute inset-0 flex items-center justify-center bg-black/30">

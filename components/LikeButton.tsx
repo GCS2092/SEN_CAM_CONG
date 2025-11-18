@@ -21,6 +21,7 @@ export default function LikeButton({ eventId, initialLiked = false, initialCount
     if (isAuthenticated && !authLoading) {
       checkLike()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, authLoading, eventId])
 
   async function checkLike() {
