@@ -15,7 +15,6 @@ export default function Hero() {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          imageRendering: 'high-quality',
         }}
       />
       
