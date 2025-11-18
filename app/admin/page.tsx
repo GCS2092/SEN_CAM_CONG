@@ -127,6 +127,10 @@ function AdminDashboardContent() {
             <h3 className="text-lg md:text-xl font-bold mb-2">Gestion des images</h3>
             <p className="text-sm md:text-base text-gray-600">Gérer l&apos;image de fond et toutes les images de la plateforme</p>
           </Link>
+          <Link href="/admin/migrate-images" className="card p-4 md:p-6 hover:shadow-xl transition-shadow cursor-pointer bg-blue-50 border-2 border-blue-200">
+            <h3 className="text-lg md:text-xl font-bold mb-2">🚀 Migration des images</h3>
+            <p className="text-sm md:text-base text-gray-600">Uploader les images locales vers Vercel Blob Storage</p>
+          </Link>
         </div>
       </motion.div>
     </div>

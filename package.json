@@ -16,8 +16,9 @@
     "seed-events": "node scripts/seed-events.js",
     "seed-events-local": "node scripts/seed-events-with-local-images.js",
     "assign-images": "node scripts/assign-unique-images.js",
-    "seed-social-links": "node scripts/seed-social-links.js",
-    "test-db": "node scripts/test-db-connection.js"
+        "seed-social-links": "node scripts/seed-social-links.js",
+        "test-db": "node scripts/test-db-connection.js",
+        "upload-images-to-blob": "node scripts/upload-local-images-to-blob.js"
   },
   "dependencies": {
     "@prisma/client": "6.19.0",
