@@ -1,0 +1,43 @@
+{
+  "name": "SEN CAM CONG - Groupe de Musique",
+  "short_name": "SEN CAM CONG",
+  "description": "Site officiel du groupe SEN CAM CONG - Découvrez nos événements, performances et musique",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "entertainment"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Événements",
+      "short_name": "Événements",
+      "description": "Voir les événements à venir",
+      "url": "/events",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Performances",
+      "short_name": "Performances",
+      "description": "Voir les performances",
+      "url": "/performances",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
+

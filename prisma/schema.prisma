@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String?
+  password     String?
+  role         Role          @default(USER)
+  avatar       String?
+  bio          String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  comments     Comment[]
+  events       Event[]
+  likes        Like[]
+  performances Performance[]
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+model Event {
+  id           String        @id @default(cuid())
+  title        String
+  description  String?
+  date         DateTime
+  location     String
+  venue        String?
+  imageUrl     String?
+  externalUrl  String?
+  ticketPrice  Float?
+  status       EventStatus   @default(UPCOMING)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userId       String
+  comments     Comment[]
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes        Like[]
+  performances Performance[]
+
+  @@index([status])
+  @@index([date])
+  @@index([userId])
+  @@index([title])
+  @@index([location])
+  @@map("events")
+}
+
+model Performance {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  date        DateTime
+  location    String?
+  videoUrl    String?
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  eventId     String?
+  media       Media[]
+  event       Event?   @relation(fields: [eventId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([date])
+  @@index([userId])
+  @@index([eventId])
+  @@index([title])
+  @@map("performances")
+}
+
+model Media {
+  id            String       @id @default(cuid())
+  type          MediaType
+  url           String
+  thumbnailUrl  String?
+  title         String?
+  description   String?
+  createdAt     DateTime     @default(now())
+  performanceId String?
+  performance   Performance? @relation(fields: [performanceId], references: [id], onDelete: Cascade)
+
+  @@index([type])
+  @@index([performanceId])
+  @@map("media")
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  userId    String
+  eventId   String?
+  event     Event?   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
+  @@index([eventId])
+  @@index([userId])
+  @@map("likes")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  eventId   String?
+  event     Event?   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("comments")
+}
+
+enum Role {
+  USER
+  ADMIN
+  ARTIST
+}
+
+enum EventStatus {
+  UPCOMING
+  PAST
+  CANCELLED
+}
+
+enum MediaType {
+  VIDEO
+  IMAGE
+  AUDIO
+}
+
+model SocialLink {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  url         String
+  icon        String?  // Nom de l'icône (YouTube, Spotify, etc.)
+  description String?
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active])
+  @@index([order])
+  @@map("social_links")
+}
