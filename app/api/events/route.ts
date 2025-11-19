@@ -79,6 +79,14 @@ async function createEvent(request: NextRequest) {
     }
 
     const data = validation.data
+    
+    console.log('📝 Creating event with data:', {
+      title: data.title,
+      imageUrl: data.imageUrl,
+      hasImageUrl: !!data.imageUrl,
+      imageUrlType: typeof data.imageUrl,
+    })
+    
     const event = await prisma.event.create({
       data: {
         title: data.title,
@@ -101,6 +109,13 @@ async function createEvent(request: NextRequest) {
           },
         },
       },
+    })
+
+    console.log('✅ Event created:', {
+      id: event.id,
+      title: event.title,
+      imageUrl: event.imageUrl,
+      hasImageUrl: !!event.imageUrl,
     })
 
     return NextResponse.json({ event }, { status: 201 })

@@ -81,31 +81,40 @@ export default function ImageUpload({ value, onChange, label = "Image" }: ImageU
         throw new Error(data.error || 'Erreur lors de l\'upload')
       }
 
-      // Mettre à jour l'URL
+      // Mettre à jour l'URL - Vercel Blob retourne { url, filename }
+      // Cloudinary retourne { secure_url, url }
       const imageUrl = data.url || data.secure_url || data.blob?.url || ''
+      
+      console.log('📤 Upload Response:', {
+        fullData: data,
+        extractedUrl: imageUrl,
+        hasUrl: !!data.url,
+        hasSecureUrl: !!data.secure_url,
+        hasBlob: !!data.blob,
+      })
+      
       if (imageUrl) {
-        // Garder l'URL telle quelle (relative ou absolue) pour la validation
-        // La prévisualisation utilisera l'URL complète si nécessaire
-        console.log('Image uploadée, URL reçue:', imageUrl)
-        console.log('Données complètes reçues:', data)
-        
-        // Appeler onChange avec l'URL
-        onChange(imageUrl)
-        
-        // Pour la prévisualisation, utiliser l'URL complète si c'est une URL relative
-        const previewUrl = imageUrl.startsWith('http') 
+        // Toujours utiliser l'URL complète (https://...) pour Vercel Blob
+        const finalUrl = imageUrl.startsWith('http') 
           ? imageUrl 
           : imageUrl.startsWith('/') 
             ? `${window.location.origin}${imageUrl}`
             : imageUrl
-        setPreview(previewUrl)
+        
+        console.log('✅ Image URL finale:', finalUrl)
+        
+        // Appeler onChange avec l'URL complète
+        onChange(finalUrl)
+        
+        // Pour la prévisualisation, utiliser l'URL complète
+        setPreview(finalUrl)
         setError('')
         
         // Afficher un message de succès
         toast.success('Image uploadée avec succès !')
       } else {
-        console.error('Aucune URL dans la réponse:', data)
-        throw new Error('Aucune URL retournée par le serveur')
+        console.error('❌ Aucune URL dans la réponse:', data)
+        throw new Error('Aucune URL retournée par le serveur. Réponse: ' + JSON.stringify(data))
       }
     } catch (err: any) {
       setError(err.message || 'Erreur lors de l\'upload')

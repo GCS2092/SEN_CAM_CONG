@@ -66,6 +66,14 @@ async function updateEvent(
     }
 
     const data = validation.data
+    
+    console.log('📝 Updating event:', {
+      id: resolvedParams.id,
+      imageUrl: data.imageUrl,
+      hasImageUrl: data.imageUrl !== undefined,
+      imageUrlValue: data.imageUrl,
+    })
+    
     const event = await prisma.event.update({
       where: { id: resolvedParams.id },
       data: {
@@ -88,6 +96,13 @@ async function updateEvent(
           },
         },
       },
+    })
+
+    console.log('✅ Event updated:', {
+      id: event.id,
+      title: event.title,
+      imageUrl: event.imageUrl,
+      hasImageUrl: !!event.imageUrl,
     })
 
     return NextResponse.json({ event }, { status: 200 })

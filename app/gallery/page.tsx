@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { VideoIcon, ImageIcon, MusicIcon } from '@/components/Icons'
 
 interface Media {
@@ -138,12 +139,18 @@ export default function GalleryPage() {
                     </a>
                   </div>
                 ) : item.type === 'IMAGE' ? (
-                  <div className="relative h-48 md:h-64 overflow-hidden">
-                    <img
+                  <div className="relative h-48 md:h-64 overflow-hidden bg-gray-100">
+                    <Image
                       src={item.url}
                       alt={item.title || 'Image'}
-                      className="w-full h-full object-contain hover:scale-105 transition-transform duration-300 bg-gray-100"
-                      loading="lazy"
+                      fill
+                      className="object-contain hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      onError={(e) => {
+                        console.error('Error loading image:', item.url)
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                      }}
                     />
                   </div>
                 ) : (

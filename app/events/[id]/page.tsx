@@ -106,7 +106,7 @@ export default function EventDetailPage() {
         </Link>
 
         {event.imageUrl && (
-          <div className="relative h-64 md:h-96 mb-8 rounded-xl overflow-hidden">
+          <div className="relative h-64 md:h-96 mb-8 rounded-xl overflow-hidden bg-gray-100">
             <Image
               src={event.imageUrl}
               alt={event.title}
@@ -114,6 +114,11 @@ export default function EventDetailPage() {
               className="object-cover"
               sizes="100vw"
               priority
+              onError={(e) => {
+                console.error('Error loading event image:', event.imageUrl)
+                const target = e.target as HTMLImageElement
+                target.style.display = 'none'
+              }}
             />
           </div>
         )}
