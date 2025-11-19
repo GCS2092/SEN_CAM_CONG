@@ -1,3 +1,4 @@
+import React from 'react'
 import toast from 'react-hot-toast'
 
 // Types d'emojis pour différents types de notifications
