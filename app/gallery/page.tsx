@@ -22,9 +22,22 @@ export default function GalleryPage() {
   useEffect(() => {
     async function fetchMedia() {
       try {
-        const res = await fetch('/api/media')
-        const data = await res.json()
-        setMedia(data.media || [])
+        // Charger les médias des performances ET les médias globaux de la galerie
+        const [mediaRes, globalMediaRes] = await Promise.all([
+          fetch('/api/media').catch(() => ({ json: async () => ({ media: [] }) })),
+          fetch('/api/global-media?category=gallery&active=true').catch(() => ({ json: async () => ({ media: [] }) })),
+        ])
+
+        const mediaData = await mediaRes.json()
+        const globalMediaData = await globalMediaRes.json()
+
+        // Combiner les deux sources de médias
+        const allMedia = [
+          ...(mediaData.media || []),
+          ...(globalMediaData.media || []),
+        ]
+
+        setMedia(allMedia)
       } catch (error) {
         console.error('Error fetching media:', error)
       } finally {

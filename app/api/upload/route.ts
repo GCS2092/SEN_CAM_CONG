@@ -36,19 +36,26 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Vérifier le type de fichier
-    if (!file.type.startsWith('image/')) {
+    // Vérifier le type de fichier (images et vidéos)
+    const allowedTypes = ['image/', 'video/']
+    const isValidType = allowedTypes.some(type => file.type.startsWith(type))
+    
+    if (!isValidType) {
       return NextResponse.json(
-        { error: 'Le fichier doit être une image' },
+        { error: 'Le fichier doit être une image ou une vidéo' },
         { status: 400 }
       )
     }
 
-    // Vérifier la taille (max 10MB)
-    const maxSize = 10 * 1024 * 1024 // 10MB
+    // Vérifier la taille (max 50MB pour les vidéos, 10MB pour les images)
+    const maxSize = file.type.startsWith('video/') 
+      ? 50 * 1024 * 1024 // 50MB pour les vidéos
+      : 10 * 1024 * 1024 // 10MB pour les images
+    
     if (file.size > maxSize) {
+      const maxSizeMB = maxSize / (1024 * 1024)
       return NextResponse.json(
-        { error: 'Le fichier est trop volumineux (max 10MB)' },
+        { error: `Le fichier est trop volumineux (max ${maxSizeMB}MB)` },
         { status: 400 }
       )
     }
@@ -192,7 +199,9 @@ async function uploadToCloudinary(file: File) {
     cloudinaryFormData.append('quality', 'auto:best')
     cloudinaryFormData.append('fetch_format', 'auto')
 
-    const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`
+    // Utiliser l'endpoint approprié selon le type de fichier
+    const resourceType = file.type.startsWith('video/') ? 'video' : 'image'
+    const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`
     console.log('Uploading to:', uploadUrl)
 
     const response = await fetch(uploadUrl, {

@@ -37,8 +37,9 @@ export default function LoginPage() {
         return
       }
 
-      // Sauvegarder le token
-      localStorage.setItem('token', data.token)
+      // Sauvegarder le token avec persistance améliorée
+      const { saveAuth } = await import('@/lib/auth-persistence')
+      saveAuth(data.token, data.user)
       
       // Rediriger selon le rôle
       const redirect = searchParams?.get('redirect')

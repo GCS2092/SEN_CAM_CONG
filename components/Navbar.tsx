@@ -14,21 +14,30 @@ export default function Navbar() {
   const pathname = usePathname()
 
   useEffect(() => {
-    // Vérifier si l'utilisateur est connecté
-    const token = localStorage.getItem('token')
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]))
+    // Vérifier si l'utilisateur est connecté avec persistance améliorée
+    async function checkAuth() {
+      const { isAuthenticated, getUserRole } = await import('@/lib/auth-persistence')
+      if (isAuthenticated()) {
         setIsAuthenticated(true)
-        setUserRole(payload.role)
-      } catch (e) {
-        localStorage.removeItem('token')
+        setUserRole(getUserRole())
+      } else {
+        setIsAuthenticated(false)
+        setUserRole(null)
       }
     }
+    checkAuth()
+    
+    // Écouter les changements de localStorage pour mettre à jour l'état
+    const handleStorageChange = () => {
+      checkAuth()
+    }
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
-  const handleLogout = () => {
-    localStorage.removeItem('token')
+  const handleLogout = async () => {
+    const { clearAuth } = await import('@/lib/auth-persistence')
+    clearAuth()
     setIsAuthenticated(false)
     setUserRole(null)
     router.push('/')
@@ -323,4 +332,5 @@ export default function Navbar() {
     </nav>
   )
 }
+
 

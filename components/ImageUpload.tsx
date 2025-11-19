@@ -34,15 +34,21 @@ export default function ImageUpload({ value, onChange, label = "Image" }: ImageU
     const file = e.target.files?.[0]
     if (!file) return
 
-    // Vérifier le type
-    if (!file.type.startsWith('image/')) {
-      setError('Veuillez sélectionner une image')
+    // Vérifier le type (images et vidéos)
+    const allowedTypes = ['image/', 'video/']
+    if (!allowedTypes.some(type => file.type.startsWith(type))) {
+      setError('Veuillez sélectionner une image ou une vidéo')
       return
     }
 
-    // Vérifier la taille (10MB max)
-    if (file.size > 10 * 1024 * 1024) {
-      setError('L\'image est trop volumineuse (max 10MB)')
+    // Vérifier la taille (50MB max pour vidéos, 10MB pour images)
+    const maxSize = file.type.startsWith('video/') 
+      ? 50 * 1024 * 1024 // 50MB pour les vidéos
+      : 10 * 1024 * 1024 // 10MB pour les images
+    
+    if (file.size > maxSize) {
+      const maxSizeMB = maxSize / (1024 * 1024)
+      setError(`Le fichier est trop volumineux (max ${maxSizeMB}MB)`)
       return
     }
 
@@ -200,7 +206,7 @@ export default function ImageUpload({ value, onChange, label = "Image" }: ImageU
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="image/*,video/*"
         onChange={handleFileSelect}
         className="hidden"
       />

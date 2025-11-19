@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { toast } from 'react-hot-toast'
+import { toastDelete, toastError } from '@/lib/toast-helpers'
+import { SearchIcon, EditIcon, DeleteIcon, PlusIcon, UserIcon, FilterIcon } from '@/components/Icons'
 import AdminGuard from '@/components/AdminGuard'
 
 interface User {
@@ -20,6 +21,8 @@ function UsersPageContent() {
   const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filter, setFilter] = useState<'all' | 'ADMIN' | 'ARTIST' | 'USER'>('all')
 
   useEffect(() => {
     async function loadUsers() {
@@ -48,7 +51,7 @@ function UsersPageContent() {
         setUsers(data.users || [])
       } catch (error) {
         console.error('Error loading users:', error)
-        toast.error('Erreur lors du chargement des utilisateurs')
+        toastError('Erreur lors du chargement des utilisateurs')
       } finally {
         setLoading(false)
       }
@@ -65,7 +68,7 @@ function UsersPageContent() {
     try {
       const token = localStorage.getItem('token')
       if (!token) {
-        toast.error('Vous devez être connecté')
+        toastError('Vous devez être connecté')
         return
       }
 
@@ -81,19 +84,36 @@ function UsersPageContent() {
         throw new Error(data.error || 'Erreur lors de la suppression')
       }
 
-      toast.success('Utilisateur supprimé avec succès')
+      toastDelete('Utilisateur supprimé avec succès')
       // Recharger la liste
       setUsers(users.filter(u => u.id !== userId))
     } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de la suppression')
+      toastError(error.message || 'Erreur lors de la suppression')
     }
   }
 
+  // Filtrer les utilisateurs
+  const filteredUsers = users.filter(user => {
+    // Filtre par rôle
+    if (filter !== 'all' && user.role !== filter) return false
+    
+    // Recherche
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase()
+      return (
+        user.email.toLowerCase().includes(query) ||
+        (user.name && user.name.toLowerCase().includes(query))
+      )
+    }
+    
+    return true
+  })
+
   const getRoleBadge = (role: string) => {
     const colors = {
-      ADMIN: 'bg-red-100 text-red-800',
-      ARTIST: 'bg-purple-100 text-purple-800',
-      USER: 'bg-gray-100 text-gray-800',
+      ADMIN: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
+      ARTIST: 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300',
+      USER: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
     }
     return colors[role as keyof typeof colors] || colors.USER
   }
@@ -116,132 +136,243 @@ function UsersPageContent() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-16">
+    <div className="container mx-auto px-4 py-8 md:py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Gestion des utilisateurs</h1>
-          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            <Link href="/admin/users/new" className="btn-primary text-sm text-center">
-              + Nouvel utilisateur
-            </Link>
-            <Link href="/admin" className="btn-secondary text-sm text-center">
-              ← Retour
-            </Link>
+        {/* Header avec icône et stats */}
+        <div className="mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
+                <UserIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
+              </div>
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">Gestion des utilisateurs</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  {filteredUsers.length} utilisateur{filteredUsers.length > 1 ? 's' : ''} {filter !== 'all' ? `(${getRoleLabel(filter)})` : ''}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+              <Link 
+                href="/admin" 
+                className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium text-center flex items-center justify-center gap-2"
+              >
+                ← Retour
+              </Link>
+              <Link 
+                href="/admin/users/new" 
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold text-center flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+              >
+                <PlusIcon className="w-4 h-4" />
+                Nouvel utilisateur
+              </Link>
+            </div>
           </div>
         </div>
 
-        {users.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">Aucun utilisateur trouvé</p>
-            <Link href="/admin/users/new" className="btn-primary">
-              Créer le premier utilisateur
-            </Link>
+        {/* Barre de recherche améliorée */}
+        <div className="mb-6">
+          <div className="relative max-w-md">
+            <input
+              type="text"
+              placeholder="Rechercher un utilisateur..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-3 pl-11 pr-4 text-sm border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all shadow-sm hover:shadow-md"
+            />
+            <SearchIcon className="absolute left-3.5 top-3.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Filtres améliorés */}
+        <div className="flex flex-wrap items-center gap-2 mb-6">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+            <FilterIcon className="w-4 h-4" />
+            Filtres :
+          </span>
+          <button
+            onClick={() => setFilter('all')}
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm shadow-sm ${
+              filter === 'all'
+                ? 'bg-green-600 text-white shadow-md scale-105'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md'
+            }`}
+          >
+            Tous
+          </button>
+          <button
+            onClick={() => setFilter('ADMIN')}
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm shadow-sm ${
+              filter === 'ADMIN'
+                ? 'bg-red-600 text-white shadow-md scale-105'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md'
+            }`}
+          >
+            Administrateurs
+          </button>
+          <button
+            onClick={() => setFilter('ARTIST')}
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm shadow-sm ${
+              filter === 'ARTIST'
+                ? 'bg-purple-600 text-white shadow-md scale-105'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md'
+            }`}
+          >
+            Artistes
+          </button>
+          <button
+            onClick={() => setFilter('USER')}
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm shadow-sm ${
+              filter === 'USER'
+                ? 'bg-gray-600 text-white shadow-md scale-105'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md'
+            }`}
+          >
+            Utilisateurs
+          </button>
+        </div>
+
+        {filteredUsers.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+              <UserIcon className="w-8 h-8 text-gray-400" />
+            </div>
+            {searchQuery || filter !== 'all' 
+              ? (
+                <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">Aucun utilisateur ne correspond à vos critères</p>
+              ) : (
+                <>
+                  <p className="text-gray-500 dark:text-gray-400 text-lg font-medium mb-4">Aucun utilisateur trouvé</p>
+                  <Link href="/admin/users/new" className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold">
+                    <PlusIcon className="w-4 h-4" />
+                    Créer le premier utilisateur
+                  </Link>
+                </>
+              )}
           </div>
         ) : (
           <>
-            {/* Version mobile : cartes */}
+            {/* Version mobile : cartes améliorées */}
             <div className="block md:hidden space-y-4">
-              {users.map((user) => (
-                <div key={user.id} className="card p-4">
+              {filteredUsers.map((user, index) => (
+                <motion.div
+                  key={user.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-5 hover:shadow-lg transition-all"
+                >
                   <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                    <div className="flex-1 min-w-0 pr-2">
+                      <h3 className="text-base font-semibold text-gray-900 dark:text-white truncate">
                         {user.email}
                       </h3>
                       {user.name && (
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                           {user.name}
                         </p>
                       )}
                     </div>
-                    <span className={`ml-2 px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full flex-shrink-0 ${getRoleBadge(user.role)}`}>
+                    <span className={`px-3 py-1 inline-flex text-xs font-semibold rounded-full flex-shrink-0 ${getRoleBadge(user.role)}`}>
                       {getRoleLabel(user.role)}
                     </span>
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-4">
                     Créé le {new Date(user.createdAt).toLocaleDateString('fr-FR')}
                   </div>
-                  <div className="flex gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                     <Link
                       href={`/admin/users/${user.id}`}
-                      className="flex-1 text-center px-3 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 border border-primary-300 dark:border-primary-600 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors text-sm font-medium"
                     >
+                      <EditIcon className="w-4 h-4" />
                       Modifier
                     </Link>
                     <button
                       onClick={() => handleDelete(user.id, user.email)}
-                      className="flex-1 px-3 py-2 text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 border border-red-300 dark:border-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-sm font-medium"
                     >
+                      <DeleteIcon className="w-4 h-4" />
                       Supprimer
                     </button>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            {/* Version desktop : tableau */}
-            <div className="hidden md:block card overflow-hidden">
+            {/* Version desktop : tableau amélioré */}
+            <div className="hidden md:block bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 dark:bg-gray-800">
+                  <thead className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Email
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Nom
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Rôle
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Créé le
-                      </th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Actions
-                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Email</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Nom</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Rôle</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Créé le</th>
+                      <th className="px-6 py-4 text-right text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                    {users.map((user) => (
-                      <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                        <td className="px-4 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">
-                          <div className="max-w-xs truncate" title={user.email}>
+                  <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+                    {filteredUsers.map((user, index) => (
+                      <motion.tr
+                        key={user.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                        className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer group"
+                      >
+                        <td className="px-6 py-4">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white max-w-xs truncate" title={user.email}>
                             {user.email}
                           </div>
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
+                        <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                           {user.name || '-'}
                         </td>
-                        <td className="px-4 py-4">
-                          <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getRoleBadge(user.role)}`}>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${getRoleBadge(user.role)}`}>
                             {getRoleLabel(user.role)}
                           </span>
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
+                        <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                           {new Date(user.createdAt).toLocaleDateString('fr-FR')}
                         </td>
-                        <td className="px-4 py-4 text-right text-sm font-medium">
+                        <td className="px-6 py-4 text-right">
                           <div className="flex justify-end gap-3">
                             <Link
                               href={`/admin/users/${user.id}`}
-                              className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
+                              className="p-2 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
+                              title="Modifier"
+                              onClick={(e) => e.stopPropagation()}
                             >
-                              Modifier
+                              <EditIcon className="w-4 h-4" />
                             </Link>
                             <button
-                              onClick={() => handleDelete(user.id, user.email)}
-                              className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleDelete(user.id, user.email)
+                              }}
+                              className="p-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                              title="Supprimer"
                             >
-                              Supprimer
+                              <DeleteIcon className="w-4 h-4" />
                             </button>
                           </div>
                         </td>
-                      </tr>
+                      </motion.tr>
                     ))}
                   </tbody>
                 </table>
@@ -261,4 +392,5 @@ export default function UsersPage() {
     </AdminGuard>
   )
 }
+
 
