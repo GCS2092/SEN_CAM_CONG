@@ -131,10 +131,12 @@ export default function GalleryPage() {
                 {item.type === 'VIDEO' ? (
                   <div className="relative h-48 md:h-64 bg-gray-200">
                     {item.thumbnailUrl ? (
-                      <img
+                      <Image
                         src={item.thumbnailUrl}
                         alt={item.title || 'Vidéo'}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary-500 to-primary-700">

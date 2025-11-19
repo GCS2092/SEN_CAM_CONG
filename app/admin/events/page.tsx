@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
 import { toastDelete, toastError } from '@/lib/toast-helpers'
-import { SearchIcon, EditIcon, DeleteIcon, StatsIcon, PlusIcon, EventIcon, CalendarIcon, LocationIcon } from '@/components/Icons'
+import { SearchIcon, EditIcon, DeleteIcon, StatsIcon, PlusIcon, EventIcon, CalendarIcon, LocationIcon, FilterIcon } from '@/components/Icons'
 import { motion } from 'framer-motion'
 import AdminGuard from '@/components/AdminGuard'
 
