@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import ThemeToggle from './ThemeToggle'
 
 interface Event {
   id: string
@@ -119,55 +118,51 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 relative">
+    <nav className="bg-white shadow-md sticky top-0 z-50 relative">
       <div className="container mx-auto px-3 md:px-4">
-        <div className="flex justify-between items-center h-14 md:h-16">
+        <div className="flex justify-between items-center h-14 md:h-16 gap-3">
           {/* Heure et prochain événement */}
           <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
-            <div className="text-xs md:text-sm flex-shrink-0">
-              <div className="text-gray-500 dark:text-gray-400 text-[10px] md:text-xs">Heure</div>
-              <div className="font-bold text-gray-900 dark:text-white text-sm md:text-base">{currentTime}</div>
+            <div className="flex-shrink-0">
+              <div className="text-gray-500 text-[10px] md:text-xs mb-0.5">Heure</div>
+              <div className="font-bold text-gray-900 text-sm md:text-base leading-tight">{currentTime}</div>
             </div>
-            {nextEvent ? (
+            {nextEvent && (
               <Link 
                 href={`/events/${nextEvent.id}`}
-                className="block text-xs md:text-sm min-w-0 flex-1 border-l border-gray-200 dark:border-gray-700 pl-3 md:pl-4 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-r-lg transition-colors cursor-pointer"
+                className="flex-1 min-w-0 border-l border-gray-200 pl-3 md:pl-4 hover:bg-gray-50 rounded-r transition-colors"
               >
-                <div className="text-gray-500 dark:text-gray-400 text-[10px] md:text-xs mb-1">Prochain événement</div>
-                <div className="font-semibold text-gray-900 dark:text-white line-clamp-1 text-xs md:text-sm mb-1">{nextEvent.title}</div>
-                <div className="flex flex-wrap items-center gap-2 text-[10px] md:text-xs text-gray-600 dark:text-gray-400">
-                  <span className="font-medium">
+                <div className="text-gray-500 text-[10px] md:text-xs mb-0.5">Prochain événement</div>
+                <div className="font-semibold text-gray-900 line-clamp-1 text-xs md:text-sm mb-1">{nextEvent.title}</div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] md:text-xs text-gray-600 font-medium whitespace-nowrap">
                     📅 {formatEventDateTime(nextEvent.date).date} à {formatEventDateTime(nextEvent.date).time}
                   </span>
                   {nextEvent.ticketPrice !== null && nextEvent.ticketPrice !== undefined && (
-                    <span className="font-semibold text-primary-600 dark:text-primary-400">
+                    <span className="text-[10px] md:text-xs text-primary-600 font-semibold whitespace-nowrap">
                       💰 {new Intl.NumberFormat('fr-FR').format(nextEvent.ticketPrice)} FCFA
                     </span>
                   )}
                 </div>
               </Link>
-            ) : (
-              <div className="hidden md:block text-xs text-gray-500 dark:text-gray-400 border-l border-gray-200 dark:border-gray-700 pl-3 md:pl-4">
-                Aucun événement à venir
-              </div>
             )}
           </div>
 
           {/* Menu Desktop et Mobile - Admin/Artist et Connexion */}
-          <div className="flex gap-2 md:gap-4 lg:gap-6 items-center">
+          <div className="flex gap-2 md:gap-4 items-center flex-shrink-0">
             {/* Menu selon le rôle - Desktop seulement */}
-            <div className="hidden md:flex gap-4 lg:gap-6 items-center">
+            <div className="hidden md:flex gap-4 items-center">
               {isAuthenticated && userRole === 'ADMIN' && (
                 <>
                   <Link
                     href="/admin"
-                    className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold text-sm"
+                    className="text-primary-600 hover:text-primary-700 font-semibold text-sm"
                   >
                     Admin
                   </Link>
                   <Link
                     href="/artist/dashboard"
-                    className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-semibold text-sm"
+                    className="text-purple-600 hover:text-purple-700 font-semibold text-sm"
                   >
                     Artiste
                   </Link>
@@ -176,7 +171,7 @@ export default function Navbar() {
               {isAuthenticated && userRole === 'ARTIST' && (
                 <Link
                   href="/artist/dashboard"
-                  className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-semibold text-sm"
+                  className="text-purple-600 hover:text-purple-700 font-semibold text-sm"
                 >
                   Artiste
                 </Link>
@@ -184,27 +179,25 @@ export default function Navbar() {
               {isAuthenticated && userRole === 'USER' && (
                 <Link
                   href="/user/dashboard"
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold text-sm"
+                  className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
                 >
                   Mon compte
                 </Link>
               )}
             </div>
             
-            <ThemeToggle />
-            
             {/* Bouton Connexion/Déconnexion - Visible sur tous les écrans */}
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                className="text-xs md:text-sm px-2 md:px-3 py-1.5 md:py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-colors font-medium"
+                className="text-xs md:text-sm px-2 md:px-3 py-1.5 md:py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors font-medium whitespace-nowrap"
               >
                 Déconnexion
               </button>
             ) : (
               <Link
                 href="/login"
-                className="btn-primary text-xs md:text-sm px-2 md:px-3 py-1.5 md:py-2"
+                className="btn-primary text-xs md:text-sm px-2 md:px-3 py-1.5 md:py-2 whitespace-nowrap"
               >
                 Connexion
               </Link>
