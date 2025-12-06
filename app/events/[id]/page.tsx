@@ -145,7 +145,7 @@ export default function EventDetailPage() {
                       initialCount={event._count?.likes || 0}
                     />
                   </div>
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">{event.title}</h1>
+                  <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-lg">{event.title}</h1>
                 </div>
               </div>
             )}
@@ -169,7 +169,7 @@ export default function EventDetailPage() {
                     initialCount={event._count?.likes || 0}
                   />
                 </div>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-800">{event.title}</h1>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-800">{event.title}</h1>
               </div>
             )}
 
@@ -178,11 +178,11 @@ export default function EventDetailPage() {
               <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 bg-primary-100 rounded-xl">
-                    <CalendarIcon className="w-6 h-6 text-primary-600" />
+                    <CalendarIcon className="w-5 h-5 text-primary-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 mb-1">Date</p>
-                    <p className="text-lg font-bold text-gray-800">{formatDate(event.date)}</p>
+                    <p className="text-xs text-gray-500 mb-1">Date</p>
+                    <p className="text-base font-bold text-gray-800">{formatDate(event.date)}</p>
                   </div>
                 </div>
               </div>
@@ -190,11 +190,11 @@ export default function EventDetailPage() {
               <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 bg-primary-100 rounded-xl">
-                    <LocationIcon className="w-6 h-6 text-primary-600" />
+                    <LocationIcon className="w-5 h-5 text-primary-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 mb-1">Lieu</p>
-                    <p className="text-lg font-bold text-gray-800">{event.location}{event.venue && ` - ${event.venue}`}</p>
+                    <p className="text-xs text-gray-500 mb-1">Lieu</p>
+                    <p className="text-base font-bold text-gray-800">{event.location}{event.venue && ` - ${event.venue}`}</p>
                   </div>
                 </div>
               </div>
@@ -204,11 +204,11 @@ export default function EventDetailPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className="p-3 bg-primary-600 rounded-xl">
-                        <TicketIcon className="w-6 h-6 text-white" />
+                        <TicketIcon className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600 mb-1">Prix du ticket</p>
-                        <p className="text-3xl font-bold text-primary-700">
+                        <p className="text-xs text-gray-600 mb-1">Prix du ticket</p>
+                        <p className="text-2xl font-bold text-primary-700">
                           {new Intl.NumberFormat('fr-FR').format(event.ticketPrice)} FCFA
                         </p>
                       </div>
@@ -221,9 +221,9 @@ export default function EventDetailPage() {
             {/* Description */}
             {event.description && (
               <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-gray-100">
-                <h2 className="text-2xl font-bold mb-4 text-gray-800">À propos de l&apos;événement</h2>
-                <div className="prose prose-lg max-w-none">
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                <h2 className="text-xl font-bold mb-3 text-gray-800">À propos de l&apos;événement</h2>
+                <div className="prose max-w-none">
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
                     {event.description}
                   </p>
                 </div>

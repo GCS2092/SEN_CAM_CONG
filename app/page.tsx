@@ -51,10 +51,10 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
               Événements à venir
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
               Découvrez nos prochains concerts et événements
             </p>
           </motion.div>
@@ -96,12 +96,12 @@ export default function Home() {
                         </div>
                       )}
                       <div className="p-6">
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors line-clamp-2">
+                        <h3 className="text-base md:text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
                           {event.title}
                         </h3>
                         <div className="flex items-center gap-2 text-gray-600 mb-2">
-                          <CalendarIcon className="w-5 h-5 text-primary-600" />
-                          <span className="text-sm">
+                          <CalendarIcon className="w-4 h-4 text-primary-600" />
+                          <span className="text-xs md:text-sm">
                             {new Date(event.date).toLocaleDateString('fr-FR', {
                               day: 'numeric',
                               month: 'long',
@@ -117,9 +117,9 @@ export default function Home() {
                             {event.description}
                           </p>
                         )}
-                        <span className="inline-flex items-center text-primary-600 font-semibold text-sm group-hover:gap-2 transition-all">
+                        <span className="inline-flex items-center text-primary-600 font-semibold text-xs md:text-sm group-hover:gap-2 transition-all">
                           En savoir plus
-                          <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-3 h-3 md:w-4 md:h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
                         </span>
@@ -135,10 +135,10 @@ export default function Home() {
             <div className="text-center mt-12">
               <Link
                 href="/events"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors text-sm"
               >
                 Voir tous les événements
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>

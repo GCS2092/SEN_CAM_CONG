@@ -62,10 +62,10 @@ export default function GalleryPage() {
           transition={{ duration: 0.6 }}
         >
           <div className="text-center mb-12 md:mb-16">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
               Galerie
             </h1>
-            <p className="text-base md:text-lg text-center text-gray-600 px-4 max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-center text-gray-600 px-4 max-w-2xl mx-auto">
               Explorez notre collection de photos, vidéos et enregistrements
             </p>
           </div>
@@ -82,7 +82,7 @@ export default function GalleryPage() {
               <button
                 key={filterType}
                 onClick={() => setFilter(filterType)}
-                className={`px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 text-sm md:text-base ${
+                className={`px-4 md:px-6 py-2 rounded-full font-semibold transition-all duration-300 text-xs md:text-sm ${
                   filter === filterType
                     ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg transform scale-105'
                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 hover:border-primary-300 hover:text-primary-600'
@@ -170,12 +170,12 @@ export default function GalleryPage() {
                 {(item.title || item.description) && (
                   <div className="p-4 md:p-6 bg-white">
                     {item.title && (
-                      <h3 className="font-bold mb-2 text-base md:text-lg text-gray-800 group-hover:text-primary-600 transition-colors line-clamp-2">
+                      <h3 className="font-bold mb-1 text-sm md:text-base text-gray-800 group-hover:text-primary-600 transition-colors line-clamp-2">
                         {item.title}
                       </h3>
                     )}
                     {item.description && (
-                      <p className="text-gray-600 text-sm line-clamp-2">
+                      <p className="text-gray-600 text-xs md:text-sm line-clamp-2">
                         {item.description}
                       </p>
                     )}
