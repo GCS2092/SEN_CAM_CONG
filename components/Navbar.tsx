@@ -42,10 +42,17 @@ export default function Navbar() {
         const res = await fetch('/api/events?status=UPCOMING&limit=1')
         const data = await res.json()
         if (data.events && data.events.length > 0) {
-          setNextEvent(data.events[0])
+          // Trier par date croissante pour avoir le prochain événement
+          const sortedEvents = data.events.sort((a: Event, b: Event) => 
+            new Date(a.date).getTime() - new Date(b.date).getTime()
+          )
+          setNextEvent(sortedEvents[0])
+        } else {
+          setNextEvent(null)
         }
       } catch (error) {
         console.error('Error loading next event:', error)
+        setNextEvent(null)
       }
     }
     loadNextEvent()
@@ -121,8 +128,11 @@ export default function Navbar() {
               <div className="text-gray-500 dark:text-gray-400 text-[10px] md:text-xs">Heure</div>
               <div className="font-bold text-gray-900 dark:text-white text-sm md:text-base">{currentTime}</div>
             </div>
-            {nextEvent && (
-              <div className="hidden sm:block text-xs md:text-sm min-w-0 flex-1 border-l border-gray-200 dark:border-gray-700 pl-3 md:pl-4">
+            {nextEvent ? (
+              <Link 
+                href={`/events/${nextEvent.id}`}
+                className="block text-xs md:text-sm min-w-0 flex-1 border-l border-gray-200 dark:border-gray-700 pl-3 md:pl-4 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-r-lg transition-colors cursor-pointer"
+              >
                 <div className="text-gray-500 dark:text-gray-400 text-[10px] md:text-xs mb-1">Prochain événement</div>
                 <div className="font-semibold text-gray-900 dark:text-white line-clamp-1 text-xs md:text-sm mb-1">{nextEvent.title}</div>
                 <div className="flex flex-wrap items-center gap-2 text-[10px] md:text-xs text-gray-600 dark:text-gray-400">
@@ -135,6 +145,10 @@ export default function Navbar() {
                     </span>
                   )}
                 </div>
+              </Link>
+            ) : (
+              <div className="hidden md:block text-xs text-gray-500 dark:text-gray-400 border-l border-gray-200 dark:border-gray-700 pl-3 md:pl-4">
+                Aucun événement à venir
               </div>
             )}
           </div>

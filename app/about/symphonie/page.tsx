@@ -41,14 +41,17 @@ export default function SymphoniePage() {
 
   const displayText = presentationText || DEFAULT_PRESENTATION_TEXT
 
+  // Séparer le texte en paragraphes pour un meilleur affichage
+  const paragraphs = displayText.split('\n\n').filter(p => p.trim())
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
       {/* Hero Section */}
-      <div className="relative py-16 md:py-24 bg-gradient-to-br from-primary-50 via-white to-primary-50 overflow-hidden">
+      <div className="relative py-12 md:py-16 bg-gradient-to-br from-primary-50 via-white to-primary-50 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <Link href="/about" className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 mb-8 font-semibold transition-colors">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <Link href="/about" className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 mb-6 font-medium text-sm transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Retour à À propos
@@ -59,31 +62,58 @@ export default function SymphoniePage() {
             transition={{ duration: 0.6 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
               L&apos;Afrique en symphonie
             </h1>
           </motion.div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
-        <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
+        <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-12 border border-gray-100 overflow-hidden"
+            className="relative bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-gray-100 overflow-hidden"
           >
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700"></div>
-            <div className="absolute top-4 right-4 w-32 h-32 bg-primary-100 rounded-full blur-3xl opacity-50"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700"></div>
+            <div className="absolute top-4 right-4 w-24 h-24 bg-primary-100 rounded-full blur-2xl opacity-40"></div>
             <div className="relative z-10">
               {loading ? (
-                <div className="text-center py-12">
-                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+                <div className="text-center py-8">
+                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
                 </div>
               ) : (
-                <div className="text-gray-700 leading-relaxed text-lg md:text-xl whitespace-pre-line space-y-4">
-                  {displayText}
+                <div className="space-y-4">
+                  {paragraphs.map((paragraph, index) => {
+                    // Détecter si c'est le titre principal
+                    const isTitle = paragraph.includes('SenCamCong – L\'Afrique en symphonie') || paragraph.includes('SenCamCong')
+                    const isFirstParagraph = index === 0
+                    
+                    return (
+                      <motion.p
+                        key={index}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        className={`leading-relaxed ${
+                          isTitle 
+                            ? 'text-base md:text-lg font-semibold text-gray-900 mb-6' 
+                            : isFirstParagraph
+                            ? 'text-sm md:text-base text-gray-700 font-medium'
+                            : 'text-sm md:text-base text-gray-600'
+                        }`}
+                      >
+                        {paragraph.split('\n').map((line, lineIndex) => (
+                          <span key={lineIndex}>
+                            {line}
+                            {lineIndex < paragraph.split('\n').length - 1 && <br />}
+                          </span>
+                        ))}
+                      </motion.p>
+                    )
+                  })}
                 </div>
               )}
             </div>
@@ -93,4 +123,3 @@ export default function SymphoniePage() {
     </div>
   )
 }
-

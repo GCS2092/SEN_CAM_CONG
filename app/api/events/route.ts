@@ -14,7 +14,14 @@ async function getEvents(request: NextRequest) {
 
     const where: any = {}
     if (status) {
-      where.status = status.toUpperCase()
+      const statusUpper = status.toUpperCase()
+      where.status = statusUpper
+      // Pour les événements à venir, s'assurer que la date est dans le futur
+      if (statusUpper === 'UPCOMING') {
+        where.date = {
+          gte: new Date() // Date supérieure ou égale à maintenant
+        }
+      }
     }
     if (search) {
       where.OR = [
@@ -43,7 +50,7 @@ async function getEvents(request: NextRequest) {
           },
         },
         orderBy: {
-          date: 'desc',
+          date: status === 'UPCOMING' ? 'asc' : 'desc',
         },
         skip,
         take: pageSize,

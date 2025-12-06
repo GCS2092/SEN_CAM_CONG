@@ -7,11 +7,11 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
       {/* Hero Section */}
-      <div className="relative py-16 md:py-24 bg-gradient-to-br from-primary-50 via-white to-primary-50 overflow-hidden">
+      <div className="relative py-12 md:py-16 bg-gradient-to-br from-primary-50 via-white to-primary-50 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <Link href="/about" className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 mb-8 font-semibold transition-colors">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <Link href="/about" className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 mb-6 font-medium text-sm transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Retour à À propos
@@ -22,50 +22,50 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
               Contact
             </h1>
           </motion.div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
-        <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
+        <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="relative bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100 overflow-hidden"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100 overflow-hidden"
           >
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700"></div>
-            <div className="absolute top-4 left-4 w-32 h-32 bg-primary-100 rounded-full blur-3xl opacity-30"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700"></div>
+            <div className="absolute top-4 left-4 w-24 h-24 bg-primary-100 rounded-full blur-2xl opacity-30"></div>
             <div className="relative z-10">
-              <p className="text-gray-700 leading-relaxed mb-8 text-base md:text-lg">
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-6">
                 Pour toute demande de collaboration, booking ou information, n&apos;hésitez pas à nous contacter.
               </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-800 mb-1">Email</p>
-                    <a href="mailto:contact@seccamcong.com" className="text-primary-600 hover:text-primary-700">
+                    <p className="font-semibold text-gray-800 mb-1 text-sm">Email</p>
+                    <a href="mailto:contact@seccamcong.com" className="text-primary-600 hover:text-primary-700 text-sm">
                       contact@seccamcong.com
                     </a>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                     </svg>
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-800 mb-1">Réseaux sociaux</p>
-                    <p className="text-gray-600">Suivez-nous sur nos réseaux sociaux pour rester informé de nos dernières actualités</p>
+                    <p className="font-semibold text-gray-800 mb-1 text-sm">Réseaux sociaux</p>
+                    <p className="text-gray-600 text-sm">Suivez-nous sur nos réseaux sociaux pour rester informé de nos dernières actualités</p>
                   </div>
                 </div>
               </div>
@@ -76,4 +76,3 @@ export default function ContactPage() {
     </div>
   )
 }
-
