@@ -283,6 +283,23 @@ function AdminDashboardContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <Link href="/admin/members" className="block bg-white dark:bg-gray-800 rounded-xl shadow-md border-2 border-purple-200 dark:border-purple-700 p-6 hover:shadow-xl hover:border-purple-400 dark:hover:border-purple-500 transition-all cursor-pointer group">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg group-hover:bg-purple-200 dark:group-hover:bg-purple-900/50 transition-colors">
+                  <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">Gérer les membres</h3>
+              </div>
+              <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">Gérer les membres du groupe (Sénégal, Cameroun, Congo)</p>
+            </Link>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55 }}
           >
             <Link href="/admin/migrate-images" className="block bg-blue-50 dark:bg-blue-900/20 rounded-xl shadow-md border-2 border-blue-200 dark:border-blue-700 p-6 hover:shadow-xl hover:border-blue-400 dark:hover:border-blue-500 transition-all cursor-pointer group">

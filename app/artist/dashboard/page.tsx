@@ -26,6 +26,7 @@ interface Performance {
 function ArtistDashboardContent() {
   const [performances, setPerformances] = useState<Performance[]>([])
   const [loading, setLoading] = useState(true)
+  const [hasMemberProfile, setHasMemberProfile] = useState(false)
   const [stats, setStats] = useState({
     total: 0,
     withMedia: 0,
@@ -39,6 +40,12 @@ function ArtistDashboardContent() {
 
         // Récupérer l'ID de l'utilisateur depuis le token
         const payload = JSON.parse(atob(token.split('.')[1]))
+        
+        // Vérifier si l'artiste a un profil membre
+        const membersRes = await fetch('/api/members')
+        const membersData = await membersRes.json()
+        const myMember = (membersData.members || []).find((m: any) => m.userId === payload.id)
+        setHasMemberProfile(!!myMember)
         
         // Récupérer toutes les performances de l'artiste
         const res = await fetch('/api/performances')
@@ -108,8 +115,21 @@ function ArtistDashboardContent() {
         transition={{ duration: 0.5 }}
       >
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold">Dashboard Artiste</h1>
-          <div className="flex gap-4">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold">Dashboard Artiste</h1>
+            <p className="text-gray-600 mt-2">Gérez vos performances et votre profil membre</p>
+          </div>
+          <div className="flex gap-3 flex-wrap">
+            <Link
+              href="/artist/member"
+              className={`text-sm px-4 py-2 rounded-lg font-medium transition-colors ${
+                hasMemberProfile
+                  ? 'bg-primary-100 text-primary-700 hover:bg-primary-200 border border-primary-300'
+                  : 'bg-primary-600 text-white hover:bg-primary-700'
+              }`}
+            >
+              {hasMemberProfile ? '✏️ Mon Profil Membre' : '➕ Créer mon Profil Membre'}
+            </Link>
             <Link href="/artist/performances/new" className="btn-primary text-sm">
               + Nouvelle performance
             </Link>

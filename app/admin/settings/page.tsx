@@ -46,7 +46,7 @@ function AdminSettingsPageContent() {
           setFormData({
             heroBackgroundImage: heroBg?.value || '',
             heroTitle: heroTitle?.value || 'SEN CAM CONG',
-            heroSubtitle: heroSubtitle?.value || 'La fusion musicale du Cameroun, du Sénégal et du Congo',
+            heroSubtitle: heroSubtitle?.value || 'La fusion musicale du Sénégal, du Cameroun et du Congo',
             aboutPresentation: aboutPresentation?.value || '',
           })
         }
@@ -193,7 +193,7 @@ function AdminSettingsPageContent() {
                   value={formData.heroSubtitle}
                   onChange={(e) => setFormData({ ...formData, heroSubtitle: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="La fusion musicale du Cameroun, du Sénégal et du Congo"
+                  placeholder="La fusion musicale du Sénégal, du Cameroun et du Congo"
                 />
               </div>
 

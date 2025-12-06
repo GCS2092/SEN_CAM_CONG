@@ -47,7 +47,7 @@ export default function Hero() {
 
   const backgroundImage = settings.hero_background_image?.value || '/uploads/IMG-20251117-WA0001.jpg'
   const title = settings.hero_title?.value || 'SEN CAM CONG'
-  const subtitle = settings.hero_subtitle?.value || 'La fusion musicale du Cameroun, du Sénégal et du Congo'
+  const subtitle = settings.hero_subtitle?.value || 'La fusion musicale du Sénégal, du Cameroun et du Congo'
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">

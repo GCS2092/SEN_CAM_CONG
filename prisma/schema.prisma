@@ -22,6 +22,7 @@ model User {
   events       Event[]
   likes        Like[]
   performances Performance[]
+  member       Member?       // Relation optionnelle : un artiste peut avoir un profil membre
 
   @@index([email])
   @@index([role])
@@ -189,4 +190,27 @@ model GlobalMedia {
   @@index([active])
   @@index([order])
   @@map("global_media")
+}
+
+model Member {
+  id          String   @id @default(cuid())
+  name        String
+  role        String?  // Ex: 'Chanteur & Percussionniste'
+  bio         String?  // Description/biographie
+  imageUrl    String?  // Photo du membre
+  nationality String   // 'Sénégal', 'Cameroun', 'Congo'
+  instruments String[] // Liste des instruments joués
+  order       Int      @default(0) // Ordre d'affichage
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  updatedBy   String?  // ID de l'admin/artist qui a modifié
+  userId      String?  @unique // Lien optionnel vers un User (artiste connecté)
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([nationality])
+  @@index([active])
+  @@index([order])
+  @@index([userId])
+  @@map("members")
 }

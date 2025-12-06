@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
+import BottomNav from '@/components/BottomNav'
 import Footer from '@/components/Footer'
 import Toaster from '@/components/Toaster'
 import { ThemeProvider } from '@/components/ThemeProvider'
@@ -42,10 +43,11 @@ export default function RootLayout({
         <ErrorBoundary>
           <ThemeProvider>
             <Navbar />
-            <main className="min-h-screen">
+            <main className="min-h-screen pb-20">
               {children}
             </main>
             <Footer />
+            <BottomNav />
             <Toaster />
           </ThemeProvider>
         </ErrorBoundary>
