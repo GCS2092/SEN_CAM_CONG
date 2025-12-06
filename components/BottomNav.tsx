@@ -26,8 +26,19 @@ export default function BottomNav() {
     const handleStorageChange = () => {
       checkAuth()
     }
+    
+    // Écouter aussi les événements personnalisés pour une mise à jour immédiate
+    const handleAuthChange = () => {
+      checkAuth()
+    }
+    
     window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
+    window.addEventListener('auth-change', handleAuthChange)
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('auth-change', handleAuthChange)
+    }
   }, [])
 
   // Navigation pour utilisateurs non connectés
@@ -244,7 +255,7 @@ export default function BottomNav() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-lg">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
       <div className="container mx-auto px-2">
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => {
@@ -263,10 +274,10 @@ export default function BottomNav() {
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                   />
                 )}
-                <span className={`mb-1 transition-colors ${isActive ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400'}`}>
+                <span className={`mb-1 transition-colors ${isActive ? 'text-primary-600' : 'text-gray-500 group-hover:text-primary-600'}`}>
                   {item.icon}
                 </span>
-                <span className={`text-xs font-medium transition-colors ${isActive ? 'text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400'}`}>
+                <span className={`text-xs font-medium transition-colors ${isActive ? 'text-primary-600' : 'text-gray-600 group-hover:text-primary-600'}`}>
                   {item.label}
                 </span>
               </Link>
