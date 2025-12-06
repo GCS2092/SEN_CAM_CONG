@@ -72,7 +72,17 @@ export default function Navbar() {
       checkAuth()
     }
     window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
+    
+    // Écouter aussi les événements personnalisés pour une mise à jour immédiate
+    const handleAuthChange = () => {
+      checkAuth()
+    }
+    window.addEventListener('auth-change', handleAuthChange)
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('auth-change', handleAuthChange)
+    }
   }, [])
 
   const handleLogout = async () => {
@@ -80,16 +90,24 @@ export default function Navbar() {
     clearAuth()
     setIsAuthenticated(false)
     setUserRole(null)
+    // Déclencher un événement pour mettre à jour les autres composants
+    window.dispatchEvent(new Event('auth-change'))
     router.push('/')
   }
 
-  const formatEventDate = (dateString: string) => {
+  const formatEventDateTime = (dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    })
+    return {
+      date: date.toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      }),
+      time: date.toLocaleTimeString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    }
   }
 
   return (
@@ -97,67 +115,74 @@ export default function Navbar() {
       <div className="container mx-auto px-3 md:px-4">
         <div className="flex justify-between items-center h-14 md:h-16">
           {/* Heure et prochain événement */}
-          <div className="flex items-center gap-4 flex-1">
-            <div className="text-sm md:text-base">
-              <div className="text-gray-500 dark:text-gray-400 text-xs">Heure</div>
-              <div className="font-bold text-gray-900 dark:text-white">{currentTime}</div>
+          <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
+            <div className="text-xs md:text-sm flex-shrink-0">
+              <div className="text-gray-500 dark:text-gray-400 text-[10px] md:text-xs">Heure</div>
+              <div className="font-bold text-gray-900 dark:text-white text-sm md:text-base">{currentTime}</div>
             </div>
             {nextEvent && (
-              <div className="hidden sm:block text-sm">
-                <div className="text-gray-500 dark:text-gray-400 text-xs">Prochain événement</div>
-                <div className="font-semibold text-gray-900 dark:text-white line-clamp-1">{nextEvent.title}</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">{formatEventDate(nextEvent.date)}</div>
+              <div className="hidden sm:block text-xs md:text-sm min-w-0 flex-1">
+                <div className="text-gray-500 dark:text-gray-400 text-[10px] md:text-xs">Prochain événement</div>
+                <div className="font-semibold text-gray-900 dark:text-white line-clamp-1 text-xs md:text-sm">{nextEvent.title}</div>
+                <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400">
+                  {formatEventDateTime(nextEvent.date).date} à {formatEventDateTime(nextEvent.date).time}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Desktop Menu - Seulement Admin/Artist et Connexion */}
-          <div className="hidden md:flex gap-4 lg:gap-6 items-center">
-            {/* Menu selon le rôle - Chaque utilisateur voit uniquement son propre menu */}
-            {isAuthenticated && userRole === 'ADMIN' && (
-              <>
-                <Link
-                  href="/admin"
-                  className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold text-sm"
-                >
-                  Admin
-                </Link>
+          {/* Menu Desktop et Mobile - Admin/Artist et Connexion */}
+          <div className="flex gap-2 md:gap-4 lg:gap-6 items-center">
+            {/* Menu selon le rôle - Desktop seulement */}
+            <div className="hidden md:flex gap-4 lg:gap-6 items-center">
+              {isAuthenticated && userRole === 'ADMIN' && (
+                <>
+                  <Link
+                    href="/admin"
+                    className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold text-sm"
+                  >
+                    Admin
+                  </Link>
+                  <Link
+                    href="/artist/dashboard"
+                    className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-semibold text-sm"
+                  >
+                    Artiste
+                  </Link>
+                </>
+              )}
+              {isAuthenticated && userRole === 'ARTIST' && (
                 <Link
                   href="/artist/dashboard"
                   className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-semibold text-sm"
                 >
                   Artiste
                 </Link>
-              </>
-            )}
-            {isAuthenticated && userRole === 'ARTIST' && (
-              <Link
-                href="/artist/dashboard"
-                className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-semibold text-sm"
-              >
-                Artiste
-              </Link>
-            )}
-            {isAuthenticated && userRole === 'USER' && (
-              <Link
-                href="/user/dashboard"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold text-sm"
-              >
-                Mon compte
-              </Link>
-            )}
+              )}
+              {isAuthenticated && userRole === 'USER' && (
+                <Link
+                  href="/user/dashboard"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold text-sm"
+                >
+                  Mon compte
+                </Link>
+              )}
+            </div>
+            
             <ThemeToggle />
+            
+            {/* Bouton Connexion/Déconnexion - Visible sur tous les écrans */}
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium text-sm"
+                className="text-xs md:text-sm px-2 md:px-3 py-1.5 md:py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-colors font-medium"
               >
                 Déconnexion
               </button>
             ) : (
               <Link
                 href="/login"
-                className="btn-primary text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2"
+                className="btn-primary text-xs md:text-sm px-2 md:px-3 py-1.5 md:py-2"
               >
                 Connexion
               </Link>

@@ -41,6 +41,9 @@ export default function LoginPage() {
       const { saveAuth } = await import('@/lib/auth-persistence')
       saveAuth(data.token, data.user)
       
+      // Déclencher un événement pour mettre à jour la Navbar
+      window.dispatchEvent(new Event('auth-change'))
+      
       // Rediriger selon le rôle
       const redirect = searchParams?.get('redirect')
       if (redirect) {
