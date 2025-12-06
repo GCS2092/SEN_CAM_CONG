@@ -55,8 +55,8 @@ export default function BottomNav() {
     },
   ]
 
-  // Ne pas afficher sur les pages admin/artist/login
-  if (pathname?.startsWith('/admin') || pathname?.startsWith('/artist') || pathname?.startsWith('/user') || pathname === '/login') {
+  // Ne pas afficher uniquement sur la page de login
+  if (pathname === '/login') {
     return null
   }
 

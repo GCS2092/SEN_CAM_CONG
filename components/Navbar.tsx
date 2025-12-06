@@ -3,11 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from './ThemeToggle'
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userRole, setUserRole] = useState<string | null>(null)
   const router = useRouter()
@@ -41,16 +39,10 @@ export default function Navbar() {
     setIsAuthenticated(false)
     setUserRole(null)
     router.push('/')
-    setIsOpen(false)
   }
 
   // Les navItems principaux sont maintenant dans BottomNav
   // On garde seulement les liens admin/artist ici
-
-  // Fermer le menu quand on change de page
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 relative">

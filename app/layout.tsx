@@ -43,7 +43,7 @@ export default function RootLayout({
         <ErrorBoundary>
           <ThemeProvider>
             <Navbar />
-            <main className="min-h-screen pb-20">
+            <main className="min-h-screen pb-16 md:pb-0">
               {children}
             </main>
             <Footer />
