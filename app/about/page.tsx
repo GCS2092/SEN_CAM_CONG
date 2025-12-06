@@ -3,6 +3,20 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
+const DEFAULT_PRESENTATION_TEXT = `SenCamCong – L'Afrique en symphonie
+
+Quand le Sénégal, le Cameroun et le Congo s'unissent, la musique devient un langage universel. SenCamCong, c'est la rencontre exceptionnelle de trois artistes musiciens talentueux, chacun porteur de son héritage culturel et de son expérience artistique.
+
+Du Sénégal, nous puisons dans les richesses du mbalax et des traditions griotiques, apportant une dimension narrative et rythmique unique. Du Cameroun, nous intégrons les énergies vibrantes du makossa et les influences jazz, créant une dynamique musicale puissante. Du Congo, nous empruntons la passion de la rumba et du soukous, ajoutant une dimension festive et envoûtante à notre fusion.
+
+En fusionnant leurs voix, leurs rythmes et leurs instruments, ils créent une alchimie musicale inédite : un voyage sonore où se croisent chants traditionnels, proverbes, récits vivants et danses envoûtantes.
+
+Plus qu'un simple projet musical, SenCamCong est une célébration des similitudes rythmiques et des influences partagées entre ces trois nations. Dans un monde marqué par la globalisation, ce trio démontre que la force de la musique réside dans la mixité, le dialogue et la collaboration.
+
+Avec des arrangements à couper le souffle et une énergie scénique communicative, SenCamCong incarne l'Afrique qui se réinvente, qui se raconte et qui s'exporte.
+
+Un rendez-vous musical à ne pas manquer.`
+
 export default function AboutPage() {
   const [presentationText, setPresentationText] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -24,21 +38,7 @@ export default function AboutPage() {
     loadPresentation()
   }, [])
 
-  const defaultText = `SenCamCong – L'Afrique en symphonie
-
-Quand le Sénégal, le Cameroun et le Congo s'unissent, la musique devient un langage universel. SenCamCong, c'est la rencontre exceptionnelle de trois artistes musiciens talentueux, chacun porteur de son héritage culturel et de son expérience artistique.
-
-Du Sénégal, nous puisons dans les richesses du mbalax et des traditions griotiques, apportant une dimension narrative et rythmique unique. Du Cameroun, nous intégrons les énergies vibrantes du makossa et les influences jazz, créant une dynamique musicale puissante. Du Congo, nous empruntons la passion de la rumba et du soukous, ajoutant une dimension festive et envoûtante à notre fusion.
-
-En fusionnant leurs voix, leurs rythmes et leurs instruments, ils créent une alchimie musicale inédite : un voyage sonore où se croisent chants traditionnels, proverbes, récits vivants et danses envoûtantes.
-
-Plus qu'un simple projet musical, SenCamCong est une célébration des similitudes rythmiques et des influences partagées entre ces trois nations. Dans un monde marqué par la globalisation, ce trio démontre que la force de la musique réside dans la mixité, le dialogue et la collaboration.
-
-Avec des arrangements à couper le souffle et une énergie scénique communicative, SenCamCong incarne l'Afrique qui se réinvente, qui se raconte et qui s'exporte.
-
-Un rendez-vous musical à ne pas manquer.`
-
-  const displayText = presentationText || defaultText
+  const displayText = presentationText || DEFAULT_PRESENTATION_TEXT
 
   return (
     <div>
@@ -117,6 +117,7 @@ Un rendez-vous musical à ne pas manquer.`
               Ensemble, nous créons des expériences musicales mémorables qui célèbrent la diversité et 
               l&apos;unité de l&apos;Afrique.
             </p>
+            </div>
           </motion.div>
 
           {/* Section Fusion des Cultures */}
@@ -161,6 +162,7 @@ Un rendez-vous musical à ne pas manquer.`
             <p className="text-gray-700 leading-relaxed text-base md:text-lg text-center">
               Trois nations, une seule voix. Une harmonie unique qui célèbre la richesse culturelle africaine.
             </p>
+            </div>
           </motion.div>
 
           {/* Section Contact */}
@@ -188,6 +190,7 @@ Un rendez-vous musical à ne pas manquer.`
                 <span className="text-2xl">📱</span>
                 <span className="text-gray-700">Suivez-nous sur nos réseaux sociaux</span>
               </div>
+            </div>
             </div>
           </motion.div>
         </div>

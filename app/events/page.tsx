@@ -270,7 +270,8 @@ export default function EventsPage() {
             onPageChange={setPage}
           />
         )}
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   )
 }
