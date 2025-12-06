@@ -9,6 +9,7 @@ interface Event {
   id: string
   title: string
   date: string
+  ticketPrice: number | null
 }
 
 export default function Navbar() {
@@ -121,11 +122,18 @@ export default function Navbar() {
               <div className="font-bold text-gray-900 dark:text-white text-sm md:text-base">{currentTime}</div>
             </div>
             {nextEvent && (
-              <div className="hidden sm:block text-xs md:text-sm min-w-0 flex-1">
-                <div className="text-gray-500 dark:text-gray-400 text-[10px] md:text-xs">Prochain événement</div>
-                <div className="font-semibold text-gray-900 dark:text-white line-clamp-1 text-xs md:text-sm">{nextEvent.title}</div>
-                <div className="text-[10px] md:text-xs text-gray-600 dark:text-gray-400">
-                  {formatEventDateTime(nextEvent.date).date} à {formatEventDateTime(nextEvent.date).time}
+              <div className="hidden sm:block text-xs md:text-sm min-w-0 flex-1 border-l border-gray-200 dark:border-gray-700 pl-3 md:pl-4">
+                <div className="text-gray-500 dark:text-gray-400 text-[10px] md:text-xs mb-1">Prochain événement</div>
+                <div className="font-semibold text-gray-900 dark:text-white line-clamp-1 text-xs md:text-sm mb-1">{nextEvent.title}</div>
+                <div className="flex flex-wrap items-center gap-2 text-[10px] md:text-xs text-gray-600 dark:text-gray-400">
+                  <span className="font-medium">
+                    📅 {formatEventDateTime(nextEvent.date).date} à {formatEventDateTime(nextEvent.date).time}
+                  </span>
+                  {nextEvent.ticketPrice !== null && nextEvent.ticketPrice !== undefined && (
+                    <span className="font-semibold text-primary-600 dark:text-primary-400">
+                      💰 {new Intl.NumberFormat('fr-FR').format(nextEvent.ticketPrice)} FCFA
+                    </span>
+                  )}
                 </div>
               </div>
             )}
