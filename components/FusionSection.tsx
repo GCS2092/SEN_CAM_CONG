@@ -58,27 +58,45 @@ export default function FusionSection() {
 
               {/* Contenu au centre */}
               <div className="absolute inset-0 flex flex-col items-center justify-center p-3 sm:p-4 md:p-6 text-center z-10">
-                <div className="flex items-center gap-1 sm:gap-2 mb-2 sm:mb-3 md:mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                  <Link href="/members/senegal" className="hover:scale-125 transition-transform duration-300 cursor-pointer" onClick={(e) => e.stopPropagation()}>
-                    <span>🇸🇳</span>
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
+                  <Link 
+                    href="/members/senegal" 
+                    className="group/flag hover:scale-110 transition-transform duration-300 cursor-pointer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="w-16 h-12 sm:w-20 sm:h-14 md:w-24 md:h-16 rounded border-2 border-gray-200 group-hover/flag:border-primary-500 transition-colors bg-gradient-to-b from-green-600 via-yellow-400 to-red-600 flex items-center justify-center shadow-lg">
+                      <span className="text-2xl sm:text-3xl md:text-4xl">🇸🇳</span>
+                    </div>
+                    <p className="text-xs sm:text-sm mt-1 text-gray-600 group-hover/flag:text-primary-600 font-medium">Sénégal</p>
                   </Link>
-                  <span className="text-lg sm:text-xl md:text-2xl text-gray-400">+</span>
-                  <Link href="/members/cameroon" className="hover:scale-125 transition-transform duration-300 cursor-pointer" onClick={(e) => e.stopPropagation()}>
-                    <span>🇨🇲</span>
+                  <span className="text-xl sm:text-2xl md:text-3xl text-gray-400 font-light">+</span>
+                  <Link 
+                    href="/members/cameroon" 
+                    className="group/flag hover:scale-110 transition-transform duration-300 cursor-pointer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="w-16 h-12 sm:w-20 sm:h-14 md:w-24 md:h-16 rounded border-2 border-gray-200 group-hover/flag:border-primary-500 transition-colors bg-gradient-to-b from-green-500 via-red-500 to-yellow-400 flex items-center justify-center shadow-lg">
+                      <span className="text-2xl sm:text-3xl md:text-4xl">🇨🇲</span>
+                    </div>
+                    <p className="text-xs sm:text-sm mt-1 text-gray-600 group-hover/flag:text-primary-600 font-medium">Cameroun</p>
                   </Link>
-                  <span className="text-lg sm:text-xl md:text-2xl text-gray-400">+</span>
-                  <Link href="/members/congo" className="hover:scale-125 transition-transform duration-300 cursor-pointer" onClick={(e) => e.stopPropagation()}>
-                    <span>🇨🇬</span>
+                  <span className="text-xl sm:text-2xl md:text-3xl text-gray-400 font-light">+</span>
+                  <Link 
+                    href="/members/congo" 
+                    className="group/flag hover:scale-110 transition-transform duration-300 cursor-pointer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="w-16 h-12 sm:w-20 sm:h-14 md:w-24 md:h-16 rounded border-2 border-gray-200 group-hover/flag:border-primary-500 transition-colors bg-gradient-to-b from-blue-600 via-yellow-400 to-red-600 flex items-center justify-center shadow-lg">
+                      <span className="text-2xl sm:text-3xl md:text-4xl">🇨🇬</span>
+                    </div>
+                    <p className="text-xs sm:text-sm mt-1 text-gray-600 group-hover/flag:text-primary-600 font-medium">Congo</p>
                   </Link>
                 </div>
-                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 text-gray-800 group-hover:text-primary-600 transition-colors">
-                  SN+CM+CG
-                </div>
-                <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 text-gray-800">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-gray-800 group-hover:text-primary-600 transition-colors">
                   Fusion Musicale
-                </div>
-                <p className="text-xs sm:text-sm md:text-base text-gray-600 max-w-xs px-2">
-                  Trois nations, une seule harmonie
+                </h3>
+                <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-md px-2">
+                  Cliquez sur un drapeau pour découvrir les membres de chaque nation
                 </p>
 
                 {/* Barres de couleurs fusionnées */}
@@ -120,4 +138,5 @@ export default function FusionSection() {
     </section>
   )
 }
+
 

@@ -52,20 +52,11 @@ export default function CongoMembersPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <motion.div 
-              className="text-8xl md:text-9xl mb-6 inline-block"
-              animate={{ 
-                rotate: [0, 5, -5, 0],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 3
-              }}
-            >
-              🇨🇬
-            </motion.div>
+            <div className="mb-6">
+              <div className="w-24 h-16 md:w-32 md:h-20 mx-auto rounded border-2 border-gray-200 bg-gradient-to-b from-blue-600 via-yellow-400 to-red-600 flex items-center justify-center shadow-lg">
+                <span className="text-4xl md:text-5xl">🇨🇬</span>
+              </div>
+            </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-congo-blue via-congo-yellow to-congo-red bg-clip-text text-transparent">
               Membres du Congo
             </h1>
@@ -102,11 +93,13 @@ export default function CongoMembersPage() {
                           fill
                           className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-6xl">
-                          🎵
-                        </div>
-                      )}
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-congo-blue/10 to-congo-blue/5">
+                        <svg className="w-16 h-16 text-congo-blue/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                    )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
                     <div className="flex-1">

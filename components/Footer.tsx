@@ -22,12 +22,18 @@ export default function Footer() {
                 SEN CAM CONG
               </h3>
             </div>
-            <div className="flex items-center gap-2 mb-4 text-2xl">
-              <span>🇸🇳</span>
+            <div className="flex items-center gap-3 mb-4">
+              <Link href="/members/senegal" className="w-12 h-8 rounded border border-gray-700 bg-gradient-to-b from-green-600 via-yellow-400 to-red-600 flex items-center justify-center hover:scale-110 transition-transform">
+                <span className="text-lg">🇸🇳</span>
+              </Link>
               <span className="text-gray-500">+</span>
-              <span>🇨🇲</span>
+              <Link href="/members/cameroon" className="w-12 h-8 rounded border border-gray-700 bg-gradient-to-b from-green-500 via-red-500 to-yellow-400 flex items-center justify-center hover:scale-110 transition-transform">
+                <span className="text-lg">🇨🇲</span>
+              </Link>
               <span className="text-gray-500">+</span>
-              <span>🇨🇬</span>
+              <Link href="/members/congo" className="w-12 h-8 rounded border border-gray-700 bg-gradient-to-b from-blue-600 via-yellow-400 to-red-600 flex items-center justify-center hover:scale-110 transition-transform">
+                <span className="text-lg">🇨🇬</span>
+              </Link>
             </div>
             <p className="text-gray-300 leading-relaxed max-w-md">
               Fusion musicale du Sénégal, du Cameroun et du Congo. Découvrez nos événements, performances et dernières sorties.

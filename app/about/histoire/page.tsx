@@ -72,30 +72,42 @@ export default function HistoirePage() {
                 La Fusion des Cultures
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
-                <motion.div 
-                  className="group text-center p-6 md:p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="text-6xl md:text-7xl mb-4 transform group-hover:scale-110 transition-transform">🇸🇳</div>
-                  <h3 className="font-bold text-xl md:text-2xl mb-3 text-gray-800 group-hover:text-primary-600 transition-colors">Sénégal</h3>
-                  <p className="text-sm md:text-base text-gray-600">Traditions griotiques et mbalax</p>
-                </motion.div>
-                <motion.div 
-                  className="group text-center p-6 md:p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="text-6xl md:text-7xl mb-4 transform group-hover:scale-110 transition-transform">🇨🇲</div>
-                  <h3 className="font-bold text-xl md:text-2xl mb-3 text-gray-800 group-hover:text-primary-600 transition-colors">Cameroun</h3>
-                  <p className="text-sm md:text-base text-gray-600">Makossa et énergie vibrante</p>
-                </motion.div>
-                <motion.div 
-                  className="group text-center p-6 md:p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="text-6xl md:text-7xl mb-4 transform group-hover:scale-110 transition-transform">🇨🇬</div>
-                  <h3 className="font-bold text-xl md:text-2xl mb-3 text-gray-800 group-hover:text-primary-600 transition-colors">Congo</h3>
-                  <p className="text-sm md:text-base text-gray-600">Rumba et soukous passionnés</p>
-                </motion.div>
+                <Link href="/members/senegal">
+                  <motion.div 
+                    className="group text-center p-6 md:p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2 cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className="w-20 h-14 md:w-24 md:h-16 mx-auto mb-4 rounded border-2 border-gray-200 group-hover:border-primary-500 transition-colors bg-gradient-to-b from-green-600 via-yellow-400 to-red-600 flex items-center justify-center shadow-md">
+                      <span className="text-3xl md:text-4xl">🇸🇳</span>
+                    </div>
+                    <h3 className="font-bold text-xl md:text-2xl mb-3 text-gray-800 group-hover:text-primary-600 transition-colors">Sénégal</h3>
+                    <p className="text-sm md:text-base text-gray-600">Traditions griotiques et mbalax</p>
+                  </motion.div>
+                </Link>
+                <Link href="/members/cameroon">
+                  <motion.div 
+                    className="group text-center p-6 md:p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2 cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className="w-20 h-14 md:w-24 md:h-16 mx-auto mb-4 rounded border-2 border-gray-200 group-hover:border-primary-500 transition-colors bg-gradient-to-b from-green-500 via-red-500 to-yellow-400 flex items-center justify-center shadow-md">
+                      <span className="text-3xl md:text-4xl">🇨🇲</span>
+                    </div>
+                    <h3 className="font-bold text-xl md:text-2xl mb-3 text-gray-800 group-hover:text-primary-600 transition-colors">Cameroun</h3>
+                    <p className="text-sm md:text-base text-gray-600">Makossa et énergie vibrante</p>
+                  </motion.div>
+                </Link>
+                <Link href="/members/congo">
+                  <motion.div 
+                    className="group text-center p-6 md:p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2 cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className="w-20 h-14 md:w-24 md:h-16 mx-auto mb-4 rounded border-2 border-gray-200 group-hover:border-primary-500 transition-colors bg-gradient-to-b from-blue-600 via-yellow-400 to-red-600 flex items-center justify-center shadow-md">
+                      <span className="text-3xl md:text-4xl">🇨🇬</span>
+                    </div>
+                    <h3 className="font-bold text-xl md:text-2xl mb-3 text-gray-800 group-hover:text-primary-600 transition-colors">Congo</h3>
+                    <p className="text-sm md:text-base text-gray-600">Rumba et soukous passionnés</p>
+                  </motion.div>
+                </Link>
               </div>
               <p className="text-gray-700 leading-relaxed text-base md:text-lg text-center">
                 Trois nations, une seule voix. Une harmonie unique qui célèbre la richesse culturelle africaine.
