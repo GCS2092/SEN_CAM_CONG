@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import Hero from '@/components/Hero'
 import EventsSection from '@/components/EventsSection'
 import PerformancesSection from '@/components/PerformancesSection'
+import FusionSection from '@/components/FusionSection'
 
 export default function Home() {
   const [events, setEvents] = useState([])
@@ -38,6 +39,9 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <Hero />
+      
+      {/* Section Fusion */}
+      <FusionSection />
       
       <motion.div
         initial={{ opacity: 0 }}

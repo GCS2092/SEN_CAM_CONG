@@ -16,7 +16,7 @@ export default function FusionSection() {
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">Une Fusion Unique</h2>
           <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-2">
-            Trois nations, une seule voix. Découvrez comment le Cameroun, le Sénégal et le Congo se réunissent pour créer une musique exceptionnelle.
+            Trois nations, une seule voix. Découvrez comment le Sénégal, le Cameroun et le Congo se réunissent pour créer une musique exceptionnelle.
           </p>
         </motion.div>
 
@@ -59,14 +59,20 @@ export default function FusionSection() {
               {/* Contenu au centre */}
               <div className="absolute inset-0 flex flex-col items-center justify-center p-3 sm:p-4 md:p-6 text-center z-10">
                 <div className="flex items-center gap-1 sm:gap-2 mb-2 sm:mb-3 md:mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                  <span>🇨🇲</span>
+                  <Link href="/members/senegal" className="hover:scale-125 transition-transform duration-300 cursor-pointer" onClick={(e) => e.stopPropagation()}>
+                    <span>🇸🇳</span>
+                  </Link>
                   <span className="text-lg sm:text-xl md:text-2xl text-gray-400">+</span>
-                  <span>🇸🇳</span>
+                  <Link href="/members/cameroon" className="hover:scale-125 transition-transform duration-300 cursor-pointer" onClick={(e) => e.stopPropagation()}>
+                    <span>🇨🇲</span>
+                  </Link>
                   <span className="text-lg sm:text-xl md:text-2xl text-gray-400">+</span>
-                  <span>🇨🇬</span>
+                  <Link href="/members/congo" className="hover:scale-125 transition-transform duration-300 cursor-pointer" onClick={(e) => e.stopPropagation()}>
+                    <span>🇨🇬</span>
+                  </Link>
                 </div>
                 <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 text-gray-800 group-hover:text-primary-600 transition-colors">
-                  CM+SN+CG
+                  SN+CM+CG
                 </div>
                 <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 text-gray-800">
                   Fusion Musicale
@@ -77,12 +83,12 @@ export default function FusionSection() {
 
                 {/* Barres de couleurs fusionnées */}
                 <div className="flex gap-0.5 sm:gap-1 mt-3 sm:mt-4 md:mt-6 flex-wrap justify-center max-w-full px-2">
-                  <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-cameroon-red"></div>
-                  <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-cameroon-yellow"></div>
-                  <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-cameroon-green"></div>
                   <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-senegal-green"></div>
                   <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-senegal-yellow"></div>
                   <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-senegal-red"></div>
+                  <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-cameroon-red"></div>
+                  <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-cameroon-yellow"></div>
+                  <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-cameroon-green"></div>
                   <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-congo-blue"></div>
                   <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-congo-yellow"></div>
                   <div className="h-2 sm:h-2.5 md:h-3 w-6 sm:w-8 md:w-12 rounded-full bg-congo-red"></div>

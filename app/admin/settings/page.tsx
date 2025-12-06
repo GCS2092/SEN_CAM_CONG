@@ -25,6 +25,7 @@ function AdminSettingsPageContent() {
     heroBackgroundImage: '',
     heroTitle: '',
     heroSubtitle: '',
+    aboutPresentation: '',
   })
 
   useEffect(() => {
@@ -40,11 +41,13 @@ function AdminSettingsPageContent() {
           const heroBg = data.settings.find((s: SiteSetting) => s.key === 'hero_background_image')
           const heroTitle = data.settings.find((s: SiteSetting) => s.key === 'hero_title')
           const heroSubtitle = data.settings.find((s: SiteSetting) => s.key === 'hero_subtitle')
+          const aboutPresentation = data.settings.find((s: SiteSetting) => s.key === 'about_presentation')
           
           setFormData({
             heroBackgroundImage: heroBg?.value || '',
             heroTitle: heroTitle?.value || 'SEN CAM CONG',
             heroSubtitle: heroSubtitle?.value || 'La fusion musicale du Cameroun, du Sénégal et du Congo',
+            aboutPresentation: aboutPresentation?.value || '',
           })
         }
       } catch (error) {
@@ -107,6 +110,18 @@ function AdminSettingsPageContent() {
       toast.success('Tous les paramètres ont été sauvegardés !')
     } catch (error) {
       console.error('Error saving settings:', error)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleSavePresentation = async () => {
+    setSaving(true)
+    try {
+      await handleSave('about_presentation', formData.aboutPresentation, 'text', 'Texte de présentation de la page À propos')
+      toast.success('Texte de présentation sauvegardé avec succès !')
+    } catch (error) {
+      console.error('Error saving presentation:', error)
     } finally {
       setSaving(false)
     }
@@ -188,6 +203,39 @@ function AdminSettingsPageContent() {
                 className="btn-primary disabled:opacity-50"
               >
                 {saving ? 'Sauvegarde...' : 'Enregistrer les paramètres Hero'}
+              </button>
+            </div>
+          </div>
+
+          {/* Section Présentation À propos */}
+          <div className="card p-6 md:p-8">
+            <h2 className="text-xl md:text-2xl font-bold mb-6">Section Présentation (Page À propos)</h2>
+            
+            <div className="space-y-6">
+              <div>
+                <label htmlFor="aboutPresentation" className="block text-sm font-medium text-gray-700 mb-2">
+                  Texte de présentation
+                </label>
+                <textarea
+                  id="aboutPresentation"
+                  value={formData.aboutPresentation}
+                  onChange={(e) => setFormData({ ...formData, aboutPresentation: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-h-[300px]"
+                  placeholder="SenCamCong – L'Afrique en symphonie
+
+Quand le Sénégal, le Cameroun et le Congo s'unissent, la musique devient un langage universel..."
+                />
+                <p className="text-xs text-gray-500 mt-2">
+                  Ce texte sera affiché sur la page À propos. Vous pouvez utiliser des retours à la ligne pour structurer le contenu.
+                </p>
+              </div>
+
+              <button
+                onClick={handleSavePresentation}
+                disabled={saving}
+                className="btn-primary disabled:opacity-50"
+              >
+                {saving ? 'Sauvegarde...' : 'Enregistrer la présentation'}
               </button>
             </div>
           </div>

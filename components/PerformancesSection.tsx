@@ -32,10 +32,21 @@ export default function PerformancesSection({ performances, loading }: Performan
   }
 
   return (
-    <section className="py-12 md:py-16">
-      <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-4">Dernières performances</h2>
-        <p className="text-sm md:text-base text-gray-600 px-4">Revivez nos meilleurs moments sur scène</p>
+    <section className="py-12 md:py-16 bg-gradient-to-b from-gray-50 via-white to-gray-50">
+      <div className="text-center mb-12 md:mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
+            Dernières performances
+          </h2>
+          <p className="text-base md:text-lg text-gray-600 px-4 max-w-2xl mx-auto">
+            Revivez nos meilleurs moments sur scène et découvrez notre énergie musicale
+          </p>
+        </motion.div>
       </div>
 
       {performances.length === 0 ? (
@@ -53,42 +64,68 @@ export default function PerformancesSection({ performances, loading }: Performan
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Link href={`/performances/${performance.id}`}>
-                <div className="card cursor-pointer h-full">
+                <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 cursor-pointer h-full transform hover:-translate-y-2">
                   {performance.imageUrl ? (
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-56 overflow-hidden bg-gradient-to-br from-primary-100 to-primary-200">
                       <Image
                         src={performance.imageUrl}
                         alt={performance.title}
                         fill
-                        className="object-cover hover:scale-110 transition-transform duration-300"
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       {performance.videoUrl && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                          <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center">
-                            <svg className="w-8 h-8 text-primary-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                          <div className="w-20 h-20 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                            <svg className="w-10 h-10 text-primary-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M8 5v14l11-7z" />
                             </svg>
                           </div>
                         </div>
                       )}
+                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                        <span className="text-primary-600 text-xs font-bold">
+                          {formatDateShort(performance.date)}
+                        </span>
+                      </div>
                     </div>
                   ) : performance.videoUrl ? (
-                    <div className="relative h-48 bg-gray-200 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center">
-                        <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <div className="relative h-56 bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center group-hover:from-primary-600 group-hover:to-primary-800 transition-all">
+                      <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg className="w-12 h-12 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
+                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                        <span className="text-primary-600 text-xs font-bold">
+                          {formatDateShort(performance.date)}
+                        </span>
+                      </div>
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center">
+                        <svg className="w-10 h-10 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                   <div className="p-6">
-                    <span className="text-primary-600 text-sm font-semibold">
-                      {formatDateShort(performance.date)}
-                    </span>
-                    <h3 className="text-xl font-bold mt-2 mb-2">{performance.title}</h3>
+                    {!performance.imageUrl && !performance.videoUrl && (
+                      <span className="text-primary-600 text-sm font-semibold mb-2 block">
+                        {formatDateShort(performance.date)}
+                      </span>
+                    )}
+                    <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-primary-600 transition-colors line-clamp-2">
+                      {performance.title}
+                    </h3>
                     {performance.location && (
-                      <p className="text-gray-600 text-sm">📍 {performance.location}</p>
+                      <div className="flex items-center gap-2 text-gray-600 text-sm bg-gray-50 rounded-lg p-2">
+                        <span>📍</span>
+                        <span className="line-clamp-1">{performance.location}</span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -98,9 +135,15 @@ export default function PerformancesSection({ performances, loading }: Performan
         </div>
       )}
 
-      <div className="text-center">
-        <Link href="/performances" className="btn-primary">
+      <div className="text-center mt-12">
+        <Link 
+          href="/performances" 
+          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+        >
           Voir toutes les performances
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
         </Link>
       </div>
     </section>

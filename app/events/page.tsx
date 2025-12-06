@@ -66,18 +66,21 @@ export default function EventsPage() {
   }, [page, filter, searchQuery, pagination.pageSize])
 
   return (
-    <div className="container mx-auto px-4 py-16">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="text-center mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-4">Événements</h1>
-          <p className="text-sm md:text-base text-center text-gray-600 px-4">
-            Découvrez nos concerts et performances à venir
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
+      <div className="container mx-auto px-4 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-center mb-12 md:mb-16">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
+              Événements
+            </h1>
+            <p className="text-base md:text-lg text-center text-gray-600 px-4 max-w-2xl mx-auto">
+              Découvrez nos concerts et performances à venir
+            </p>
+          </div>
 
         {/* Barre de recherche */}
         <div className="max-w-md mx-auto mb-4 md:mb-6 px-4">
@@ -183,48 +186,66 @@ export default function EventsPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link href={`/events/${event.id}`}>
-                  <div className="card card-hover cursor-pointer h-full">
+                  <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 cursor-pointer h-full transform hover:-translate-y-2">
                     {event.imageUrl && (
-                      <div className="relative h-48 overflow-hidden">
+                      <div className="relative h-56 overflow-hidden bg-gradient-to-br from-primary-100 to-primary-200">
                         <Image
                           src={event.imageUrl}
                           alt={event.title}
                           fill
-                          className="object-cover hover:scale-110 transition-transform duration-300"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                          <span
+                            className={`text-xs font-bold ${
+                              event.status === 'UPCOMING'
+                                ? 'text-green-700'
+                                : event.status === 'CANCELLED'
+                                ? 'text-red-700'
+                                : 'text-gray-700'
+                            }`}
+                          >
+                            {event.status === 'UPCOMING' ? 'À venir' : event.status === 'CANCELLED' ? 'Annulé' : 'Passé'}
+                          </span>
+                        </div>
                       </div>
                     )}
                     <div className="p-6">
-                      <div className="flex items-center justify-between mb-2">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            event.status === 'UPCOMING'
-                              ? 'bg-green-100 text-green-800'
-                              : event.status === 'CANCELLED'
-                              ? 'bg-red-100 text-red-800'
-                              : 'bg-gray-100 text-gray-800'
-                          }`}
-                        >
-                          {event.status === 'UPCOMING' ? 'À venir' : event.status === 'CANCELLED' ? 'Annulé' : 'Passé'}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-bold mb-2">{event.title}</h3>
-                      <div className="flex items-center gap-2 text-gray-600 text-sm mb-4">
+                      {!event.imageUrl && (
+                        <div className="flex items-center justify-between mb-3">
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              event.status === 'UPCOMING'
+                                ? 'bg-green-100 text-green-800'
+                                : event.status === 'CANCELLED'
+                                ? 'bg-red-100 text-red-800'
+                                : 'bg-gray-100 text-gray-800'
+                            }`}
+                          >
+                            {event.status === 'UPCOMING' ? 'À venir' : event.status === 'CANCELLED' ? 'Annulé' : 'Passé'}
+                          </span>
+                        </div>
+                      )}
+                      <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-primary-600 transition-colors line-clamp-2">
+                        {event.title}
+                      </h3>
+                      <div className="flex items-center gap-2 text-gray-600 text-sm mb-3 bg-gray-50 rounded-lg p-2">
                         <CalendarIcon className="w-4 h-4 text-primary-600" />
                         <span>{formatDate(event.date)}</span>
                       </div>
-                      <div className="flex items-start gap-2 text-gray-700 mb-2">
+                      <div className="flex items-start gap-2 text-gray-700 mb-3">
                         <LocationIcon className="w-4 h-4 mt-0.5 text-primary-600 flex-shrink-0" />
-                        <span className="text-sm">
+                        <span className="text-sm line-clamp-2">
                           {event.location}
                           {event.venue && ` - ${event.venue}`}
                         </span>
                       </div>
                       {event.ticketPrice !== null && event.ticketPrice !== undefined && (
-                        <div className="flex items-center gap-2 text-primary-600 mb-2">
+                        <div className="flex items-center gap-2 text-primary-600 bg-primary-50 rounded-lg p-2 mb-3">
                           <TicketIcon className="w-4 h-4 text-primary-600" />
-                          <span className="text-sm font-semibold">
+                          <span className="text-sm font-bold">
                             {new Intl.NumberFormat('fr-FR').format(event.ticketPrice)} FCFA
                           </span>
                         </div>

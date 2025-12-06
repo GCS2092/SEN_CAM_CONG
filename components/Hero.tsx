@@ -52,7 +52,7 @@ export default function Hero() {
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image avec overlay gradient fusion */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cameroon-red/80 via-senegal-green/80 to-congo-blue/80 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-cameroon-red/90 via-senegal-green/85 to-congo-blue/90 z-10" />
       <div 
         className="absolute inset-0 z-0"
         style={{
@@ -63,41 +63,62 @@ export default function Hero() {
         }}
       />
       
+      {/* Effet de brillance animé */}
+      <motion.div
+        className="absolute inset-0 z-10 overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-300/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </motion.div>
+      
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative z-20 text-center text-white px-4"
+        className="relative z-20 text-center text-white px-4 w-full max-w-5xl mx-auto"
       >
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 text-white drop-shadow-2xl px-4"
-        >
-          {title}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 md:mb-8 text-gray-100 font-medium px-4"
-        >
-          {subtitle}
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4"
-        >
-          <Link href="/events" className="btn-primary inline-block text-sm md:text-base px-4 md:px-6 py-2 md:py-3">
-            Voir les événements
-          </Link>
-          <Link href="/performances" className="btn-secondary inline-block bg-white/10 text-white hover:bg-white/20 text-sm md:text-base px-4 md:px-6 py-2 md:py-3">
-            Nos performances
-          </Link>
-        </motion.div>
+        {/* Glassmorphism card pour le contenu */}
+        <div className="backdrop-blur-md bg-white/10 rounded-3xl p-8 md:p-12 border border-white/20 shadow-2xl">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-4 md:mb-6 text-white drop-shadow-2xl bg-gradient-to-r from-white via-yellow-100 to-white bg-clip-text text-transparent"
+          >
+            {title}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 md:mb-10 text-gray-100 font-medium px-4 leading-relaxed"
+          >
+            {subtitle}
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center px-4"
+          >
+            <Link 
+              href="/events" 
+              className="group relative inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 overflow-hidden"
+            >
+              <span className="relative z-10">Voir les événements</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-700 to-primary-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Link>
+            <Link 
+              href="/performances" 
+              className="group relative inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold text-white bg-white/20 backdrop-blur-sm rounded-full border-2 border-white/30 hover:bg-white/30 hover:border-white/50 transform hover:scale-105 transition-all duration-300"
+            >
+              Nos performances
+            </Link>
+          </motion.div>
+        </div>
       </motion.div>
 
       {/* Scroll indicator */}
