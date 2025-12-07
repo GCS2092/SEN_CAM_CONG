@@ -185,7 +185,7 @@ function AdminMembersPageContent() {
   const filteredMembers = filter === 'all' ? members : members.filter(m => m.nationality === filter)
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-16">
+    <div className="container mx-auto px-4 py-8 md:py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

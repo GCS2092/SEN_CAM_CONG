@@ -156,7 +156,7 @@ function AdminEventsPageContent() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="container mx-auto px-4 py-8 md:py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -166,12 +166,12 @@ function AdminEventsPageContent() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-xl">
-                <EventIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+              <div className="p-3 bg-primary-100 rounded-xl">
+                <EventIcon className="w-6 h-6 text-primary-600" />
               </div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">Gérer les événements</h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Gérer les événements</h1>
+                <p className="text-sm text-gray-600 mt-1">
                   {filteredEvents.length} événement{filteredEvents.length > 1 ? 's' : ''} {filter !== 'all' ? `(${filter === 'UPCOMING' ? 'à venir' : filter === 'PAST' ? 'passés' : 'annulés'})` : ''}
                 </p>
               </div>
@@ -179,7 +179,7 @@ function AdminEventsPageContent() {
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
               <Link 
                 href="/admin" 
-                className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium text-center flex items-center justify-center gap-2"
+                className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:shadow-md transition-all text-sm font-medium text-center flex items-center justify-center gap-2"
               >
                 ← Retour
               </Link>
@@ -202,13 +202,13 @@ function AdminEventsPageContent() {
               placeholder="Rechercher un événement..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-11 pr-4 text-sm border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all shadow-sm hover:shadow-md"
+              className="w-full px-4 py-3 pl-11 pr-4 text-sm border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white text-gray-900 placeholder-gray-400 transition-all shadow-sm hover:shadow-md"
             />
-            <SearchIcon className="absolute left-3.5 top-3.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
+            <SearchIcon className="absolute left-3.5 top-3.5 h-5 w-5 text-gray-400" />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
               >
                 ✕
               </button>
@@ -219,7 +219,7 @@ function AdminEventsPageContent() {
         {/* Filtres et actions en masse améliorés */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <FilterIcon className="w-4 h-4" />
               Filtres :
             </span>
@@ -228,7 +228,7 @@ function AdminEventsPageContent() {
               className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm shadow-sm ${
                 filter === 'all'
                   ? 'bg-primary-600 text-white shadow-md scale-105'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md'
+                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:shadow-md'
               }`}
             >
               Tous
@@ -238,7 +238,7 @@ function AdminEventsPageContent() {
               className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm shadow-sm ${
                 filter === 'UPCOMING'
                   ? 'bg-green-600 text-white shadow-md scale-105'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md'
+                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:shadow-md'
               }`}
             >
               À venir
@@ -248,7 +248,7 @@ function AdminEventsPageContent() {
               className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm shadow-sm ${
                 filter === 'PAST'
                   ? 'bg-gray-600 text-white shadow-md scale-105'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md'
+                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:shadow-md'
               }`}
             >
               Passés
@@ -258,7 +258,7 @@ function AdminEventsPageContent() {
               className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm shadow-sm ${
                 filter === 'CANCELLED'
                   ? 'bg-red-600 text-white shadow-md scale-105'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md'
+                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:shadow-md'
               }`}
             >
               Annulés
@@ -278,10 +278,10 @@ function AdminEventsPageContent() {
         </div>
 
         {/* Desktop Table amélioré */}
-        <div className="hidden md:block bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div className="hidden md:block bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/30">
+              <thead className="bg-gradient-to-r from-primary-50 to-primary-100">
                 <tr>
                   <th className="px-6 py-4 text-left">
                     <input
@@ -291,21 +291,21 @@ function AdminEventsPageContent() {
                       className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 w-4 h-4 cursor-pointer"
                     />
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Titre</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Lieu</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Statut</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Titre</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Lieu</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Statut</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+              <tbody className="divide-y divide-gray-100">
                 {filteredEvents.map((event, index) => (
                   <motion.tr
                     key={event.id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer group"
+                    className="hover:bg-gray-50 transition-colors cursor-pointer group"
                   >
                     <td className="px-6 py-4">
                       <input
@@ -317,18 +317,18 @@ function AdminEventsPageContent() {
                       />
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                      <div className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
                         {event.title}
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center gap-2 text-gray-600">
                         <CalendarIcon className="w-4 h-4" />
                         <span className="text-sm">{formatDate(event.date)}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center gap-2 text-gray-600">
                         <LocationIcon className="w-4 h-4" />
                         <span className="text-sm">{event.location}</span>
                       </div>
@@ -336,10 +336,10 @@ function AdminEventsPageContent() {
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                         event.status === 'UPCOMING'
-                          ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
+                          ? 'bg-green-100 text-green-800'
                           : event.status === 'CANCELLED'
-                          ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-gray-100 text-gray-800'
                       }`}>
                         {event.status === 'UPCOMING' ? 'À venir' : event.status === 'CANCELLED' ? 'Annulé' : 'Passé'}
                       </span>
@@ -348,7 +348,7 @@ function AdminEventsPageContent() {
                       <div className="flex gap-3">
                         <Link 
                           href={`/admin/events/${event.id}`} 
-                          className="p-2 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
+                          className="p-2 text-primary-600 hover:text-primary-700 hover:bg-primary-50 rounded-lg transition-colors"
                           title="Modifier"
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -356,7 +356,7 @@ function AdminEventsPageContent() {
                         </Link>
                         <Link 
                           href={`/admin/events/${event.id}/stats`} 
-                          className="p-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                          className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors"
                           title="Statistiques"
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -367,7 +367,7 @@ function AdminEventsPageContent() {
                             e.stopPropagation()
                             handleDelete(event.id)
                           }}
-                          className="p-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                          className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
                           title="Supprimer"
                         >
                           <DeleteIcon className="w-4 h-4" />
@@ -381,10 +381,10 @@ function AdminEventsPageContent() {
           </div>
           {filteredEvents.length === 0 && (
             <div className="text-center py-16">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
                 <EventIcon className="w-8 h-8 text-gray-400" />
               </div>
-              <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
+              <p className="text-gray-500 text-lg font-medium">
                 {searchQuery || filter !== 'all' 
                   ? 'Aucun événement ne correspond à vos critères'
                   : 'Aucun événement pour le moment'}
@@ -407,10 +407,10 @@ function AdminEventsPageContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-5 hover:shadow-lg transition-all"
+              className="bg-white rounded-xl shadow-md border border-gray-200 p-5 hover:shadow-lg transition-all"
             >
               <div className="flex items-start justify-between mb-3">
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white flex-1 pr-2">{event.title}</h3>
+                <h3 className="font-bold text-lg text-gray-900 flex-1 pr-2">{event.title}</h3>
                 <input
                   type="checkbox"
                   checked={selectedIds.has(event.id)}
@@ -418,43 +418,43 @@ function AdminEventsPageContent() {
                   className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 w-5 h-5 mt-1 flex-shrink-0"
                 />
               </div>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+              <div className="space-y-2 text-sm text-gray-600 mb-4">
                 <div className="flex items-center gap-2">
-                  <CalendarIcon className="w-4 h-4 text-primary-600 dark:text-primary-400" />
+                  <CalendarIcon className="w-4 h-4 text-primary-600" />
                   <span>{formatDate(event.date)}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <LocationIcon className="w-4 h-4 text-primary-600 dark:text-primary-400" />
+                  <LocationIcon className="w-4 h-4 text-primary-600" />
                   <span>{event.location}</span>
                 </div>
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                   event.status === 'UPCOMING'
-                    ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
+                    ? 'bg-green-100 text-green-800'
                     : event.status === 'CANCELLED'
-                    ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
+                    ? 'bg-red-100 text-red-800'
+                    : 'bg-gray-100 text-gray-800'
                 }`}>
                   {event.status === 'UPCOMING' ? 'À venir' : event.status === 'CANCELLED' ? 'Annulé' : 'Passé'}
                 </span>
               </div>
-              <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex gap-3 pt-4 border-t border-gray-200">
                 <Link 
                   href={`/admin/events/${event.id}`} 
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors text-sm font-medium"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-primary-50 text-primary-600 rounded-lg hover:bg-primary-100 transition-colors text-sm font-medium"
                 >
                   <EditIcon className="w-4 h-4" />
                   Modifier
                 </Link>
                 <Link 
                   href={`/admin/events/${event.id}/stats`} 
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors text-sm font-medium"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
                 >
                   <StatsIcon className="w-4 h-4" />
                   Stats
                 </Link>
                 <button
                   onClick={() => handleDelete(event.id)}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-sm font-medium"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
                 >
                   <DeleteIcon className="w-4 h-4" />
                   Supprimer
@@ -464,10 +464,10 @@ function AdminEventsPageContent() {
           ))}
           {filteredEvents.length === 0 && (
             <div className="text-center py-16">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
                 <EventIcon className="w-8 h-8 text-gray-400" />
               </div>
-              <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
+              <p className="text-gray-500 text-lg font-medium">
                 {searchQuery || filter !== 'all' 
                   ? 'Aucun événement ne correspond à vos critères'
                   : 'Aucun événement pour le moment'}

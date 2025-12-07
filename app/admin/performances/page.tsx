@@ -146,7 +146,7 @@ function AdminPerformancesPageContent() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="container mx-auto px-4 py-8 md:py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -156,12 +156,12 @@ function AdminPerformancesPageContent() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl">
-                <PerformanceIcon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="p-3 bg-purple-100bg-purple-900/30 rounded-xl">
+                <PerformanceIcon className="w-6 h-6 text-purple-600text-purple-400" />
               </div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">Gérer les performances</h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900text-white">Gérer les performances</h1>
+                <p className="text-sm text-gray-600text-gray-400 mt-1">
                   {filteredPerformances.length} performance{filteredPerformances.length > 1 ? 's' : ''}
                 </p>
               </div>
@@ -169,7 +169,7 @@ function AdminPerformancesPageContent() {
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
               <Link 
                 href="/admin" 
-                className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium text-center flex items-center justify-center gap-2"
+                className="px-4 py-2 bg-whitebg-gray-800 border border-gray-300border-gray-700 text-gray-700text-gray-300 rounded-lg hover:bg-gray-50hover:bg-gray-700 transition-colors text-sm font-medium text-center flex items-center justify-center gap-2"
               >
                 ← Retour
               </Link>
@@ -192,13 +192,13 @@ function AdminPerformancesPageContent() {
               placeholder="Rechercher une performance..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-11 pr-4 text-sm border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all shadow-sm hover:shadow-md"
+              className="w-full px-4 py-3 pl-11 pr-4 text-sm border-2 border-gray-200border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-whitebg-gray-800 text-gray-900text-white placeholder-gray-400placeholder-gray-500 transition-all shadow-sm hover:shadow-md"
             />
-            <SearchIcon className="absolute left-3.5 top-3.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
+            <SearchIcon className="absolute left-3.5 top-3.5 h-5 w-5 text-gray-400text-gray-500" />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600hover:text-gray-300"
               >
                 ✕
               </button>
@@ -224,10 +224,10 @@ function AdminPerformancesPageContent() {
         )}
 
         {/* Desktop Table amélioré */}
-        <div className="hidden md:block bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div className="hidden md:block bg-whitebg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200border-gray-700">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30">
+              <thead className="bg-gradient-to-r from-purple-50 to-purple-100from-purple-900/30to-purple-800/30">
                 <tr>
                   <th className="px-6 py-4 text-left">
                     <input
@@ -237,20 +237,20 @@ function AdminPerformancesPageContent() {
                       className="rounded border-gray-300 text-purple-600 focus:ring-purple-500 w-4 h-4 cursor-pointer"
                     />
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Titre</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Lieu</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700text-gray-300 uppercase tracking-wider">Titre</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700text-gray-300 uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700text-gray-300 uppercase tracking-wider">Lieu</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700text-gray-300 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+              <tbody className="divide-y divide-gray-100divide-gray-700">
                 {filteredPerformances.map((performance, index) => (
                   <motion.tr
                     key={performance.id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer group"
+                    className="hover:bg-gray-50hover:bg-gray-700/50 transition-colors cursor-pointer group"
                   >
                     <td className="px-6 py-4">
                       <input
@@ -262,31 +262,31 @@ function AdminPerformancesPageContent() {
                       />
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      <div className="font-semibold text-gray-900text-white group-hover:text-purple-600group-hover:text-purple-400 transition-colors">
                         {performance.title}
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center gap-2 text-gray-600text-gray-400">
                         <CalendarIcon className="w-4 h-4" />
                         <span className="text-sm">{formatDate(performance.date)}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       {performance.location ? (
-                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-2 text-gray-600text-gray-400">
                           <LocationIcon className="w-4 h-4" />
                           <span className="text-sm">{performance.location}</span>
                         </div>
                       ) : (
-                        <span className="text-gray-400 dark:text-gray-500 text-sm">-</span>
+                        <span className="text-gray-400text-gray-500 text-sm">-</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex gap-3">
                         <Link 
                           href={`/admin/performances/${performance.id}`} 
-                          className="p-2 text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors"
+                          className="p-2 text-purple-600 hover:text-purple-700text-purple-400hover:text-purple-300 hover:bg-purple-50hover:bg-purple-900/20 rounded-lg transition-colors"
                           title="Modifier"
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -297,7 +297,7 @@ function AdminPerformancesPageContent() {
                             e.stopPropagation()
                             handleDelete(performance.id)
                           }}
-                          className="p-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                          className="p-2 text-red-600 hover:text-red-700text-red-400hover:text-red-300 hover:bg-red-50hover:bg-red-900/20 rounded-lg transition-colors"
                           title="Supprimer"
                         >
                           <DeleteIcon className="w-4 h-4" />
@@ -311,10 +311,10 @@ function AdminPerformancesPageContent() {
           </div>
           {filteredPerformances.length === 0 && (
             <div className="text-center py-16">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100bg-gray-800 mb-4">
                 <PerformanceIcon className="w-8 h-8 text-gray-400" />
               </div>
-              <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
+              <p className="text-gray-500text-gray-400 text-lg font-medium">
                 {searchQuery 
                   ? 'Aucune performance ne correspond à vos critères'
                   : 'Aucune performance pour le moment'}
@@ -337,10 +337,10 @@ function AdminPerformancesPageContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-5 hover:shadow-lg transition-all"
+              className="bg-whitebg-gray-800 rounded-xl shadow-md border border-gray-200border-gray-700 p-5 hover:shadow-lg transition-all"
             >
               <div className="flex items-start justify-between mb-3">
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white flex-1 pr-2">{performance.title}</h3>
+                <h3 className="font-bold text-lg text-gray-900text-white flex-1 pr-2">{performance.title}</h3>
                 <input
                   type="checkbox"
                   checked={selectedIds.has(performance.id)}
@@ -348,29 +348,29 @@ function AdminPerformancesPageContent() {
                   className="rounded border-gray-300 text-purple-600 focus:ring-purple-500 w-5 h-5 mt-1 flex-shrink-0"
                 />
               </div>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+              <div className="space-y-2 text-sm text-gray-600text-gray-400 mb-4">
                 <div className="flex items-center gap-2">
-                  <CalendarIcon className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                  <CalendarIcon className="w-4 h-4 text-purple-600text-purple-400" />
                   <span>{formatDate(performance.date)}</span>
                 </div>
                 {performance.location && (
                   <div className="flex items-center gap-2">
-                    <LocationIcon className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    <LocationIcon className="w-4 h-4 text-purple-600text-purple-400" />
                     <span>{performance.location}</span>
                   </div>
                 )}
               </div>
-              <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex gap-3 pt-4 border-t border-gray-200border-gray-700">
                 <Link 
                   href={`/admin/performances/${performance.id}`} 
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors text-sm font-medium"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-purple-50bg-purple-900/20 text-purple-600text-purple-400 rounded-lg hover:bg-purple-100hover:bg-purple-900/30 transition-colors text-sm font-medium"
                 >
                   <EditIcon className="w-4 h-4" />
                   Modifier
                 </Link>
                 <button
                   onClick={() => handleDelete(performance.id)}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-sm font-medium"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-50bg-red-900/20 text-red-600text-red-400 rounded-lg hover:bg-red-100hover:bg-red-900/30 transition-colors text-sm font-medium"
                 >
                   <DeleteIcon className="w-4 h-4" />
                   Supprimer
@@ -380,10 +380,10 @@ function AdminPerformancesPageContent() {
           ))}
           {filteredPerformances.length === 0 && (
             <div className="text-center py-16">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100bg-gray-800 mb-4">
                 <PerformanceIcon className="w-8 h-8 text-gray-400" />
               </div>
-              <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
+              <p className="text-gray-500text-gray-400 text-lg font-medium">
                 {searchQuery 
                   ? 'Aucune performance ne correspond à vos critères'
                   : 'Aucune performance pour le moment'}
