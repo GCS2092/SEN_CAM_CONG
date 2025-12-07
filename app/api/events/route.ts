@@ -31,10 +31,25 @@ async function getEvents(request: NextRequest) {
       ]
     }
 
+    // Optimisation : utiliser select au lieu de include pour réduire la charge
+    // Retirer _count qui est coûteux - peut être chargé séparément si nécessaire
     const [events, total] = await Promise.all([
       prisma.event.findMany({
         where,
-        include: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          date: true,
+          location: true,
+          venue: true,
+          imageUrl: true,
+          externalUrl: true,
+          ticketPrice: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+          userId: true,
           user: {
             select: {
               id: true,
@@ -42,12 +57,8 @@ async function getEvents(request: NextRequest) {
               avatar: true,
             },
           },
-          _count: {
-            select: {
-              likes: true,
-              comments: true,
-            },
-          },
+          // _count retiré pour améliorer les performances
+          // Peut être chargé séparément si nécessaire avec une requête dédiée
         },
         orderBy: {
           date: status === 'UPCOMING' ? 'asc' : 'desc',

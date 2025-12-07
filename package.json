@@ -19,7 +19,8 @@
         "seed-social-links": "node scripts/seed-social-links.js",
         "test-db": "node scripts/test-db-connection.js",
         "upload-images-to-blob": "node scripts/upload-local-images-to-blob.js",
-        "check-images": "node scripts/check-images-in-db.js"
+        "check-images": "node scripts/check-images-in-db.js",
+        "clear-events": "node scripts/clear-events.js"
   },
   "dependencies": {
     "@prisma/client": "6.19.0",
