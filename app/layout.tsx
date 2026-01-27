@@ -1,41 +1,43 @@
-import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Navbar from '@/components/Navbar'
-import BottomNav from '@/components/BottomNav'
-import Footer from '@/components/Footer'
-import Toaster from '@/components/Toaster'
-import { ThemeProvider } from '@/components/ThemeProvider'
-import ErrorBoundary from '@/components/ErrorBoundary'
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import BottomNav from "@/components/BottomNav";
+import Footer from "@/components/Footer";
+import Toaster from "@/components/Toaster";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'SEN CAM CONG - Groupe de Musique',
-  description: 'Site officiel du groupe SEN CAM CONG - Découvrez nos événements, performances et musique',
-  manifest: '/manifest.json',
+  title: "SEN CAM CONG - Groupe de Musique",
+  description:
+    "Site officiel du groupe SEN CAM CONG - Découvrez nos événements, performances et musique",
+  manifest: "/manifest.json",
   icons: {
-    icon: '/icon-192x192.png',
-    apple: '/icon-192x192.png',
+    icon: "/icon.svg",
+    apple: "/icon.svg",
   },
   openGraph: {
-    title: 'SEN CAM CONG - Groupe de Musique',
-    description: 'Site officiel du groupe SEN CAM CONG - Découvrez nos événements, performances et musique',
-    type: 'website',
+    title: "SEN CAM CONG - Groupe de Musique",
+    description:
+      "Site officiel du groupe SEN CAM CONG - Découvrez nos événements, performances et musique",
+    type: "website",
   },
-}
+};
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: '#0ea5e9',
-}
+  themeColor: "#0ea5e9",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="fr" suppressHydrationWarning>
@@ -43,9 +45,7 @@ export default function RootLayout({
         <ErrorBoundary>
           <ThemeProvider>
             <Navbar />
-            <main className="min-h-screen pb-16 md:pb-0">
-              {children}
-            </main>
+            <main className="min-h-screen pb-16 md:pb-0">{children}</main>
             <Footer />
             <BottomNav />
             <Toaster />
@@ -53,6 +53,5 @@ export default function RootLayout({
         </ErrorBoundary>
       </body>
     </html>
-  )
+  );
 }
-

@@ -10,7 +10,7 @@ Ouvrez un terminal dans le dossier du projet et exécutez :
 
 ```bash
 npm install
-```
+``` 
 
 ⏱️ **Temps estimé :** 2-5 minutes
 
