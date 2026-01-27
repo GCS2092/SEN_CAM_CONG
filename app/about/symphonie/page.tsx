@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const DEFAULT_PRESENTATION_TEXT = `SenCamCong – L'Afrique en symphonie
+const DEFAULT_PRESENTATION_TEXT = `SenCamCong – L&apos;Afrique en symphonie
 
 Quand le Sénégal, le Cameroun et le Congo s'unissent, la musique devient un langage universel. SenCamCong, c'est la rencontre exceptionnelle de trois artistes musiciens talentueux, chacun porteur de son héritage culturel et de son expérience artistique.
 

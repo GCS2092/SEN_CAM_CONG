@@ -188,7 +188,7 @@ export default function Home() {
                     Cameroun
                   </div>
                   <div className="text-sm text-white font-bold drop-shadow-md bg-black/20 rounded-full px-3 py-1 mt-2 inline-block">
-                    L'Afrique en miniature
+                    L&apos;Afrique en miniature
                   </div>
                 </div>
 
@@ -199,7 +199,7 @@ export default function Home() {
                     Congo
                   </div>
                   <div className="text-sm text-white font-bold drop-shadow-md bg-black/20 rounded-full px-3 py-1 mt-2 inline-block">
-                    Cœur de l'Afrique
+                    Cœur de l&apos;Afrique
                   </div>
                 </div>
               </div>

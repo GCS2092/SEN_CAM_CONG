@@ -221,7 +221,7 @@ function AdminSettingsPageContent() {
                   value={formData.aboutPresentation}
                   onChange={(e) => setFormData({ ...formData, aboutPresentation: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-h-[300px]"
-                  placeholder="SenCamCong – L'Afrique en symphonie
+                  placeholder="SenCamCong – L&apos;Afrique en symphonie
 
 Quand le Sénégal, le Cameroun et le Congo s'unissent, la musique devient un langage universel..."
                 />

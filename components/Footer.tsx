@@ -49,7 +49,7 @@ export default function Footer() {
       name: "Cameroun",
       flag: "🇨🇲",
       href: "/members/cameroon",
-      description: "L'Afrique en miniature",
+      description: "L&apos;Afrique en miniature",
     },
     {
       name: "Congo",
@@ -270,7 +270,7 @@ export default function Footer() {
               href="/terms"
               className="hover:text-blue-600 transition-colors"
             >
-              Conditions d'utilisation
+              Conditions d&apos;utilisation
             </Link>
             <span>•</span>
             <Link
