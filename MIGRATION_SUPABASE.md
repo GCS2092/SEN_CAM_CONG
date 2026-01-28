@@ -33,8 +33,7 @@ Ce guide vous aide à migrer votre base de données PostgreSQL locale vers Supab
 4. Copiez l'URL qui ressemble à :
 
 ```
-postgresql://postgres.xxxxxxxxxxxx:[YOUR-PASSWORD]@aws-0-us-east-1.pooler.supabase.com:6543/postgres
-```
+
 
 5. Remplacez `[YOUR-PASSWORD]` par le mot de passe que vous avez créé
 
@@ -100,7 +99,7 @@ Assurez-vous que ces fichiers sont ignorés :
 
 ```bash
 # 1. Pointer vers Supabase
-export DATABASE_URL="postgresql://postgres.xxxx:[PASSWORD]@aws-0-us-east-1.pooler.supabase.com:6543/postgres"
+export DATABASE_URL="postgresql://postgres.rorgwqzzesaabvfwpwzh:Stemk2141abc@aws-1-eu-west-3.pooler.supabase.com:6543/postgres"
 
 # 2. Appliquer les migrations
 npx prisma migrate deploy
@@ -129,10 +128,10 @@ pg_dump -U postgres -s votre_db_locale > schema.sql
 
 ```bash
 # 1. Exporter les données
-pg_dump -U postgres -d votre_db_locale -F c -b -v -f backup.dump
+pg_dump -U postgres -d urbanbeauty -F c -b -v -f backup.dump
 
 # 2. Restaurer vers Supabase
-pg_restore -d "postgresql://postgres.xxxx:[PASSWORD]@aws-0-us-east-1.pooler.supabase.com:6543/postgres" -v backup.dump
+pg_restore -d "postgresql://postgres.rorgwqzzesaabvfwpwzh:Stemk2141abc@aws-1-eu-west-3.pooler.supabase.com:6543/postgres" -v backup.dump
 ```
 
 ### Option B : Avec Prisma Studio (recommandé pour petites bases)
