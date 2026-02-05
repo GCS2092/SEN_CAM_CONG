@@ -34,16 +34,16 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Navigation items - simplifié pour éviter la redondance
+  // Navigation items - simplifiÃ© pour Ã©viter la redondance
   const navItems = [
     { name: "Accueil", href: "/", icon: HomeIcon },
-    { name: "Événements", href: "/events", icon: CalendarIcon },
+    { name: "Ã‰vÃ©nements", href: "/events", icon: CalendarIcon },
     { name: "Performances", href: "/performances", icon: MicrophoneIcon },
     { name: "Galerie", href: "/gallery", icon: PhotoIcon },
-    { name: "À propos", href: "/about", icon: InformationCircleIcon },
+    { name: "Ã€ propos", href: "/about", icon: InformationCircleIcon },
   ];
 
-  // Mettre à jour l'heure chaque seconde
+  // Mettre Ã  jour l'heure chaque seconde
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -69,7 +69,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Charger le prochain événement avec fallback
+  // Charger le prochain Ã©vÃ©nement avec fallback
   useEffect(() => {
     async function loadNextEvent() {
       try {
@@ -84,10 +84,10 @@ export default function Navbar() {
             setNextEvent(sortedEvents[0]);
           }
         } else {
-          // Fallback avec données statiques
+          // Fallback avec donnÃ©es statiques
           setNextEvent({
             id: "fallback",
-            title: "Concert à Paris",
+            title: "Concert Ã  Paris",
             date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
             ticketPrice: 45,
           });
@@ -97,7 +97,7 @@ export default function Navbar() {
         // Fallback en cas d'erreur
         setNextEvent({
           id: "fallback",
-          title: "Concert à Paris",
+          title: "Concert Ã  Paris",
           date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
           ticketPrice: 45,
         });
@@ -136,8 +136,8 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white shadow-md border-b border-gray-200"
-            : "bg-white shadow-sm"
+            ? "bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm"
+            : "bg-white border-b border-gray-100"
         }`}
       >
         <div className="container mx-auto px-4">
@@ -145,7 +145,7 @@ export default function Navbar() {
             {/* Logo and Brand - Toujours visible */}
             <div className="flex items-center space-x-3">
               <Link href="/" className="flex items-center space-x-3 group">
-                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gray-900 rounded-full flex items-center justify-center">
                   <MusicalNoteIcon className="h-4 w-4 lg:h-6 lg:w-6 text-white" />
                 </div>
                 <div className="hidden sm:block">
@@ -167,13 +167,13 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-md transition-colors ${
                       isActive(item.href)
-                        ? "text-blue-600 bg-blue-50"
-                        : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                        ? "text-gray-900 bg-gray-100"
+                        : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                     }`}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4 text-gray-500" />
                     <span className="font-medium">{item.name}</span>
                   </Link>
                 );
@@ -187,24 +187,24 @@ export default function Navbar() {
                 <div className="hidden xl:block">
                   <Link
                     href={`/events/${nextEvent.id}`}
-                    className="bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg px-3 py-2 transition-colors"
+                    className="bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 transition-colors"
                   >
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
                       <div className="min-w-0">
-                        <div className="text-xs text-blue-700 font-medium">
+                        <div className="text-xs text-gray-600 font-medium">
                           Prochain
                         </div>
                         <div className="font-semibold text-gray-900 truncate text-sm">
                           {nextEvent.title}
                         </div>
-                        <div className="flex items-center space-x-2 text-xs text-blue-600">
+                        <div className="flex items-center space-x-2 text-xs text-gray-600">
                           <span>
                             {formatEventDateTime(nextEvent.date).countdown}
                           </span>
                           {nextEvent.ticketPrice && (
                             <>
-                              <span>•</span>
+                              <span>â€¢</span>
                               <span className="font-semibold">
                                 {nextEvent.ticketPrice.toLocaleString()} FCFA
                               </span>
@@ -218,8 +218,8 @@ export default function Navbar() {
               )}
 
               {/* Compact Clock Display */}
-              <div className="flex items-center space-x-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
-                <div className="bg-blue-500 p-1.5 rounded-full">
+              <div className="flex items-center space-x-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
+                <div className="bg-gray-900 p-1.5 rounded-full">
                   <ClockIcon className="h-4 w-4 text-white" />
                 </div>
                 <div className="flex flex-col">
