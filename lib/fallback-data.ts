@@ -7,7 +7,7 @@ export const fallbackEvents = [
     date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // Dans 30 jours
     location: "Paris, France",
     venue: "Olympia",
-    imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+    imageUrl: "/placeholder.svg",
     ticketUrl: "https://example.com/tickets",
     price: 45,
     status: "UPCOMING",
@@ -22,7 +22,7 @@ export const fallbackEvents = [
     date: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString(), // Dans 45 jours
     location: "Londres, UK",
     venue: "Royal Festival Hall",
-    imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+    imageUrl: "/placeholder.svg",
     ticketUrl: "https://example.com/tickets",
     price: 55,
     status: "UPCOMING",
@@ -37,7 +37,7 @@ export const fallbackEvents = [
     date: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(), // Dans 60 jours
     location: "Bruxelles, Belgique",
     venue: "Ancienne Belgique",
-    imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+    imageUrl: "/placeholder.svg",
     ticketUrl: "https://example.com/tickets",
     price: 40,
     status: "UPCOMING",
@@ -52,7 +52,7 @@ export const fallbackEvents = [
     date: new Date(Date.now() + 75 * 24 * 60 * 60 * 1000).toISOString(), // Dans 75 jours
     location: "Amsterdam, Pays-Bas",
     venue: "Concertgebouw",
-    imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+    imageUrl: "/placeholder.svg",
     ticketUrl: "https://example.com/tickets",
     price: 65,
     status: "UPCOMING",
@@ -69,7 +69,7 @@ export const fallbackPerformances = [
     venue: "Parc de la Villette, Paris",
     date: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(), // Il y a 60 jours
     description: "Performance exceptionnelle devant 15,000 spectateurs lors du plus grand festival africain d'Europe.",
-    imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+    imageUrl: "/placeholder.svg",
     videoUrl: "https://youtube.com/watch?v=example",
     setlist: "Ouverture Sénégalaise, Rythmes du Cameroun, Finale Congolaise",
     createdAt: new Date().toISOString(),
@@ -81,7 +81,7 @@ export const fallbackPerformances = [
     venue: "Ambassade du Sénégal, Paris",
     date: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(), // Il y a 90 jours
     description: "Performance exclusive pour célébrer l'indépendance du Sénégal avec des dignitaires internationaux.",
-    imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+    imageUrl: "/placeholder.svg",
     videoUrl: "https://youtube.com/watch?v=example",
     setlist: "Hymnes Traditionnels, Fusion Moderne, Danse Sabar",
     createdAt: new Date().toISOString(),
@@ -93,7 +93,7 @@ export const fallbackPerformances = [
     venue: "Tempodrom, Berlin",
     date: new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString(), // Il y a 120 jours
     description: "Collaboration internationale avec des musiciens de 12 pays différents.",
-    imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+    imageUrl: "/placeholder.svg",
     videoUrl: "https://youtube.com/watch?v=example",
     setlist: "Ouverture Multiculturelle, Solo Kora, Grand Finale",
     createdAt: new Date().toISOString(),
@@ -105,7 +105,7 @@ export const fallbackPerformances = [
     venue: "Centre Culturel Blaise Senghor, Dakar",
     date: new Date(Date.now() - 150 * 24 * 60 * 60 * 1000).toISOString(), // Il y a 150 jours
     description: "Concert caritatif pour soutenir l'éducation musicale dans les écoles sénégalaises.",
-    imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+    imageUrl: "/placeholder.svg",
     videoUrl: "https://youtube.com/watch?v=example",
     setlist: "Musique pour l'Éducation, Chants Traditionnels, Espoir Futur",
     createdAt: new Date().toISOString(),
@@ -118,8 +118,8 @@ export const fallbackMedia = [
     id: "1",
     title: "Photo de Groupe - Studio",
     type: "IMAGE",
-    url: "/uploads/IMG-20251117-WA0001.jpg",
-    thumbnail: "/uploads/IMG-20251117-WA0001.jpg",
+    url: "/placeholder.svg",
+    thumbnail: "/placeholder.svg",
     description: "Photo officielle du groupe en studio d'enregistrement",
     tags: ["groupe", "studio", "officiel"],
     featured: true,
@@ -130,8 +130,8 @@ export const fallbackMedia = [
     id: "2",
     title: "Concert Live - Paris",
     type: "IMAGE",
-    url: "/uploads/IMG-20251117-WA0001.jpg",
-    thumbnail: "/uploads/IMG-20251117-WA0001.jpg",
+    url: "/placeholder.svg",
+    thumbnail: "/placeholder.svg",
     description: "Performance live lors du concert parisien",
     tags: ["concert", "live", "paris"],
     featured: true,
@@ -142,8 +142,8 @@ export const fallbackMedia = [
     id: "3",
     title: "Instruments Traditionnels",
     type: "IMAGE",
-    url: "/uploads/IMG-20251117-WA0001.jpg",
-    thumbnail: "/uploads/IMG-20251117-WA0001.jpg",
+    url: "/placeholder.svg",
+    thumbnail: "/placeholder.svg",
     description: "Collection d'instruments traditionnels africains utilisés par le groupe",
     tags: ["instruments", "traditionnel", "africain"],
     featured: false,
@@ -153,7 +153,7 @@ export const fallbackMedia = [
 ];
 
 export const fallbackSiteSettings = {
-  hero_background_image: { value: "/uploads/IMG-20251117-WA0001.jpg" },
+  hero_background_image: { value: "/placeholder.svg" },
   hero_title: { value: "SEN CAM CONG" },
   hero_subtitle: { value: "La fusion musicale du Sénégal, du Cameroun et du Congo" }
 };

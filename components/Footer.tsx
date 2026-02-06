@@ -12,10 +12,11 @@ import {
 } from "@/components/Icons";
 
 export default function Footer() {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
+    setCurrentTime(new Date());
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
@@ -30,32 +31,32 @@ export default function Footer() {
   ];
 
   const quickLinks = [
-    { name: "Ã‰vÃ©nements", href: "/events" },
+    { name: "Événements", href: "/events" },
     { name: "Performances", href: "/performances" },
     { name: "Galerie", href: "/gallery" },
-    { name: "Ã€ propos", href: "/about" },
+    { name: "À propos", href: "/about" },
     { name: "Membres", href: "/members" },
     { name: "Contact", href: "/contact" },
   ];
 
   const countries = [
     {
-      name: "SÃ©nÃ©gal",
-      flag: "ðŸ‡¸ðŸ‡³",
+      name: "Sénégal",
+      flag: "🇸🇳",
       href: "/members/senegal",
       description: "Terre de la Teranga",
     },
     {
       name: "Cameroun",
-      flag: "ðŸ‡¨ðŸ‡²",
+      flag: "🇨🇲",
       href: "/members/cameroon",
-      description: "L&apos;Afrique en miniature",
+      description: "L'Afrique en miniature",
     },
     {
       name: "Congo",
-      flag: "ðŸ‡¨ðŸ‡¬",
+      flag: "🇨🇬",
       href: "/members/congo",
-      description: "CÅ“ur de l'Afrique",
+      description: "Cœur de l'Afrique",
     },
   ];
 
@@ -155,7 +156,7 @@ export default function Footer() {
               <div className="flex items-start">
                 <PhoneIcon className="h-5 w-5 text-blue-600 mr-3 mt-1 flex-shrink-0" />
                 <div>
-                  <div className="text-sm text-gray-600">TÃ©lÃ©phone</div>
+                  <div className="text-sm text-gray-600">Téléphone</div>
                   <a
                     href="tel:+221123456789"
                     className="text-gray-900 hover:text-blue-600"
@@ -168,14 +169,14 @@ export default function Footer() {
                 <MapPinIcon className="h-5 w-5 text-blue-600 mr-3 mt-1 flex-shrink-0" />
                 <div>
                   <div className="text-sm text-gray-600">Adresse</div>
-                  <p className="text-gray-900">Dakar, SÃ©nÃ©gal</p>
+                  <p className="text-gray-900">Dakar, Sénégal</p>
                 </div>
               </div>
             </div>
 
             <div>
               <h4 className="font-semibold mb-3 text-gray-900">
-                RÃ©seaux Sociaux
+                Réseaux Sociaux
               </h4>
               <div className="flex flex-wrap gap-2">
                 {socialLinks.map((social) => (
@@ -197,14 +198,14 @@ export default function Footer() {
         <div className="pt-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-gray-600 text-sm text-center md:text-left">
-              Â© {currentYear} SEN CAM CONG. Tous droits rÃ©servÃ©s.
+              © {currentYear} SEN CAM CONG. Tous droits réservés.
             </div>
 
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
                 <div className="text-xs text-gray-600">Heure</div>
                 <div className="font-mono font-bold text-gray-900 text-sm">
-                  {formatTime(currentTime)}
+                  {currentTime ? formatTime(currentTime) : "--:--"}
                 </div>
               </div>
             </div>
@@ -221,16 +222,16 @@ export default function Footer() {
               href="/privacy"
               className="hover:text-blue-600 transition-colors"
             >
-              Politique de confidentialitÃ©
+              Politique de confidentialité
             </Link>
-            <span>â€¢</span>
+            <span>•</span>
             <Link
               href="/terms"
               className="hover:text-blue-600 transition-colors"
             >
               Conditions d&apos;utilisation
             </Link>
-            <span>â€¢</span>
+            <span>•</span>
             <Link
               href="/admin"
               className="hover:text-blue-600 transition-colors"

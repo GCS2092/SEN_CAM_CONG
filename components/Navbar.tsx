@@ -34,16 +34,16 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Navigation items - simplifiÃ© pour Ã©viter la redondance
+  // Navigation items - simplifié pour éviter la redondance
   const navItems = [
     { name: "Accueil", href: "/", icon: HomeIcon },
-    { name: "Ã‰vÃ©nements", href: "/events", icon: CalendarIcon },
+    { name: "Événements", href: "/events", icon: CalendarIcon },
     { name: "Performances", href: "/performances", icon: MicrophoneIcon },
     { name: "Galerie", href: "/gallery", icon: PhotoIcon },
-    { name: "Ã€ propos", href: "/about", icon: InformationCircleIcon },
+    { name: "À propos", href: "/about", icon: InformationCircleIcon },
   ];
 
-  // Mettre Ã  jour l'heure chaque seconde
+  // Mettre à jour l'heure chaque seconde
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -69,7 +69,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Charger le prochain Ã©vÃ©nement avec fallback
+  // Charger le prochain événement avec fallback
   useEffect(() => {
     async function loadNextEvent() {
       try {
@@ -84,10 +84,10 @@ export default function Navbar() {
             setNextEvent(sortedEvents[0]);
           }
         } else {
-          // Fallback avec donnÃ©es statiques
+          // Fallback avec données statiques
           setNextEvent({
             id: "fallback",
-            title: "Concert Ã  Paris",
+            title: "Concert à Paris",
             date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
             ticketPrice: 45,
           });
@@ -97,7 +97,7 @@ export default function Navbar() {
         // Fallback en cas d'erreur
         setNextEvent({
           id: "fallback",
-          title: "Concert Ã  Paris",
+          title: "Concert à Paris",
           date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
           ticketPrice: 45,
         });
@@ -204,7 +204,7 @@ export default function Navbar() {
                           </span>
                           {nextEvent.ticketPrice && (
                             <>
-                              <span>â€¢</span>
+                              <span>•</span>
                               <span className="font-semibold">
                                 {nextEvent.ticketPrice.toLocaleString()} FCFA
                               </span>

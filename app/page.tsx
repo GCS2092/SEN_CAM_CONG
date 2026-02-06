@@ -73,7 +73,7 @@ export default function Home() {
               ).toISOString(),
               location: "Paris, France",
               venue: "Olympia",
-              imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+              imageUrl: "/placeholder.svg",
               price: 45,
               status: "UPCOMING",
             },
@@ -87,7 +87,7 @@ export default function Home() {
               ).toISOString(),
               location: "Londres, UK",
               venue: "Royal Festival Hall",
-              imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+              imageUrl: "/placeholder.svg",
               price: 55,
               status: "UPCOMING",
             },
@@ -101,7 +101,7 @@ export default function Home() {
               date: new Date(
                 Date.now() - 60 * 24 * 60 * 60 * 1000,
               ).toISOString(),
-              imageUrl: "/uploads/IMG-20251117-WA0001.jpg",
+              imageUrl: "/placeholder.svg",
             },
           ];
 
@@ -220,7 +220,7 @@ export default function Home() {
             >
               <div className="relative h-96 rounded-xl overflow-hidden shadow-md">
                 <Image
-                  src="/uploads/IMG-20251117-WA0001.jpg"
+                  src="/placeholder.svg"
                   alt="SEC CAM CONG"
                   fill
                   className="object-cover"

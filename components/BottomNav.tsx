@@ -68,31 +68,35 @@ export default function BottomNav() {
   // Navigation items for different user roles
   const publicNavItems: NavItem[] = [
     { href: "/", label: "Accueil", icon: HomeIcon },
-    { href: "/events", label: "Ã‰vÃ©nements", icon: CalendarIcon },
+    { href: "/events", label: "Événements", icon: CalendarIcon },
     { href: "/performances", label: "Musique", icon: MicrophoneIcon },
     { href: "/gallery", label: "Galerie", icon: PhotoIcon },
-    { href: "/about", label: "Ã€ propos", icon: InformationCircleIcon },
+    { href: "/about", label: "À propos", icon: InformationCircleIcon },
   ];
 
   const adminNavItems: NavItem[] = [
     { href: "/", label: "Accueil", icon: HomeIcon },
     { href: "/admin", label: "Admin", icon: CogIcon },
-    { href: "/admin/events", label: "Ã‰vÃ©nements", icon: CalendarIcon },
-    { href: "/admin/performances", label: "Performances", icon: MicrophoneIcon },
-    { href: "/admin/settings", label: "ParamÃ¨tres", icon: CogIcon },
+    { href: "/admin/events", label: "Événements", icon: CalendarIcon },
+    {
+      href: "/admin/performances",
+      label: "Performances",
+      icon: MicrophoneIcon,
+    },
+    { href: "/admin/settings", label: "Paramètres", icon: CogIcon },
   ];
 
   const artistNavItems: NavItem[] = [
     { href: "/", label: "Accueil", icon: HomeIcon },
     { href: "/artist/dashboard", label: "Dashboard", icon: ChartBarIcon },
-    { href: "/artist/performances/new", label: "CrÃ©er", icon: PlusCircleIcon },
+    { href: "/artist/performances/new", label: "Créer", icon: PlusCircleIcon },
     { href: "/artist/member", label: "Profil", icon: UserCircleIcon },
     { href: "/gallery", label: "Galerie", icon: PhotoIcon },
   ];
 
   const userNavItems: NavItem[] = [
     { href: "/", label: "Accueil", icon: HomeIcon },
-    { href: "/events", label: "Ã‰vÃ©nements", icon: CalendarIcon },
+    { href: "/events", label: "Événements", icon: CalendarIcon },
     { href: "/user/dashboard", label: "Mon compte", icon: UserCircleIcon },
     { href: "/gallery", label: "Galerie", icon: PhotoIcon },
     { href: "/members", label: "Membres", icon: UsersIcon },

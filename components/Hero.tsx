@@ -54,7 +54,7 @@ export default function Hero() {
   }, []);
 
   const backgroundImage =
-    settings.hero_background_image?.value || "/uploads/IMG-20251117-WA0001.jpg";
+    settings.hero_background_image?.value || "/placeholder.svg";
   const title = settings.hero_title?.value || "SEN CAM CONG";
   const subtitle =
     settings.hero_subtitle?.value ||
@@ -90,7 +90,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex justify-center mb-8"
         >
-          <SparklesIcon className="h-12 w-12 text-blue-600" />
+          <SparklesIcon className="h-10 w-10 text-blue-600" />
         </motion.div>
 
         {/* Title */}
@@ -98,7 +98,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold mb-8 text-gray-900"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 text-gray-900"
         >
           {title}
         </motion.h1>
@@ -108,7 +108,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-light leading-relaxed max-w-4xl mx-auto mb-12"
+          className="text-lg md:text-xl lg:text-2xl text-gray-700 font-normal leading-relaxed max-w-4xl mx-auto mb-10"
         >
           {subtitle}
         </motion.p>
@@ -118,15 +118,14 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+          className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors shadow-sm hover:shadow-md flex items-center">
-            <PlayIcon className="h-5 w-5 mr-2" />
-            Découvrir notre musique
+          <button className="btn-primary flex items-center justify-center gap-2">
+            <PlayIcon className="h-5 w-5" />
+            Écouter
           </button>
-
-          <button className="border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg transition-colors shadow-sm bg-white">
-            Prochains concerts
+          <button className="btn-secondary flex items-center justify-center gap-2">
+            Découvrir
           </button>
         </motion.div>
 
@@ -135,16 +134,9 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-6 left-1/2 transform -translate-x-1/2"
         >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center text-gray-600 hover:text-gray-900 cursor-pointer transition-colors"
-          >
-            <span className="text-sm mb-2 font-medium">Découvrez plus</span>
-            <ChevronDownIcon className="h-6 w-6" />
-          </motion.div>
+          <ChevronDownIcon className="h-6 w-6 text-gray-500 animate-bounce" />
         </motion.div>
       </motion.div>
     </section>
