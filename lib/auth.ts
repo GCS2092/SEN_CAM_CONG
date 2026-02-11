@@ -60,24 +60,30 @@ export async function getCurrentUserFromSupabaseToken(
   try {
     const { user: authUser, error } = await getSupabaseAuthUser(accessToken)
     if (error || !authUser) {
-      console.error('[getCurrentUserFromSupabaseToken] Supabase auth error:', error)
+      console.error('[getCurrentUserFromSupabaseToken] Supabase auth error:', error?.message || 'No auth user')
       return null
     }
 
     if (!authUser.email) {
-      console.error('[getCurrentUserFromSupabaseToken] No email in auth user')
+      console.error('[getCurrentUserFromSupabaseToken] No email in auth user. User ID:', authUser.id)
       return null
     }
+    
+    console.log('[getCurrentUserFromSupabaseToken] Auth user found:', authUser.email, 'ID:', authUser.id)
 
     // Cherche d'abord par supabaseAuthId
     let appUser = await prisma.user.findUnique({
       where: { supabaseAuthId: authUser.id },
       select: { id: true, email: true, name: true, role: true, avatar: true },
     })
+    
+    console.log('[getCurrentUserFromSupabaseToken] User found by supabaseAuthId:', appUser ? appUser.email : 'none')
 
     if (!appUser) {
       // Cherche par email (insensible à la casse)
       const email = authUser.email.toLowerCase().trim()
+      console.log('[getCurrentUserFromSupabaseToken] Searching by email:', email)
+      
       const existingByEmail = await prisma.user.findFirst({
         where: { 
           email: { equals: email, mode: 'insensitive' }
@@ -85,8 +91,11 @@ export async function getCurrentUserFromSupabaseToken(
         select: { id: true, email: true, name: true, role: true, avatar: true },
       })
       
+      console.log('[getCurrentUserFromSupabaseToken] User found by email:', existingByEmail ? existingByEmail.email : 'none')
+      
       if (existingByEmail) {
         // Lie l'utilisateur existant à Supabase Auth
+        console.log('[getCurrentUserFromSupabaseToken] Linking existing user to Supabase Auth')
         appUser = await prisma.user.update({
           where: { id: existingByEmail.id },
           data: { supabaseAuthId: authUser.id },
@@ -94,6 +103,7 @@ export async function getCurrentUserFromSupabaseToken(
         })
       } else {
         // Crée un nouvel utilisateur
+        console.log('[getCurrentUserFromSupabaseToken] Creating new user')
         appUser = await prisma.user.create({
           data: {
             supabaseAuthId: authUser.id,
@@ -105,6 +115,8 @@ export async function getCurrentUserFromSupabaseToken(
         })
       }
     }
+    
+    console.log('[getCurrentUserFromSupabaseToken] Final user:', appUser.email, 'Role:', appUser.role)
 
     return {
       ...appUser,

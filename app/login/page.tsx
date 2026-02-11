@@ -63,7 +63,8 @@ export default function LoginPage() {
       const data = await res.json()
 
       if (!res.ok || !data.authenticated || !data.user) {
-        setError(data.error || 'Vérification échouée')
+        console.error('[Login] Verify failed:', res.status, data)
+        setError(data.error || `Vérification échouée (${res.status}). Vérifiez les logs serveur.`)
         return
       }
 
