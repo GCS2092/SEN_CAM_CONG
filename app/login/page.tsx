@@ -40,7 +40,12 @@ export default function LoginPage() {
       } else {
         const { data: authData, error: signInError } = await supabase.auth.signInWithPassword({ email, password })
         if (signInError) {
-          setError(signInError.message === 'Invalid login credentials' ? 'Email ou mot de passe incorrect' : signInError.message)
+          const isInvalidCreds = signInError.message === 'Invalid login credentials' || signInError.message?.toLowerCase().includes('invalid')
+          setError(
+            isInvalidCreds
+              ? 'Email ou mot de passe incorrect. Pas encore de compte ? Cliquez sur "S\'inscrire" ci-dessus.'
+              : signInError.message
+          )
           return
         }
         if (!authData.session?.access_token) {
@@ -64,7 +69,12 @@ export default function LoginPage() {
 
       if (!res.ok || !data.authenticated || !data.user) {
         console.error('[Login] Verify failed:', res.status, data)
-        setError(data.error || `Vérification échouée (${res.status}). Vérifiez les logs serveur.`)
+        const verifyMsg = data.error || 'Vérification échouée.'
+        setError(
+          res.status === 401
+            ? `${verifyMsg} La base de données sur le serveur est peut-être inaccessible. Réessayez ou contactez l’administrateur.`
+            : verifyMsg
+        )
         return
       }
 

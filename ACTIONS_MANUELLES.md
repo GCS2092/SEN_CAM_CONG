@@ -308,6 +308,29 @@ L’app utilise **Supabase Auth** pour la connexion et l’inscription.
 
 ---
 
+## 🔐 CONNEXION EN PRODUCTION (VERCEL) – CHECKLIST
+
+Si vous voyez **« Token invalide ou utilisateur non trouvé »** ou **401** après avoir entré email/mot de passe :
+
+1. **Nouvel utilisateur**  
+   Vous devez **d’abord vous inscrire** (lien « S’inscrire » sur la page de connexion), puis vous connecter. La connexion directe avec un email jamais inscrit renvoie « Email ou mot de passe incorrect ».
+
+2. **Variables d’environnement sur Vercel**  
+   Vercel → Projet → Settings → Environment Variables. Vérifiez :
+   - `DATABASE_URL` : utilisez la **chaîne de connexion pooler** (port **6543**) depuis Supabase (Project Settings → Database → Connection string → **Connection pooling**). La connexion directe (5432) peut échouer sur Vercel.
+   - `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` : identiques à Supabase (Project Settings → API).
+   - `JWT_SECRET` : même valeur qu’en local si vous voulez des sessions cohérentes.
+
+3. **RLS sur la table `users`**  
+   Dans Supabase (SQL Editor), exécutez si besoin :  
+   `ALTER TABLE users DISABLE ROW LEVEL SECURITY;`  
+   Sinon l’app peut ne pas voir les utilisateurs et renvoyer 401 après un login Supabase réussi.
+
+4. **Redéploiement**  
+   Après toute modification des variables, faites **Redeploy** sur le dernier déploiement (Vercel → Deployments → ⋮ → Redeploy).
+
+---
+
 ## 📞 BESOIN D'AIDE ?
 
 - Consultez `SETUP.md` pour plus de détails
