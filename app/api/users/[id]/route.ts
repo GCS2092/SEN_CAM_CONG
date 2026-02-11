@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyToken, hashPassword } from '@/lib/auth'
+import { verifyTokenOrSupabase, hashPassword } from '@/lib/auth'
 import { withRateLimit, handleValidationError, handleServerError } from '@/lib/api-helpers'
 import { userUpdateSchema } from '@/lib/validations'
 
@@ -20,7 +20,7 @@ async function getUser(
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || payload.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Accès refusé' },
@@ -74,7 +74,7 @@ async function updateUser(
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || payload.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Accès refusé' },
@@ -167,7 +167,7 @@ async function deleteUser(
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || payload.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Accès refusé' },

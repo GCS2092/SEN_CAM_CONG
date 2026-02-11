@@ -68,8 +68,8 @@ async function updatePerformance(
       )
     }
 
-    const { verifyToken } = await import('@/lib/auth')
-    const payload = verifyToken(token)
+    const { verifyTokenOrSupabase } = await import('@/lib/auth')
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload) {
       return NextResponse.json(
         { error: 'Token invalide' },
@@ -170,8 +170,8 @@ async function deletePerformance(
       )
     }
 
-    const { verifyToken } = await import('@/lib/auth')
-    const payload = verifyToken(token)
+    const { verifyTokenOrSupabase } = await import('@/lib/auth')
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload) {
       return NextResponse.json(
         { error: 'Token invalide' },

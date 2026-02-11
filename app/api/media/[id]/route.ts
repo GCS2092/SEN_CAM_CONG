@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyToken } from '@/lib/auth'
+import { verifyTokenOrSupabase } from '@/lib/auth'
 
 export async function DELETE(
   request: NextRequest,
@@ -20,7 +20,7 @@ export async function DELETE(
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload) {
       return NextResponse.json(
         { error: 'Token invalide' },

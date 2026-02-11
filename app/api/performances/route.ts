@@ -116,8 +116,8 @@ async function createPerformance(request: NextRequest) {
       );
     }
 
-    const { verifyToken } = await import("@/lib/auth");
-    const payload = verifyToken(token);
+    const { verifyTokenOrSupabase } = await import("@/lib/auth");
+    const payload = await verifyTokenOrSupabase(token);
     if (!payload) {
       return NextResponse.json({ error: "Token invalide" }, { status: 401 });
     }

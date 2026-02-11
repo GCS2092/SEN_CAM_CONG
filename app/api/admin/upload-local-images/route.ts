@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyToken } from '@/lib/auth'
+import { verifyTokenOrSupabase } from '@/lib/auth'
 import { put } from '@vercel/blob'
 import fs from 'fs'
 import path from 'path'
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || payload.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Accès refusé. Admin uniquement.' },

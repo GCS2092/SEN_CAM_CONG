@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { supabase } from '@/lib/supabase/client'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -21,30 +22,54 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      const url = isRegister ? '/api/auth/register' : '/api/auth/login'
-      const body = isRegister ? { email, password, name } : { email, password }
+      if (isRegister) {
+        const { data: authData, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { name: name || undefined } },
+        })
+        if (signUpError) {
+          setError(signUpError.message === 'User already registered' ? 'Cet email est déjà utilisé. Connectez-vous.' : signUpError.message)
+          return
+        }
+        if (!authData.session) {
+          setError('Inscription réussie. Vérifiez votre email pour confirmer le compte (ou désactivez la confirmation dans Supabase).')
+          return
+        }
+      } else {
+        const { data: authData, error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+        if (signInError) {
+          setError(signInError.message === 'Invalid login credentials' ? 'Email ou mot de passe incorrect' : signInError.message)
+          return
+        }
+        if (!authData.session?.access_token) {
+          setError('Session invalide. Réessayez.')
+          return
+        }
+      }
 
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.error || 'Une erreur est survenue')
+      const session = (await supabase.auth.getSession()).data.session
+      if (!session?.access_token) {
+        setError('Impossible de récupérer la session.')
         return
       }
 
-      // Sauvegarder le token avec persistance améliorée
+      const res = await fetch('/api/auth/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: session.access_token }),
+      })
+      const data = await res.json()
+
+      if (!res.ok || !data.authenticated || !data.user) {
+        setError(data.error || 'Vérification échouée')
+        return
+      }
+
       const { saveAuth } = await import('@/lib/auth-persistence')
-      saveAuth(data.token, data.user)
-      
-      // Déclencher un événement pour mettre à jour la Navbar
+      saveAuth(session.access_token, data.user)
       window.dispatchEvent(new Event('auth-change'))
-      
-      // Rediriger selon le rôle
+
       const redirect = searchParams?.get('redirect')
       if (redirect) {
         router.push(redirect)
@@ -81,6 +106,7 @@ export default function LoginPage() {
               <>
                 Déjà un compte ?{' '}
                 <button
+                  type="button"
                   onClick={() => setIsRegister(false)}
                   className="font-medium text-primary-600 hover:text-primary-500"
                 >
@@ -91,6 +117,7 @@ export default function LoginPage() {
               <>
                 Pas de compte ?{' '}
                 <button
+                  type="button"
                   onClick={() => setIsRegister(true)}
                   className="font-medium text-primary-600 hover:text-primary-500"
                 >
@@ -102,7 +129,7 @@ export default function LoginPage() {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded text-sm">
               {error}
             </div>
           )}
@@ -116,7 +143,6 @@ export default function LoginPage() {
                   id="name"
                   name="name"
                   type="text"
-                  required={isRegister}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
@@ -150,7 +176,7 @@ export default function LoginPage() {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="current-password"
+                autoComplete={isRegister ? 'new-password' : 'current-password'}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -166,7 +192,7 @@ export default function LoginPage() {
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
             >
-              {loading ? 'Chargement...' : isRegister ? 'S\'inscrire' : 'Se connecter'}
+              {loading ? 'Chargement...' : isRegister ? "S'inscrire" : 'Se connecter'}
             </button>
           </div>
         </form>
@@ -179,4 +205,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

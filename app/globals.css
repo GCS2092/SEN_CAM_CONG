@@ -10,6 +10,10 @@
             "DM Sans", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
         --font-display:
             "DM Sans", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+        --surface: #5c6b7a;
+        --surface-light: #6b7a89;
+        --surface-dark: #4a5766;
+        --accent: #e9a03c;
     }
 
     html {
@@ -17,7 +21,7 @@
     }
 
     body {
-        @apply bg-white text-gray-800 antialiased;
+        @apply bg-surface text-slate-100 antialiased;
         font-family: var(--font-sans);
         letter-spacing: 0;
     }
@@ -30,8 +34,7 @@
     h6 {
         font-family: var(--font-display);
         letter-spacing: 0;
-        color: #111827;
-        font-weight: 600;
+        @apply text-white font-semibold;
     }
 
     h1 {
@@ -51,7 +54,7 @@
 
     p {
         line-height: 1.7;
-        color: #4b5563;
+        @apply text-slate-200;
     }
 
     a {
@@ -60,24 +63,24 @@
     }
 
     a:hover {
-        color: #111827;
+        @apply text-accent;
     }
 }
 
 @layer components {
     .btn-primary {
-        @apply bg-blue-600 text-white px-4 md:px-5 py-2 md:py-2.5 rounded-md font-medium hover:bg-blue-700 transition-colors duration-200 shadow-sm text-sm md:text-base;
+        @apply bg-accent text-surface-dark px-4 md:px-5 py-2 md:py-2.5 rounded-md font-semibold hover:bg-accent-light transition-colors duration-200 shadow-md text-sm md:text-base;
     }
 
     .btn-secondary {
-        @apply bg-white border border-gray-200 text-gray-700 px-4 md:px-5 py-2 md:py-2.5 rounded-md font-medium hover:border-gray-300 hover:text-gray-900 transition-colors duration-200 shadow-sm text-sm md:text-base;
+        @apply bg-transparent border-2 border-accent text-accent px-4 md:px-5 py-2 md:py-2.5 rounded-md font-semibold hover:bg-accent/10 transition-colors duration-200 text-sm md:text-base;
     }
 
     .card {
-        @apply bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-200;
+        @apply bg-surface-light rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden border border-white/10;
     }
 
     .card-hover {
-        @apply hover:shadow-lg transition-shadow duration-200;
+        @apply hover:shadow-xl transition-all duration-200;
     }
 }

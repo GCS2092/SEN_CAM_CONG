@@ -2,22 +2,16 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 import {
   ClockIcon,
-  CalendarIcon,
-  UserCircleIcon,
   Bars3Icon,
-  XMarkIcon,
-  SparklesIcon,
   MusicalNoteIcon,
   HomeIcon,
   PhotoIcon,
   MicrophoneIcon,
   InformationCircleIcon,
-  UsersIcon,
-  CogIcon,
+  CalendarIcon,
 } from "@/components/Icons";
 
 interface Event {
@@ -31,10 +25,9 @@ export default function Navbar() {
   const [currentTime, setCurrentTime] = useState("");
   const [nextEvent, setNextEvent] = useState<Event | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const router = useRouter();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
-  // Navigation items - simplifié pour éviter la redondance
   const navItems = [
     { name: "Accueil", href: "/", icon: HomeIcon },
     { name: "Événements", href: "/events", icon: CalendarIcon },
@@ -43,7 +36,6 @@ export default function Navbar() {
     { name: "À propos", href: "/about", icon: InformationCircleIcon },
   ];
 
-  // Mettre à jour l'heure chaque seconde
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -52,7 +44,7 @@ export default function Navbar() {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
-        }),
+        })
       );
     };
     updateTime();
@@ -60,181 +52,163 @@ export default function Navbar() {
     return () => clearInterval(interval);
   }, []);
 
-  // Scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Charger le prochain événement avec fallback
   useEffect(() => {
     async function loadNextEvent() {
       try {
         const res = await fetch("/api/events?status=UPCOMING&limit=1");
         if (res.ok) {
           const data = await res.json();
-          if (data.events && data.events.length > 0) {
-            const sortedEvents = data.events.sort(
+          if (data.events?.length > 0) {
+            const sorted = data.events.sort(
               (a: Event, b: Event) =>
-                new Date(a.date).getTime() - new Date(b.date).getTime(),
+                new Date(a.date).getTime() - new Date(b.date).getTime()
             );
-            setNextEvent(sortedEvents[0]);
+            setNextEvent(sorted[0]);
           }
-        } else {
-          // Fallback avec données statiques
-          setNextEvent({
-            id: "fallback",
-            title: "Concert à Paris",
-            date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-            ticketPrice: 45,
-          });
         }
-      } catch (error) {
-        console.error("Error loading next event:", error);
-        // Fallback en cas d'erreur
-        setNextEvent({
-          id: "fallback",
-          title: "Concert à Paris",
-          date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-          ticketPrice: 45,
-        });
+      } catch {
+        setNextEvent(null);
       }
     }
     loadNextEvent();
-    const interval = setInterval(loadNextEvent, 5 * 60 * 1000);
-    return () => clearInterval(interval);
   }, []);
 
   const formatEventDateTime = (dateString: string) => {
     const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = date.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
+    const diffDays = Math.ceil(
+      (date.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+    );
     return {
       date: date.toLocaleDateString("fr-FR", {
         day: "numeric",
         month: "short",
         year: "numeric",
       }),
-      time: date.toLocaleTimeString("fr-FR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      countdown: diffDays > 0 ? `Dans ${diffDays}j` : "Aujourd'hui",
+      countdown: diffDays > 0 ? `Dans ${diffDays}j` : "Bientôt",
     };
   };
 
   const isActive = (path: string) => pathname === path;
 
   return (
-    <>
-      {/* Main Navbar - Desktop & Tablet */}
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm"
-            : "bg-white border-b border-gray-100"
-        }`}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center h-16 lg:h-20">
-            {/* Logo and Brand - Toujours visible */}
-            <div className="flex items-center space-x-3">
-              <Link href="/" className="flex items-center space-x-3 group">
-                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gray-900 rounded-full flex items-center justify-center">
-                  <MusicalNoteIcon className="h-4 w-4 lg:h-6 lg:w-6 text-white" />
-                </div>
-                <div className="hidden sm:block">
-                  <h1 className="text-lg lg:text-xl font-bold text-gray-900">
-                    SEC CAM CONG
-                  </h1>
-                  <p className="text-xs text-gray-600 -mt-1 hidden lg:block">
-                    Fusion Musicale
-                  </p>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-surface-dark/95 backdrop-blur border-b border-white/10 shadow-lg"
+          : "bg-surface-dark border-b border-white/5"
+      }`}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16 lg:h-20">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-9 h-9 lg:w-10 lg:h-10 bg-accent rounded-full flex items-center justify-center">
+              <MusicalNoteIcon className="h-5 w-5 lg:h-6 lg:w-6 text-surface-dark" />
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-lg lg:text-xl font-bold text-white">
+                SEN CAM CONG
+              </span>
+              <p className="text-xs text-slate-400 -mt-0.5 hidden lg:block">
+                Fusion Musicale
+              </p>
+            </div>
+          </Link>
+
+          <div className="hidden lg:flex items-center gap-1">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                    active
+                      ? "text-accent bg-white/10"
+                      : "text-slate-200 hover:text-accent hover:bg-white/5"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-3">
+            {nextEvent && (
+              <Link
+                href={`/events/${nextEvent.id}`}
+                className="hidden xl:flex items-center gap-2 bg-surface-light/80 hover:bg-surface-light border border-white/10 rounded-lg px-3 py-2 transition-colors"
+              >
+                <div className="w-2 h-2 bg-accent rounded-full shrink-0" />
+                <div className="text-left min-w-0">
+                  <div className="text-xs text-slate-400 font-medium">
+                    Prochain
+                  </div>
+                  <div className="font-semibold text-white truncate text-sm">
+                    {nextEvent.title}
+                  </div>
+                  <div className="text-xs text-slate-400">
+                    {formatEventDateTime(nextEvent.date).countdown}
+                    {nextEvent.ticketPrice && (
+                      <> · {nextEvent.ticketPrice.toLocaleString()} FCFA</>
+                    )}
+                  </div>
                 </div>
               </Link>
+            )}
+
+            <div className="flex items-center gap-2 bg-surface-light/60 rounded-lg px-3 py-2 border border-white/10">
+              <ClockIcon className="h-4 w-4 text-accent shrink-0" />
+              <span className="font-mono font-semibold text-white text-sm">
+                {currentTime}
+              </span>
             </div>
 
-            {/* Desktop Navigation - Hidden on mobile */}
-            <div className="hidden lg:flex items-center space-x-6">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-md transition-colors ${
-                      isActive(item.href)
-                        ? "text-gray-900 bg-gray-100"
-                        : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4 text-gray-500" />
-                    <span className="font-medium">{item.name}</span>
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Right Section */}
-            <div className="flex items-center space-x-2 lg:space-x-4">
-              {/* Next Event Info - Hidden on small screens */}
-              {nextEvent && (
-                <div className="hidden xl:block">
-                  <Link
-                    href={`/events/${nextEvent.id}`}
-                    className="bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 transition-colors"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                      <div className="min-w-0">
-                        <div className="text-xs text-gray-600 font-medium">
-                          Prochain
-                        </div>
-                        <div className="font-semibold text-gray-900 truncate text-sm">
-                          {nextEvent.title}
-                        </div>
-                        <div className="flex items-center space-x-2 text-xs text-gray-600">
-                          <span>
-                            {formatEventDateTime(nextEvent.date).countdown}
-                          </span>
-                          {nextEvent.ticketPrice && (
-                            <>
-                              <span>•</span>
-                              <span className="font-semibold">
-                                {nextEvent.ticketPrice.toLocaleString()} FCFA
-                              </span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              )}
-
-              {/* Compact Clock Display */}
-              <div className="flex items-center space-x-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
-                <div className="bg-gray-900 p-1.5 rounded-full">
-                  <ClockIcon className="h-4 w-4 text-white" />
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-[10px] text-gray-600 font-semibold uppercase tracking-wide leading-none">
-                    Heure
-                  </div>
-                  <div className="font-mono font-bold text-gray-900 text-sm leading-tight">
-                    {currentTime}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <button
+              type="button"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden p-2 rounded-lg text-white hover:bg-white/10"
+              aria-label="Menu"
+            >
+              <Bars3Icon className="h-6 w-6" />
+            </button>
           </div>
         </div>
-      </nav>
-    </>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="lg:hidden border-t border-white/10 bg-surface-dark">
+          <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium ${
+                    isActive(item.href)
+                      ? "text-accent bg-white/10"
+                      : "text-slate-200 hover:bg-white/5"
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </nav>
   );
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { withRateLimit, handleServerError } from '@/lib/api-helpers'
-import { verifyToken } from '@/lib/auth'
+import { verifyTokenOrSupabase } from '@/lib/auth'
 
 async function getMember(
   request: NextRequest,
@@ -53,7 +53,7 @@ async function updateMember(
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || (payload.role !== 'ADMIN' && payload.role !== 'ARTIST')) {
       return NextResponse.json(
         { error: 'Accès refusé' },
@@ -125,7 +125,7 @@ async function deleteMember(
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || (payload.role !== 'ADMIN' && payload.role !== 'ARTIST')) {
       return NextResponse.json(
         { error: 'Accès refusé' },

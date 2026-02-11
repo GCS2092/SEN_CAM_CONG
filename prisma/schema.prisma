@@ -9,23 +9,25 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  name         String?
-  password     String?
-  role         Role          @default(USER)
-  avatar       String?
-  bio          String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  comments     Comment[]
-  events       Event[]
-  likes        Like[]
-  performances Performance[]
-  member       Member?       // Relation optionnelle : un artiste peut avoir un profil membre
+  id               String        @id @default(cuid())
+  email            String        @unique
+  name             String?
+  password         String?        // Gardé pour rétrocompat, inutilisé si supabaseAuthId est défini
+  role             Role          @default(USER)
+  avatar           String?
+  bio              String?
+  supabaseAuthId   String?       @unique // UUID de auth.users (Supabase Auth)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  comments         Comment[]
+  events           Event[]
+  likes            Like[]
+  performances     Performance[]
+  member           Member?       // Relation optionnelle : un artiste peut avoir un profil membre
 
   @@index([email])
   @@index([role])
+  @@index([supabaseAuthId])
   @@map("users")
 }
 

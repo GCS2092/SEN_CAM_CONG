@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyToken } from '@/lib/auth'
+import { verifyTokenOrSupabase } from '@/lib/auth'
 import { withRateLimit, handleServerError } from '@/lib/api-helpers'
 
 // Récupérer la liste des utilisateurs qui ont liké un événement (admin uniquement)
@@ -20,7 +20,7 @@ async function getLikesUsers(
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || payload.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Accès refusé. Admin uniquement.' },

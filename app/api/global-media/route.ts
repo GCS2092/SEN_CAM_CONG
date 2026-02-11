@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { withRateLimit, handleServerError } from "@/lib/api-helpers";
-import { verifyToken } from "@/lib/auth";
+import { verifyTokenOrSupabase } from "@/lib/auth";
 
 // Fallback data for when database is unavailable
 const fallbackGlobalMedia = [
@@ -104,7 +104,7 @@ async function createGlobalMedia(request: NextRequest) {
       return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     }
 
-    const payload = verifyToken(token);
+    const payload = await verifyTokenOrSupabase(token);
     if (!payload || payload.role !== "ADMIN") {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
     }

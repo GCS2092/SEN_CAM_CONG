@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyToken, getCurrentUser } from '@/lib/auth'
+import { getCurrentUserOrSupabase } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { token } = body
+    const body = await request.json().catch(() => ({}))
+    const token = body.token ?? request.headers.get('authorization')?.replace('Bearer ', '')
 
     if (!token) {
       return NextResponse.json(
@@ -13,35 +13,23 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Vérifier le token
-    const payload = verifyToken(token)
-    if (!payload) {
-      return NextResponse.json(
-        { authenticated: false, isAdmin: false, error: 'Token invalide' },
-        { status: 401 }
-      )
-    }
-
-    // Vérifier que l'utilisateur existe toujours en base
-    const user = await getCurrentUser(token)
+    const user = await getCurrentUserOrSupabase(token)
     if (!user) {
       return NextResponse.json(
-        { authenticated: false, isAdmin: false, error: 'Utilisateur non trouvé' },
+        { authenticated: false, isAdmin: false, error: 'Token invalide ou utilisateur non trouvé' },
         { status: 401 }
       )
     }
-
-    // Vérifier le rôle admin
-    const isAdmin = user.role === 'ADMIN'
 
     return NextResponse.json({
       authenticated: true,
-      isAdmin,
+      isAdmin: user.role === 'ADMIN',
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
         role: user.role,
+        avatar: user.avatar,
       },
     }, { status: 200 })
   } catch (error) {
@@ -52,4 +40,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-

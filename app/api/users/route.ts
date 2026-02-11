@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyToken, hashPassword } from '@/lib/auth'
+import { verifyTokenOrSupabase, hashPassword } from '@/lib/auth'
 import { withRateLimit, handleValidationError, handleServerError } from '@/lib/api-helpers'
 import { userCreateSchema } from '@/lib/validations'
 
@@ -17,7 +17,7 @@ async function getUsers(request: NextRequest) {
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || payload.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Accès refusé' },
@@ -60,7 +60,7 @@ async function createUser(request: NextRequest) {
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || payload.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Accès refusé' },

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 import { existsSync } from 'fs'
-import { verifyToken } from '@/lib/auth'
+import { verifyTokenOrSupabase } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     // ADMIN et ARTIST peuvent uploader des images
     if (!payload || (payload.role !== 'ADMIN' && payload.role !== 'ARTIST')) {
       return NextResponse.json(

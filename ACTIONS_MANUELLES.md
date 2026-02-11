@@ -33,6 +33,10 @@ JWT_SECRET="changez-moi-par-une-cle-secrete-aleatoire-tres-longue"
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="changez-moi-aussi"
 
+# Supabase Auth (connexion / inscription)
+NEXT_PUBLIC_SUPABASE_URL="https://VOTRE_PROJECT_REF.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="votre_anon_key"
+
 # Cloudinary (optionnel - pour upload d'images plus tard)
 CLOUDINARY_CLOUD_NAME=""
 CLOUDINARY_API_KEY=""
@@ -43,10 +47,9 @@ NODE_ENV="development"
 ```
 
 3. **MODIFIEZ ces valeurs :**
-   - `DATABASE_URL` : 
-     - **En local** : Si vous avez PostgreSQL local, gardez tel quel ou modifiez user/password
-     - **Sur Render** : Utilisez l'URL de votre base PostgreSQL Render
+   - `DATABASE_URL` : URL PostgreSQL (ex. Supabase → Settings → Database)
    - `JWT_SECRET` : Générez une clé aléatoire (voir ci-dessous)
+   - **Supabase Auth** : Si vous utilisez Supabase pour la base, ajoutez aussi l’URL et la clé anon (Dashboard → Project Settings → API) pour que la connexion / inscription fonctionnent.
 
 ### 🔑 Générer JWT_SECRET :
 
@@ -92,6 +95,27 @@ npx prisma db push
 ```
 
 ⏱️ **Temps estimé :** 5-10 minutes
+
+### Option C : Procédure réglementaire avec Prisma Migrate (baseline + deploy)
+
+Si la base existe déjà (par ex. déjà synchronisée avec `db push`) et que vous voulez utiliser **Prisma Migrate** en production (`migrate deploy`) :
+
+1. **Baseline :** marquer les migrations déjà reflétées en base comme appliquées (une seule fois) :
+
+```bash
+npx prisma migrate resolve --applied "20251117174517_add_indexes"
+npx prisma migrate resolve --applied "20251206145039_add_member_model"
+npx prisma migrate resolve --applied "20251206150406_add_member_model_with_user_relation"
+npx prisma migrate resolve --applied "add_site_settings_and_global_media"
+```
+
+2. **Appliquer les migrations restantes** (dont `supabaseAuthId` si besoin) :
+
+```bash
+npx prisma migrate deploy
+```
+
+Ensuite, pour toute évolution du schéma : créer une migration en local avec `npx prisma migrate dev`, committer le dossier `prisma/migrations/`, puis en production exécuter uniquement `npx prisma migrate deploy`.
 
 ---
 
@@ -268,6 +292,18 @@ npm install
 - Vérifiez les logs dans le terminal
 - Ouvrez la console du navigateur (F12) pour voir les erreurs
 - Vérifiez que le port 3000 n'est pas déjà utilisé
+
+### Authentification Supabase (connexion / inscription)
+L’app utilise **Supabase Auth** pour la connexion et l’inscription.
+
+- **Supabase** : Authentication → Providers → Email activé. (Optionnel : désactiver « Confirm email » pour ne pas exiger la confirmation par email.)
+- **.env et Vercel** : `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Supabase → Project Settings → API).
+- Après mise à jour du schéma : `npx prisma db push` pour ajouter la colonne `supabaseAuthId`.
+- Les utilisateurs existants sont liés au premier login avec le même email.
+
+### Erreur 500 sur la connexion (login) en production (Vercel)
+- **Vercel** → Settings → Environment Variables : `DATABASE_URL`, `JWT_SECRET`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- Redéployez après modification. Consultez les logs (Deployments → Functions) pour l’erreur exacte.
 
 ---
 

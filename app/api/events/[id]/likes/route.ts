@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyToken } from '@/lib/auth'
+import { verifyTokenOrSupabase } from '@/lib/auth'
 import { withRateLimit, handleServerError } from '@/lib/api-helpers'
 
 // Toggle like sur un événement (nécessite authentification)
@@ -20,7 +20,7 @@ async function toggleLike(
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload) {
       return NextResponse.json(
         { error: 'Token invalide' },
@@ -93,7 +93,7 @@ async function checkLike(
       return NextResponse.json({ liked: false }, { status: 200 })
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload) {
       return NextResponse.json({ liked: false }, { status: 200 })
     }

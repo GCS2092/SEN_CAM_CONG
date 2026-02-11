@@ -9,6 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Thème "Jazzy" – fond ni trop sombre ni trop clair, accents dorés
+        surface: {
+          DEFAULT: "#5c6b7a",
+          light: "#6b7a89",
+          dark: "#4a5766",
+          darker: "#3d4852",
+        },
+        accent: {
+          DEFAULT: "#e9a03c",
+          light: "#f0b85c",
+          dark: "#c4842a",
+        },
         primary: {
           50: "#fef3e2",
           100: "#fde4b8",

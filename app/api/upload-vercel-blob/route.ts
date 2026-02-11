@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyToken } from '@/lib/auth'
+import { verifyTokenOrSupabase } from '@/lib/auth'
 import { put } from '@vercel/blob'
 
 /**
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const payload = verifyToken(token)
+    const payload = await verifyTokenOrSupabase(token)
     if (!payload || (payload.role !== 'ADMIN' && payload.role !== 'ARTIST')) {
       return NextResponse.json(
         { error: 'Accès refusé. Admin ou Artiste uniquement.' },

@@ -8,7 +8,12 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-    images: {
+  async redirects() {
+    return [
+      { source: '/favicon.ico', destination: '/icon.svg', permanent: true },
+    ]
+  },
+  images: {
       remotePatterns: [
         {
           protocol: 'https',
