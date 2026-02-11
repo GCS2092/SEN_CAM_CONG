@@ -308,7 +308,7 @@ npx prisma studio
 - [ ] Documentation mise à jour
 
 ---
-
+ 
 ## 🆘 Dépannage
 
 ### Erreur : "Can't reach database server"
