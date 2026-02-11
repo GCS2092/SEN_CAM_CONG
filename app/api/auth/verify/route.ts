@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
 
     const user = await getCurrentUserOrSupabase(token)
     if (!user) {
+      console.error('[verify] User not found for token')
       return NextResponse.json(
         { authenticated: false, isAdmin: false, error: 'Token invalide ou utilisateur non trouvé' },
         { status: 401 }
@@ -33,9 +34,9 @@ export async function POST(request: NextRequest) {
       },
     }, { status: 200 })
   } catch (error) {
-    console.error('Error verifying token:', error)
+    console.error('[verify] Error verifying token:', error)
     return NextResponse.json(
-      { authenticated: false, isAdmin: false, error: 'Erreur de vérification' },
+      { authenticated: false, isAdmin: false, error: `Erreur de vérification: ${error instanceof Error ? error.message : 'Unknown error'}` },
       { status: 500 }
     )
   }

@@ -56,43 +56,63 @@ export async function getCurrentUserFromSupabaseToken(
   accessToken: string | null
 ): Promise<{ id: string; email: string; name: string | null; role: string; avatar: string | null } | null> {
   if (!accessToken) return null
-  const { user: authUser, error } = await getSupabaseAuthUser(accessToken)
-  if (error || !authUser) return null
+  
+  try {
+    const { user: authUser, error } = await getSupabaseAuthUser(accessToken)
+    if (error || !authUser) {
+      console.error('[getCurrentUserFromSupabaseToken] Supabase auth error:', error)
+      return null
+    }
 
-  let appUser = await prisma.user.findUnique({
-    where: { supabaseAuthId: authUser.id },
-    select: { id: true, email: true, name: true, role: true, avatar: true },
-  })
+    if (!authUser.email) {
+      console.error('[getCurrentUserFromSupabaseToken] No email in auth user')
+      return null
+    }
 
-  if (!appUser) {
-    const email = authUser.email ?? ''
-    const name = (authUser.user_metadata?.name as string) ?? authUser.user_metadata?.full_name ?? null
-    const existingByEmail = await prisma.user.findUnique({
-      where: { email },
+    // Cherche d'abord par supabaseAuthId
+    let appUser = await prisma.user.findUnique({
+      where: { supabaseAuthId: authUser.id },
       select: { id: true, email: true, name: true, role: true, avatar: true },
     })
-    if (existingByEmail) {
-      await prisma.user.update({
-        where: { id: existingByEmail.id },
-        data: { supabaseAuthId: authUser.id },
-      })
-      appUser = existingByEmail
-    } else {
-      appUser = await prisma.user.create({
-        data: {
-          supabaseAuthId: authUser.id,
-          email,
-          name,
-          role: 'USER',
+
+    if (!appUser) {
+      // Cherche par email (insensible à la casse)
+      const email = authUser.email.toLowerCase().trim()
+      const existingByEmail = await prisma.user.findFirst({
+        where: { 
+          email: { equals: email, mode: 'insensitive' }
         },
         select: { id: true, email: true, name: true, role: true, avatar: true },
       })
+      
+      if (existingByEmail) {
+        // Lie l'utilisateur existant à Supabase Auth
+        appUser = await prisma.user.update({
+          where: { id: existingByEmail.id },
+          data: { supabaseAuthId: authUser.id },
+          select: { id: true, email: true, name: true, role: true, avatar: true },
+        })
+      } else {
+        // Crée un nouvel utilisateur
+        appUser = await prisma.user.create({
+          data: {
+            supabaseAuthId: authUser.id,
+            email: email,
+            name: (authUser.user_metadata?.name as string) ?? authUser.user_metadata?.full_name ?? null,
+            role: 'USER',
+          },
+          select: { id: true, email: true, name: true, role: true, avatar: true },
+        })
+      }
     }
-  }
 
-  return {
-    ...appUser,
-    role: appUser.role,
+    return {
+      ...appUser,
+      role: appUser.role,
+    }
+  } catch (error) {
+    console.error('[getCurrentUserFromSupabaseToken] Error:', error)
+    return null
   }
 }
 
