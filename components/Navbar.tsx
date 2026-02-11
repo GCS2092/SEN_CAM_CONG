@@ -122,7 +122,11 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-3 sm:px-4">
         <div className="flex justify-between items-center h-14 lg:h-16 gap-2">
-          <Link href="/" className="flex items-center gap-2 shrink-0">
+          {/* Logo masqué sur mobile quand il y a un prochain événement (pour que l’événement soit bien visible) */}
+          <Link
+            href="/"
+            className={`flex items-center gap-2 shrink-0 ${nextEvent ? "hidden md:flex" : ""}`}
+          >
             <div className="w-8 h-8 lg:w-9 lg:h-9 bg-accent rounded-full flex items-center justify-center">
               <MusicalNoteIcon className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
             </div>

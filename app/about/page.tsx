@@ -74,9 +74,9 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-warm-50 via-white to-warm-50">
-      {/* Hero Section – mix beige/gris léger */}
-      <div className="relative py-16 md:py-24 bg-gradient-to-br from-warm-100 via-warm-50 to-white overflow-hidden">
+    <div className="min-h-screen bg-warm-100">
+      {/* Hero Section – fond belge bien visible */}
+      <div className="relative py-16 md:py-24 bg-warm-200 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -85,7 +85,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900">
               À propos
             </h1>
             <p className="text-base md:text-lg text-gray-700 px-4">
@@ -95,7 +95,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-warm-50/80">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {sections.map((section, index) => (

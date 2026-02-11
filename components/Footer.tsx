@@ -48,18 +48,28 @@ export default function Footer() {
   const formatTime = (date: Date) =>
     date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
 
+  const allLinks = [
+    { name: "Accueil", href: "/" },
+    { name: "À propos", href: "/about" },
+    { name: "Événements", href: "/events" },
+    { name: "Performances", href: "/performances" },
+    { name: "Galerie", href: "/gallery" },
+    { name: "Membres", href: "/members" },
+    { name: "Contact", href: "/contact" },
+  ];
+
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 mt-auto">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
+    <footer className="bg-warm-100 border-t border-warm-200 mt-auto">
+      <div className="container mx-auto px-4 py-8 sm:py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
                 <MusicalNoteIcon className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">SEN CAM CONG</span>
+              <span className="text-lg font-bold text-gray-900">SEN CAM CONG</span>
             </div>
-            <p className="text-gray-600 text-sm leading-relaxed mb-4">
+            <p className="text-gray-600 text-sm leading-relaxed mb-3">
               La fusion musicale authentique de trois cultures africaines exceptionnelles.
             </p>
             <div className="flex flex-wrap gap-2">
@@ -67,7 +77,7 @@ export default function Footer() {
                 <a
                   key={s.name}
                   href={s.href}
-                  className="px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 text-sm hover:text-accent hover:border-accent/50 transition-colors"
+                  className="px-2.5 py-1 rounded-md border border-warm-200 text-gray-600 text-xs hover:text-accent hover:border-accent/50 transition-colors"
                 >
                   {s.name}
                 </a>
@@ -75,29 +85,23 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <h3 className="text-gray-900 font-bold mb-4">Navigation</h3>
-            <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-600 hover:text-accent transition-colors">Accueil</Link></li>
-              <li><Link href="/about" className="text-gray-600 hover:text-accent transition-colors">À propos</Link></li>
-              <li><Link href="/events" className="text-gray-600 hover:text-accent transition-colors">Événements</Link></li>
-              <li><Link href="/gallery" className="text-gray-600 hover:text-accent transition-colors">Galerie</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-gray-900 font-bold mb-4">Liens rapides</h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="text-gray-600 hover:text-accent transition-colors">
+          {/* Liens en ligne, compacts (plus de listes verticales) */}
+          <div className="lg:col-span-2">
+            <h3 className="text-gray-900 font-bold text-sm mb-2">Navigation</h3>
+            <div className="flex flex-wrap gap-x-2 gap-y-1 text-sm text-gray-600">
+              {allLinks.map((link, i) => (
+                <span key={link.href}>
+                  {i > 0 && <span className="text-warm-400"> · </span>}
+                  <Link href={link.href} className="hover:text-accent transition-colors">
                     {link.name}
                   </Link>
-                </li>
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div>
             <h3 className="text-gray-900 font-bold mb-4">Nous contacter</h3>
             <div className="space-y-3 text-gray-600 text-sm mb-4">
@@ -144,7 +148,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="pt-6 border-t border-warm-200 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-gray-500 text-sm text-center md:text-left">
             © {currentYear} SEN CAM CONG. Tous droits réservés.
           </div>

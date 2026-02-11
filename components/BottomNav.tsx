@@ -69,7 +69,7 @@ export default function BottomNav() {
   const publicNavItems: NavItem[] = [
     { href: "/", label: "Accueil", icon: HomeIcon },
     { href: "/events", label: "Événements", icon: CalendarIcon },
-    { href: "/performances", label: "Musique", icon: MicrophoneIcon },
+    { href: "/performances", label: "Performances", icon: MicrophoneIcon },
     { href: "/gallery", label: "Galerie", icon: PhotoIcon },
     { href: "/about", label: "À propos", icon: InformationCircleIcon },
   ];

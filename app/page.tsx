@@ -106,7 +106,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col bg-white">
+    <div className="flex flex-col bg-white min-h-screen min-w-0">
       <Hero />
 
       {/* About Section – fond léger beige/gris (mix comme watermark) */}
@@ -114,9 +114,9 @@ export default function Home() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="py-20 bg-warm-100"
+        className="py-12 sm:py-16 md:py-20 bg-warm-100"
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -176,9 +176,9 @@ export default function Home() {
         initial="hidden"
         whileInView="visible"
         variants={containerVariants}
-        className="py-14 bg-white"
+        className="py-10 sm:py-14 bg-white pb-20 md:pb-14"
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <motion.div variants={itemVariants} className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
               Prochain événement
@@ -264,9 +264,9 @@ export default function Home() {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="py-16 bg-warm-100 text-gray-900"
+        className="py-12 sm:py-16 bg-warm-100 text-gray-900 pb-24 md:pb-16"
       >
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 sm:px-6 text-center max-w-7xl">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
             <div className="flex justify-center mb-8">
               <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center">
