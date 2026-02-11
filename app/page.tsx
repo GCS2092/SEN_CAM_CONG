@@ -106,67 +106,37 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col bg-white min-h-screen min-w-0">
+    <div className="flex flex-col min-h-screen min-w-0 bg-gradient-to-b from-warm-50 via-white to-warm-50">
       <Hero />
 
-      {/* About Section – fond léger beige/gris (mix comme watermark) */}
+      {/* Bande intro très légère au lieu d'une grosse section "Notre mission / pays" */}
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="py-12 sm:py-16 md:py-20 bg-warm-100"
+        className="py-8 sm:py-10 bg-warm-100/80"
       >
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="flex items-center mb-6">
-                <SparklesIcon className="h-8 w-8 text-accent mr-3" />
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-                  Notre Mission
-                </h2>
-              </div>
-              <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                SEC CAM CONG unit trois cultures africaines riches et
-                diversifiées dans une fusion musicale unique qui célèbre notre
-                héritage commun et notre créativité sans frontières.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="text-center p-6 bg-gradient-to-br from-green-500 via-yellow-400 to-red-500 rounded-xl border-2 border-white/20 shadow-xl hover:scale-105 transition-transform">
-                  <div className="text-5xl mb-3 drop-shadow-lg">🇸🇳</div>
-                  <div className="font-extrabold text-white text-xl drop-shadow-lg">Sénégal</div>
-                  <div className="text-sm text-white font-bold drop-shadow-md bg-black/20 rounded-full px-3 py-1 mt-2 inline-block">Terre de la Teranga</div>
-                </div>
-                <div className="text-center p-6 bg-gradient-to-br from-green-600 via-red-600 to-yellow-400 rounded-xl border-2 border-white/20 shadow-xl hover:scale-105 transition-transform">
-                  <div className="text-5xl mb-3 drop-shadow-lg">🇨🇲</div>
-                  <div className="font-extrabold text-white text-xl drop-shadow-lg">Cameroun</div>
-                  <div className="text-sm text-white font-bold drop-shadow-md bg-black/20 rounded-full px-3 py-1 mt-2 inline-block">L&apos;Afrique en miniature</div>
-                </div>
-                <div className="text-center p-6 bg-gradient-to-br from-yellow-400 via-green-600 to-red-600 rounded-xl border-2 border-white/20 shadow-xl hover:scale-105 transition-transform">
-                  <div className="text-5xl mb-3 drop-shadow-lg">🇨🇬</div>
-                  <div className="font-extrabold text-white text-xl drop-shadow-lg">Congo</div>
-                  <div className="text-sm text-white font-bold drop-shadow-md bg-black/20 rounded-full px-3 py-1 mt-2 inline-block">Cœur de l&apos;Afrique</div>
-                </div>
-              </div>
-              <Link href="/about" className="btn-primary inline-flex items-center gap-2">
-                <span>Découvrir notre histoire</span>
-                <ArrowRightIcon className="h-5 w-5" />
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="relative h-96 rounded-xl overflow-hidden shadow-xl border border-white/10">
-                <Image src="/placeholder.svg" alt="SEC CAM CONG" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
-              </div>
-            </motion.div>
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 text-xs font-semibold text-primary-700 mb-3">
+            <SparklesIcon className="h-4 w-4" />
+            <span>Fusion musicale Sénégal · Cameroun · Congo</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3">
+            Trois pays, une même vibration
+          </h2>
+          <p className="text-sm sm:text-base text-gray-600 mb-5">
+            SEC CAM CONG rassemble des artistes du Sénégal, du Cameroun et du Congo pour créer une
+            expérience scénique moderne, chaleureuse et profondément africaine.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/about" className="btn-secondary inline-flex items-center justify-center gap-2">
+              <span>En savoir plus</span>
+              <ArrowRightIcon className="h-4 w-4" />
+            </Link>
+            <Link href="/members" className="btn-secondary inline-flex items-center justify-center gap-2">
+              <span>Voir les membres</span>
+              <ArrowRightIcon className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </motion.section>
@@ -213,20 +183,28 @@ export default function Home() {
             <motion.div variants={itemVariants} className="max-w-2xl mx-auto">
               <Link href={`/events/${events[0].id}`}>
                 <div className="card group-hover:border-accent/30 transition-colors">
-                  {events[0].imageUrl && (
-                    <div className="relative h-44 overflow-hidden rounded-t-xl">
-                      <Image src={events[0].imageUrl} alt={events[0].title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 672px" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                      <div className="absolute top-3 left-3">
-                        <span className="inline-flex items-center px-2.5 py-1 bg-accent text-white text-xs font-semibold rounded-full">À venir</span>
-                      </div>
-                      {events[0].price != null && events[0].price > 0 && (
-                        <div className="absolute top-3 right-3">
-                          <span className="bg-white/95 text-gray-900 px-2.5 py-1 rounded-full text-xs font-semibold">{events[0].price.toLocaleString()} FCFA</span>
-                        </div>
-                      )}
+                  <div className="relative h-44 overflow-hidden rounded-t-xl">
+                    <Image
+                      src={events[0].imageUrl || "/placeholder.svg"}
+                      alt={events[0].title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 672px"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-flex items-center px-2.5 py-1 bg-accent text-white text-xs font-semibold rounded-full">
+                        À venir
+                      </span>
                     </div>
-                  )}
+                    {events[0].price != null && events[0].price > 0 && (
+                      <div className="absolute top-3 right-3">
+                        <span className="bg-white/95 text-gray-900 px-2.5 py-1 rounded-full text-xs font-semibold">
+                          {events[0].price.toLocaleString()} FCFA
+                        </span>
+                      </div>
+                    )}
+                  </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors">{events[0].title}</h3>
                     <div className="space-y-2 mb-3">

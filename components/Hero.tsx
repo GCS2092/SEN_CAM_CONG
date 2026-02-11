@@ -74,8 +74,8 @@ export default function Hero() {
         }}
       />
 
-      {/* Overlay clair – beaucoup de blanc */}
-      <div className="absolute inset-0 z-10 bg-white/75" />
+      {/* Overlay clair – laisse mieux voir l'image de fond */}
+      <div className="absolute inset-0 z-10 bg-white/40 backdrop-blur-sm" />
 
       {/* Main Content */}
       <motion.div
@@ -97,7 +97,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-gray-900 tracking-tight"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 tracking-tight bg-gradient-to-r from-primary-600 via-primary-700 to-primary-600 bg-clip-text text-transparent"
         >
           {title}
         </motion.h1>

@@ -58,8 +58,8 @@ export default function MembersIndexPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 md:px-6 py-10">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
           {countries.map((country, index) => (
             <motion.div
               key={country.href}
@@ -69,12 +69,12 @@ export default function MembersIndexPage() {
             >
               <Link
                 href={country.href}
-                className={`block rounded-2xl p-8 bg-gradient-to-br ${country.gradient} border border-gray-200 shadow-md hover:shadow-xl hover:border-primary-200 transition-all`}
+                className={`block rounded-2xl px-4 py-5 md:px-5 md:py-6 bg-gradient-to-br ${country.gradient} border border-gray-200 shadow-md hover:shadow-xl hover:border-primary-200 transition-all`}
               >
-                <span className="text-5xl mb-4 block">{country.flag}</span>
-                <h2 className="text-xl font-bold text-gray-900 mb-2">{country.name}</h2>
-                <p className="text-gray-600 text-sm">{country.description}</p>
-                <span className="inline-flex items-center gap-1 mt-4 text-primary-600 font-medium text-sm">
+                <span className="text-3xl md:text-4xl mb-3 block">{country.flag}</span>
+                <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-1">{country.name}</h2>
+                <p className="text-gray-600 text-xs md:text-sm">{country.description}</p>
+                <span className="inline-flex items-center gap-1 mt-3 text-primary-600 font-medium text-xs md:text-sm">
                   Voir les membres
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

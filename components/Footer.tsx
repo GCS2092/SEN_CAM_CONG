@@ -62,7 +62,7 @@ export default function Footer() {
     <footer className="bg-warm-100 border-t border-warm-200 mt-auto">
       <div className="container mx-auto px-4 py-8 sm:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          <div>
+          <div className="lg:col-span-3 lg:flex lg:items-center lg:justify-between gap-8">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
                 <MusicalNoteIcon className="h-6 w-6 text-white" />
@@ -81,21 +81,6 @@ export default function Footer() {
                 >
                   {s.name}
                 </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Liens en ligne, compacts (plus de listes verticales) */}
-          <div className="lg:col-span-2">
-            <h3 className="text-gray-900 font-bold text-sm mb-2">Navigation</h3>
-            <div className="flex flex-wrap gap-x-2 gap-y-1 text-sm text-gray-600">
-              {allLinks.map((link, i) => (
-                <span key={link.href}>
-                  {i > 0 && <span className="text-warm-400"> · </span>}
-                  <Link href={link.href} className="hover:text-accent transition-colors">
-                    {link.name}
-                  </Link>
-                </span>
               ))}
             </div>
           </div>
@@ -123,28 +108,6 @@ export default function Footer() {
               <PhoneIcon className="h-4 w-4" />
               Nous appeler
             </a>
-          </div>
-        </div>
-
-        <div className="mb-10">
-          <h3 className="text-gray-900 font-bold mb-4 flex items-center gap-2">
-            <GlobeAltIcon className="h-5 w-5 text-accent" />
-            Nos pays
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {countries.map((c) => (
-              <Link
-                key={c.name}
-                href={c.href}
-                className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-200 hover:border-accent/30 hover:shadow-sm transition-all"
-              >
-                <span className="text-2xl">{c.flag}</span>
-                <div>
-                  <div className="font-semibold text-gray-900">{c.name}</div>
-                  <div className="text-xs text-gray-500">{c.description}</div>
-                </div>
-              </Link>
-            ))}
           </div>
         </div>
 
