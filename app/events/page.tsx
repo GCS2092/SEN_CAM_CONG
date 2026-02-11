@@ -66,7 +66,7 @@ export default function EventsPage() {
   }, [page, filter, searchQuery, pagination.pageSize])
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-warm-50 via-white to-warm-50">
       <div className="container mx-auto px-4 py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

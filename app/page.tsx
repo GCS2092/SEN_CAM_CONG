@@ -8,16 +8,9 @@ import Hero from "@/components/Hero";
 import {
   CalendarIcon,
   MapPinIcon,
-  TicketIcon,
-  PlayIcon,
-  StarIcon,
-  MusicalNoteIcon,
-  UserGroupIcon,
   SparklesIcon,
   ArrowRightIcon,
-  MicrophoneIcon,
   PhotoIcon,
-  HeartIcon,
   GlobeAltIcon,
 } from "@/components/Icons";
 
@@ -33,33 +26,19 @@ interface Event {
   price?: number | null;
 }
 
-interface Performance {
-  id: string;
-  title: string;
-  venue: string;
-  date: string;
-  imageUrl: string | null;
-}
-
 export default function Home() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [performances, setPerformances] = useState<Performance[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [eventsRes, performancesRes] = await Promise.all([
-          fetch("/api/events?status=UPCOMING&limit=6"),
-          fetch("/api/performances?limit=4"),
-        ]);
+        const eventsRes = await fetch("/api/events?status=UPCOMING&limit=1");
 
-        if (eventsRes.ok && performancesRes.ok) {
+        if (eventsRes.ok) {
           const eventsData = await eventsRes.json();
-          const performancesData = await performancesRes.json();
-
-          setEvents(eventsData.events || []);
-          setPerformances(performancesData.performances || []);
+          const list = eventsData.events || [];
+          setEvents(list);
         } else {
           // Fallback data
           const fallbackEvents = [
@@ -93,25 +72,11 @@ export default function Home() {
             },
           ];
 
-          const fallbackPerformances = [
-            {
-              id: "1",
-              title: "Festival des Cultures Africaines",
-              venue: "Parc de la Villette, Paris",
-              date: new Date(
-                Date.now() - 60 * 24 * 60 * 60 * 1000,
-              ).toISOString(),
-              imageUrl: "/placeholder.svg",
-            },
-          ];
-
           setEvents(fallbackEvents);
-          setPerformances(fallbackPerformances);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
         setEvents([]);
-        setPerformances([]);
       } finally {
         setLoading(false);
       }
@@ -144,12 +109,12 @@ export default function Home() {
     <div className="flex flex-col bg-white">
       <Hero />
 
-      {/* About Section */}
+      {/* About Section – fond léger beige/gris (mix comme watermark) */}
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="py-20 bg-gray-50"
+        className="py-20 bg-warm-100"
       >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -206,175 +171,100 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Upcoming Events Section */}
+      {/* Prochain événement uniquement */}
       <motion.section
         initial="hidden"
         whileInView="visible"
         variants={containerVariants}
-        className="py-20 bg-white"
+        className="py-14 bg-white"
       >
         <div className="container mx-auto px-4">
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <div className="flex items-center justify-center mb-6">
-              <CalendarIcon className="h-12 w-12 text-accent mr-4" />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-                Événements à venir
-              </h2>
-            </div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Rejoignez-nous pour des moments musicaux inoubliables qui
-              célèbrent la richesse de nos cultures africaines
+          <motion.div variants={itemVariants} className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+              Prochain événement
+            </h2>
+            <p className="text-base text-gray-600 max-w-2xl mx-auto mt-2">
+              Rejoignez-nous pour notre prochaine date
             </p>
           </motion.div>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="animate-pulse bg-gray-100 rounded-xl h-96">
-                  <div className="h-48 bg-gray-200 rounded-t-xl" />
-                  <div className="p-6 space-y-4">
-                    <div className="h-4 bg-gray-200 rounded w-3/4" />
-                    <div className="h-4 bg-gray-200 rounded w-1/2" />
-                    <div className="h-4 bg-gray-200 rounded w-full" />
-                  </div>
-                </div>
-              ))}
+            <div className="max-w-2xl mx-auto animate-pulse bg-gray-100 rounded-xl h-64">
+              <div className="h-40 bg-gray-200 rounded-t-xl" />
+              <div className="p-6 space-y-3">
+                <div className="h-4 bg-gray-200 rounded w-3/4" />
+                <div className="h-4 bg-gray-200 rounded w-1/2" />
+              </div>
             </div>
           ) : events.length === 0 ? (
             <motion.div
               variants={itemVariants}
-              className="text-center py-16 bg-gray-50 rounded-xl border border-gray-200"
+              className="text-center py-12 bg-warm-100 rounded-xl border border-warm-200"
             >
-              <CalendarIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Aucun événement programmé</h3>
-              <p className="text-gray-600 mb-8 max-w-md mx-auto">Restez connecté ! De nouveaux événements seront bientôt annoncés</p>
+              <CalendarIcon className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Aucun événement programmé</h3>
+              <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">Restez connecté ! De nouveaux événements seront bientôt annoncés.</p>
               <Link href="/events" className="btn-primary inline-flex items-center gap-2">
-                <span>Voir tous les événements</span>
-                <ArrowRightIcon className="h-5 w-5" />
+                <span>Voir les événements</span>
+                <ArrowRightIcon className="h-4 w-4" />
               </Link>
             </motion.div>
           ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                {events.map((event) => (
-                  <motion.div key={event.id} variants={itemVariants} className="group">
-                    <Link href={`/events/${event.id}`}>
-                      <div className="card h-full group-hover:border-accent/30 transition-colors">
-                        {event.imageUrl && (
-                          <div className="relative h-48 overflow-hidden rounded-t-xl">
-                            <Image src={event.imageUrl} alt={event.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                            <div className="absolute top-4 left-4">
-                              <span className="inline-flex items-center px-3 py-1 bg-accent text-white text-sm font-semibold rounded-full">À venir</span>
-                            </div>
-                            {event.price && (
-                              <div className="absolute top-4 right-4">
-                                <span className="bg-white/95 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">{event.price.toLocaleString()} FCFA</span>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                        <div className="p-6">
-                          <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors line-clamp-2">{event.title}</h3>
-                          <div className="space-y-2 mb-4">
-                            <div className="flex items-center gap-2 text-gray-600">
-                              <CalendarIcon className="w-5 h-5 text-accent flex-shrink-0" />
-                              <span className="text-sm">
-                                {new Date(event.date).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2 text-gray-600">
-                              <MapPinIcon className="w-5 h-5 text-accent flex-shrink-0" />
-                              <span className="text-sm">{event.location}{event.venue && ` - ${event.venue}`}</span>
-                            </div>
-                          </div>
-                          {event.description && (
-                            <p className="text-gray-500 line-clamp-3 mb-4 text-sm leading-relaxed">{event.description}</p>
-                          )}
-                          <span className="inline-flex items-center text-accent font-semibold text-sm">
-                            Billetterie
-                            <ArrowRightIcon className="w-4 h-4 ml-1" />
-                          </span>
-                        </div>
+            <motion.div variants={itemVariants} className="max-w-2xl mx-auto">
+              <Link href={`/events/${events[0].id}`}>
+                <div className="card group-hover:border-accent/30 transition-colors">
+                  {events[0].imageUrl && (
+                    <div className="relative h-44 overflow-hidden rounded-t-xl">
+                      <Image src={events[0].imageUrl} alt={events[0].title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 672px" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                      <div className="absolute top-3 left-3">
+                        <span className="inline-flex items-center px-2.5 py-1 bg-accent text-white text-xs font-semibold rounded-full">À venir</span>
                       </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-              <motion.div variants={itemVariants} className="text-center">
-                <Link href="/events" className="btn-primary inline-flex items-center gap-3">
-                  <CalendarIcon className="h-6 w-6" />
-                  <span>Voir tous les événements</span>
-                  <ArrowRightIcon className="h-6 w-6" />
+                      {events[0].price != null && events[0].price > 0 && (
+                        <div className="absolute top-3 right-3">
+                          <span className="bg-white/95 text-gray-900 px-2.5 py-1 rounded-full text-xs font-semibold">{events[0].price.toLocaleString()} FCFA</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors">{events[0].title}</h3>
+                    <div className="space-y-2 mb-3">
+                      <div className="flex items-center gap-2 text-gray-600 text-sm">
+                        <CalendarIcon className="w-4 h-4 text-accent flex-shrink-0" />
+                        {new Date(events[0].date).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-600 text-sm">
+                        <MapPinIcon className="w-4 h-4 text-accent flex-shrink-0" />
+                        {events[0].location}{events[0].venue ? ` – ${events[0].venue}` : ""}
+                      </div>
+                    </div>
+                    {events[0].description && (
+                      <p className="text-gray-500 text-sm line-clamp-2 mb-4">{events[0].description}</p>
+                    )}
+                    <span className="inline-flex items-center text-accent font-semibold text-sm">
+                      Voir les détails
+                      <ArrowRightIcon className="w-4 h-4 ml-1" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+              <p className="text-center mt-4">
+                <Link href="/events" className="text-sm text-accent hover:underline font-medium">
+                  Voir tous les événements
                 </Link>
-              </motion.div>
-            </>
+              </p>
+            </motion.div>
           )}
         </div>
       </motion.section>
-
-      {/* Recent Performances Section */}
-      {performances.length > 0 && (
-        <motion.section
-          initial="hidden"
-          whileInView="visible"
-          variants={containerVariants}
-        className="py-20 bg-gray-50"
-      >
-        <div className="container mx-auto px-4">
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <div className="flex items-center justify-center mb-6">
-              <MicrophoneIcon className="h-12 w-12 text-accent mr-4" />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Performances Récentes</h2>
-            </div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Revivez nos dernières performances et découvrez la magie de notre fusion musicale
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              {performances.map((performance) => (
-                <motion.div key={performance.id} variants={itemVariants} className="group">
-                  <Link href={`/performances/${performance.id}`}>
-                    <div className="relative h-64 rounded-xl overflow-hidden shadow-lg border border-gray-200 hover:border-accent/50 transition-colors">
-                      {performance.imageUrl ? (
-                        <Image src={performance.imageUrl} alt={performance.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 25vw" />
-                      ) : (
-                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                          <MicrophoneIcon className="h-16 w-16 text-gray-400" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <h3 className="text-gray-900 font-bold text-lg mb-1 line-clamp-2">{performance.title}</h3>
-                        <p className="text-gray-600 text-sm mb-2">{performance.venue}</p>
-                        <p className="text-gray-500 text-xs">
-                          {new Date(performance.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div variants={itemVariants} className="text-center">
-              <Link href="/performances" className="btn-primary inline-flex items-center gap-3">
-                <MicrophoneIcon className="h-6 w-6" />
-                <span>Toutes nos performances</span>
-                <ArrowRightIcon className="h-6 w-6" />
-              </Link>
-            </motion.div>
-          </div>
-        </motion.section>
-      )}
 
       {/* Call to Action Section */}
       <motion.section
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="py-20 bg-blue-50 text-gray-900"
+        className="py-16 bg-warm-100 text-gray-900"
       >
         <div className="container mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>

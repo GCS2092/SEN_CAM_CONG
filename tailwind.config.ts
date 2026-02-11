@@ -21,6 +21,14 @@ const config: Config = {
           light: "#3b82f6",
           dark: "#1d4ed8",
         },
+        // Léger mix beige / gris chaud (watermark, à propos, textes doux)
+        warm: {
+          50: "#fdfcfb",
+          100: "#f9f7f4",
+          200: "#f3efe8",
+          300: "#e8e2d8",
+          400: "#d4ccbe",
+        },
         primary: {
           50: "#fef3e2",
           100: "#fde4b8",

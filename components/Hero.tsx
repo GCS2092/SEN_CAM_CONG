@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ChevronDownIcon, PlayIcon, SparklesIcon } from "@/components/Icons";
+import { ChevronDownIcon, PlayIcon, SparklesIcon, MicrophoneIcon } from "@/components/Icons";
 
 interface HeroSettings {
   hero_background_image?: { value: string | null };
@@ -88,34 +88,44 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex justify-center mb-4"
+          className="flex justify-center mb-3"
         >
-          <SparklesIcon className="h-8 w-8 text-accent" />
+          <SparklesIcon className="h-7 w-7 text-accent" />
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-gray-900 tracking-tight"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-gray-900 tracking-tight"
         >
           {title}
         </motion.h1>
 
-        <motion.p
+        {/* Subtitle avec léger watermark (mix beige/gris) derrière */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-base md:text-lg lg:text-xl text-gray-600 font-normal leading-relaxed max-w-4xl mx-auto mb-8"
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="relative max-w-4xl mx-auto mb-8"
         >
-          {subtitle}
-        </motion.p>
+          <span
+            aria-hidden
+            className="absolute inset-0 flex items-center justify-center pointer-events-none select-none text-warm-400/30 sm:text-warm-400/25 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            {title}
+          </span>
+          <p className="relative text-base md:text-lg lg:text-xl text-gray-600 font-normal leading-relaxed">
+            {subtitle}
+          </p>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center"
         >
           <Link
             href="/events"
@@ -123,6 +133,13 @@ export default function Hero() {
           >
             <PlayIcon className="h-5 w-5" />
             Voir les événements
+          </Link>
+          <Link
+            href="/performances"
+            className="btn-primary inline-flex items-center justify-center gap-2"
+          >
+            <MicrophoneIcon className="h-5 w-5" />
+            Performances
           </Link>
           <Link
             href="/about"

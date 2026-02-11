@@ -160,7 +160,6 @@ export default function Navbar() {
               href={`/events/${nextEvent.id}`}
               className="flex-1 min-w-0 flex items-center gap-2 sm:gap-3 bg-gray-50 hover:bg-blue-50/50 border border-gray-200 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 transition-colors overflow-hidden"
             >
-              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-accent rounded-full shrink-0" />
               <div className="min-w-0 flex-1">
                 <div className="text-[10px] sm:text-xs text-gray-500 font-medium uppercase tracking-wide">
                   Prochain

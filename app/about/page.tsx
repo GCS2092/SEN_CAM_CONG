@@ -74,9 +74,9 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
-      {/* Hero Section */}
-      <div className="relative py-16 md:py-24 bg-gradient-to-br from-primary-50 via-white to-primary-50 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-warm-50 via-white to-warm-50">
+      {/* Hero Section – mix beige/gris léger */}
+      <div className="relative py-16 md:py-24 bg-gradient-to-br from-warm-100 via-warm-50 to-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5"></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div

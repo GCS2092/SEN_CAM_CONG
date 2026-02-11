@@ -14,6 +14,8 @@
         --surface-light: #f8fafc;
         --surface-dark: #f1f5f9;
         --accent: #2563eb;
+        --warm-bg: #f9f7f4;
+        --warm-muted: #e8e2d8;
     }
 
     html {
@@ -82,5 +84,14 @@
 
     .card-hover {
         @apply hover:shadow-xl transition-all duration-200;
+    }
+
+    /* Fond léger beige/gris chaud (mix comme sur la page à propos) */
+    .bg-warm-muted {
+        background-color: var(--warm-bg);
+    }
+
+    .text-warm-muted {
+        color: var(--warm-muted);
     }
 }
