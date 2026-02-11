@@ -26,6 +26,7 @@
     "assign-images": "node scripts/assign-unique-images.js",
     "seed-social-links": "node scripts/seed-social-links.js",
     "test-db": "node scripts/test-db-connection.js",
+    "test-prisma": "node scripts/test-prisma-connection.js",
     "upload-images-to-blob": "node scripts/upload-local-images-to-blob.js",
     "check-images": "node scripts/check-images-in-db.js",
     "clear-events": "node scripts/clear-events.js"
