@@ -51,80 +51,81 @@ export async function getCurrentUser(token: string | null) {
   return user
 }
 
+export type GetSupabaseUserResult =
+  | { user: { id: string; email: string; name: string | null; role: string; avatar: string | null }; error?: never }
+  | { user: null; error: string }
+
 /** Utilisateur app (table users) depuis un JWT Supabase. Crée le profil au premier login si besoin. */
 export async function getCurrentUserFromSupabaseToken(
   accessToken: string | null
-): Promise<{ id: string; email: string; name: string | null; role: string; avatar: string | null } | null> {
-  if (!accessToken) return null
-  
+): Promise<GetSupabaseUserResult> {
+  if (!accessToken) {
+    return { user: null, error: 'SUPABASE: Token manquant' }
+  }
+
+  let authUser: { id: string; email?: string; user_metadata?: Record<string, unknown> }
   try {
-    const { user: authUser, error } = await getSupabaseAuthUser(accessToken)
-    if (error || !authUser) {
-      console.error('[getCurrentUserFromSupabaseToken] Supabase auth error:', error?.message || 'No auth user')
-      return null
+    const { user, error } = await getSupabaseAuthUser(accessToken)
+    if (error || !user) {
+      const msg = error?.message || 'Utilisateur Auth non trouvé'
+      console.error('[getCurrentUserFromSupabaseToken] Supabase auth:', msg)
+      return { user: null, error: `SUPABASE: ${msg}` }
     }
-
-    if (!authUser.email) {
-      console.error('[getCurrentUserFromSupabaseToken] No email in auth user. User ID:', authUser.id)
-      return null
+    if (!user.email) {
+      console.error('[getCurrentUserFromSupabaseToken] No email, Auth ID:', user.id)
+      return { user: null, error: 'SUPABASE: Email manquant sur le compte' }
     }
-    
-    console.log('[getCurrentUserFromSupabaseToken] Auth user found:', authUser.email, 'ID:', authUser.id)
+    authUser = user
+    console.log('[getCurrentUserFromSupabaseToken] Auth OK:', authUser.email, 'ID:', authUser.id)
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : 'Erreur inconnue'
+    console.error('[getCurrentUserFromSupabaseToken] Supabase exception:', msg)
+    return { user: null, error: `SUPABASE: ${msg}` }
+  }
 
-    // Cherche d'abord par supabaseAuthId
+  try {
+    // 1) Cherche par supabaseAuthId
     let appUser = await prisma.user.findUnique({
       where: { supabaseAuthId: authUser.id },
       select: { id: true, email: true, name: true, role: true, avatar: true },
     })
-    
-    console.log('[getCurrentUserFromSupabaseToken] User found by supabaseAuthId:', appUser ? appUser.email : 'none')
+    if (appUser) {
+      console.log('[getCurrentUserFromSupabaseToken] Trouvé par supabaseAuthId:', appUser.email)
+      return { user: { ...appUser, role: appUser.role } }
+    }
 
-    if (!appUser) {
-      // Cherche par email (insensible à la casse)
-      const email = authUser.email.toLowerCase().trim()
-      console.log('[getCurrentUserFromSupabaseToken] Searching by email:', email)
-      
-      const existingByEmail = await prisma.user.findFirst({
-        where: { 
-          email: { equals: email, mode: 'insensitive' }
-        },
+    const email = authUser.email!.toLowerCase().trim()
+    // 2) Cherche par email (insensible à la casse)
+    const existingByEmail = await prisma.user.findFirst({
+      where: { email: { equals: email, mode: 'insensitive' } },
+      select: { id: true, email: true, name: true, role: true, avatar: true },
+    })
+    if (existingByEmail) {
+      console.log('[getCurrentUserFromSupabaseToken] Liaison par email:', existingByEmail.email)
+      appUser = await prisma.user.update({
+        where: { id: existingByEmail.id },
+        data: { supabaseAuthId: authUser.id },
         select: { id: true, email: true, name: true, role: true, avatar: true },
       })
-      
-      console.log('[getCurrentUserFromSupabaseToken] User found by email:', existingByEmail ? existingByEmail.email : 'none')
-      
-      if (existingByEmail) {
-        // Lie l'utilisateur existant à Supabase Auth
-        console.log('[getCurrentUserFromSupabaseToken] Linking existing user to Supabase Auth')
-        appUser = await prisma.user.update({
-          where: { id: existingByEmail.id },
-          data: { supabaseAuthId: authUser.id },
-          select: { id: true, email: true, name: true, role: true, avatar: true },
-        })
-      } else {
-        // Crée un nouvel utilisateur
-        console.log('[getCurrentUserFromSupabaseToken] Creating new user')
-        appUser = await prisma.user.create({
-          data: {
-            supabaseAuthId: authUser.id,
-            email: email,
-            name: (authUser.user_metadata?.name as string) ?? authUser.user_metadata?.full_name ?? null,
-            role: 'USER',
-          },
-          select: { id: true, email: true, name: true, role: true, avatar: true },
-        })
-      }
+      return { user: { ...appUser, role: appUser.role } }
     }
-    
-    console.log('[getCurrentUserFromSupabaseToken] Final user:', appUser.email, 'Role:', appUser.role)
 
-    return {
-      ...appUser,
-      role: appUser.role,
-    }
+    // 3) Crée un nouvel utilisateur (présent dans Auth mais pas dans table users)
+    console.log('[getCurrentUserFromSupabaseToken] Création nouvel utilisateur:', email)
+    appUser = await prisma.user.create({
+      data: {
+        supabaseAuthId: authUser.id,
+        email,
+        name: (authUser.user_metadata?.name as string) ?? (authUser.user_metadata?.full_name as string) ?? null,
+        role: 'USER',
+      },
+      select: { id: true, email: true, name: true, role: true, avatar: true },
+    })
+    return { user: { ...appUser, role: appUser.role } }
   } catch (error) {
-    console.error('[getCurrentUserFromSupabaseToken] Error:', error)
-    return null
+    const msg = error instanceof Error ? error.message : String(error)
+    console.error('[getCurrentUserFromSupabaseToken] Erreur base de données:', msg)
+    return { user: null, error: `BASE_DE_DONNÉES: ${msg}` }
   }
 }
 
@@ -135,13 +136,9 @@ export async function getCurrentUserFromSupabaseToken(
 export async function verifyTokenOrSupabase(token: string | null): Promise<UserPayload | null> {
   if (!token) return null
 
-  const supabaseUser = await getCurrentUserFromSupabaseToken(token)
-  if (supabaseUser) {
-    return {
-      id: supabaseUser.id,
-      email: supabaseUser.email,
-      role: supabaseUser.role,
-    }
+  const result = await getCurrentUserFromSupabaseToken(token)
+  if (result.user) {
+    return { id: result.user.id, email: result.user.email, role: result.user.role }
   }
 
   return verifyToken(token)
@@ -152,7 +149,7 @@ export async function getCurrentUserOrSupabase(
   token: string | null
 ): Promise<{ id: string; email: string; name: string | null; role: string; avatar: string | null } | null> {
   if (!token) return null
-  const fromSupabase = await getCurrentUserFromSupabaseToken(token)
-  if (fromSupabase) return fromSupabase
+  const result = await getCurrentUserFromSupabaseToken(token)
+  if (result.user) return result.user
   return getCurrentUser(token)
 }

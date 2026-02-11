@@ -75,6 +75,8 @@ export default function LoginPage() {
             ? `${verifyMsg} La base de données sur le serveur est peut-être inaccessible. Réessayez ou contactez l’administrateur.`
             : verifyMsg
         )
+        const isDbError = typeof verifyMsg === 'string' && verifyMsg.includes('BASE_DE_DONNÉES')
+        if (isDbError) setError(verifyMsg + ' Vercel: vérifier DATABASE_URL (pooler 6543) et RLS sur table users.')
         return
       }
 
