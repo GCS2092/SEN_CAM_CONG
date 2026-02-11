@@ -62,7 +62,7 @@ export default function Hero() {
     "La fusion musicale du Sénégal, du Cameroun et du Congo";
 
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-surface-dark">
+    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-white">
       {/* Background Image */}
       <div
         className="absolute inset-0 z-0"
@@ -74,8 +74,8 @@ export default function Hero() {
         }}
       />
 
-      {/* Overlay – ni trop sombre ni trop clair */}
-      <div className="absolute inset-0 z-10 bg-surface-dark/85" />
+      {/* Overlay clair – beaucoup de blanc */}
+      <div className="absolute inset-0 z-10 bg-white/75" />
 
       {/* Main Content */}
       <motion.div
@@ -88,16 +88,16 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex justify-center mb-6"
+          className="flex justify-center mb-4"
         >
-          <SparklesIcon className="h-10 w-10 text-accent" />
+          <SparklesIcon className="h-8 w-8 text-accent" />
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 text-white tracking-tight"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-gray-900 tracking-tight"
         >
           {title}
         </motion.h1>
@@ -106,7 +106,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-lg md:text-xl lg:text-2xl text-slate-200 font-normal leading-relaxed max-w-4xl mx-auto mb-10"
+          className="text-base md:text-lg lg:text-xl text-gray-600 font-normal leading-relaxed max-w-4xl mx-auto mb-8"
         >
           {subtitle}
         </motion.p>
@@ -137,13 +137,13 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
-          className="mt-12 text-sm text-slate-400"
+          className="mt-8 text-xs text-gray-500"
         >
           <Link href="/" className="hover:text-accent transition-colors">
             Accueil
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-slate-300">Tour</span>
+          <span className="text-gray-600">Tour</span>
         </motion.div>
 
         <motion.div

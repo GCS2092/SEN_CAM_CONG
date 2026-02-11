@@ -10,10 +10,10 @@
             "DM Sans", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
         --font-display:
             "DM Sans", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
-        --surface: #5c6b7a;
-        --surface-light: #6b7a89;
-        --surface-dark: #4a5766;
-        --accent: #e9a03c;
+        --surface: #ffffff;
+        --surface-light: #f8fafc;
+        --surface-dark: #f1f5f9;
+        --accent: #2563eb;
     }
 
     html {
@@ -21,7 +21,7 @@
     }
 
     body {
-        @apply bg-surface text-slate-100 antialiased;
+        @apply bg-white text-gray-800 antialiased;
         font-family: var(--font-sans);
         letter-spacing: 0;
     }
@@ -34,27 +34,27 @@
     h6 {
         font-family: var(--font-display);
         letter-spacing: 0;
-        @apply text-white font-semibold;
+        @apply text-gray-900 font-semibold;
     }
 
     h1 {
-        font-size: clamp(1.8rem, 1.2rem + 2.5vw, 3rem);
-        line-height: 1.1;
-    }
-
-    h2 {
-        font-size: clamp(1.4rem, 1rem + 1.8vw, 2.2rem);
+        font-size: clamp(1.5rem, 1rem + 2vw, 2.5rem);
         line-height: 1.15;
     }
 
-    h3 {
-        font-size: clamp(1.2rem, 0.9rem + 1.2vw, 1.6rem);
+    h2 {
+        font-size: clamp(1.25rem, 0.9rem + 1.4vw, 1.9rem);
         line-height: 1.2;
+    }
+
+    h3 {
+        font-size: clamp(1.05rem, 0.85rem + 1vw, 1.4rem);
+        line-height: 1.25;
     }
 
     p {
         line-height: 1.7;
-        @apply text-slate-200;
+        @apply text-gray-600;
     }
 
     a {
@@ -69,15 +69,15 @@
 
 @layer components {
     .btn-primary {
-        @apply bg-accent text-surface-dark px-4 md:px-5 py-2 md:py-2.5 rounded-md font-semibold hover:bg-accent-light transition-colors duration-200 shadow-md text-sm md:text-base;
+        @apply bg-accent text-white px-3 md:px-4 py-2 rounded-md font-semibold hover:bg-accent-light transition-colors duration-200 shadow-sm text-xs md:text-sm;
     }
 
     .btn-secondary {
-        @apply bg-transparent border-2 border-accent text-accent px-4 md:px-5 py-2 md:py-2.5 rounded-md font-semibold hover:bg-accent/10 transition-colors duration-200 text-sm md:text-base;
+        @apply bg-transparent border-2 border-accent text-accent px-3 md:px-4 py-2 rounded-md font-semibold hover:bg-blue-50 transition-colors duration-200 text-xs md:text-sm;
     }
 
     .card {
-        @apply bg-surface-light rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden border border-white/10;
+        @apply bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden border border-gray-200;
     }
 
     .card-hover {

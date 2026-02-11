@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [isRegister, setIsRegister] = useState(false)
   const [name, setName] = useState('')
+  const resetSuccess = searchParams?.get('reset') === 'ok'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -128,6 +129,11 @@ export default function LoginPage() {
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {resetSuccess && (
+            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded text-sm">
+              Mot de passe réinitialisé. Connectez-vous avec votre nouveau mot de passe.
+            </div>
+          )}
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded text-sm">
               {error}
@@ -195,6 +201,16 @@ export default function LoginPage() {
               {loading ? 'Chargement...' : isRegister ? "S'inscrire" : 'Se connecter'}
             </button>
           </div>
+          {!isRegister && (
+            <div className="text-center">
+              <Link
+                href="/login/forgot-password"
+                className="text-sm text-gray-600 hover:text-primary-600"
+              >
+                Mot de passe oublié ?
+              </Link>
+            </div>
+          )}
         </form>
         <div className="text-center">
           <Link href="/" className="text-sm text-gray-600 hover:text-primary-600">

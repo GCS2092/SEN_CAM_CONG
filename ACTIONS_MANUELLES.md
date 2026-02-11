@@ -297,6 +297,7 @@ npm install
 L’app utilise **Supabase Auth** pour la connexion et l’inscription.
 
 - **Supabase** : Authentication → Providers → Email activé. (Optionnel : désactiver « Confirm email » pour ne pas exiger la confirmation par email.)
+- **Réinitialisation mot de passe** : Authentication → URL Configuration → **Redirect URLs** : ajoutez l’URL de la page de réinitialisation, ex. `https://votredomaine.com/login/reset-password` (et en local `http://localhost:3000/login/reset-password` si vous testez).
 - **.env et Vercel** : `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Supabase → Project Settings → API).
 - Après mise à jour du schéma : `npx prisma db push` pour ajouter la colonne `supabaseAuthId`.
 - Les utilisateurs existants sont liés au premier login avec le même email.

@@ -141,7 +141,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col bg-surface">
+    <div className="flex flex-col bg-white">
       <Hero />
 
       {/* About Section */}
@@ -149,7 +149,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="py-20 bg-surface-light/50"
+        className="py-20 bg-gray-50"
       >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -160,11 +160,11 @@ export default function Home() {
             >
               <div className="flex items-center mb-6">
                 <SparklesIcon className="h-8 w-8 text-accent mr-3" />
-                <h2 className="text-4xl md:text-5xl font-bold text-white">
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
                   Notre Mission
                 </h2>
               </div>
-              <p className="text-xl text-slate-200 leading-relaxed mb-8">
+              <p className="text-xl text-gray-600 leading-relaxed mb-8">
                 SEC CAM CONG unit trois cultures africaines riches et
                 diversifiées dans une fusion musicale unique qui célèbre notre
                 héritage commun et notre créativité sans frontières.
@@ -211,17 +211,17 @@ export default function Home() {
         initial="hidden"
         whileInView="visible"
         variants={containerVariants}
-        className="py-20 bg-surface"
+        className="py-20 bg-white"
       >
         <div className="container mx-auto px-4">
           <motion.div variants={itemVariants} className="text-center mb-16">
             <div className="flex items-center justify-center mb-6">
               <CalendarIcon className="h-12 w-12 text-accent mr-4" />
-              <h2 className="text-4xl md:text-5xl font-bold text-white">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
                 Événements à venir
               </h2>
             </div>
-            <p className="text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Rejoignez-nous pour des moments musicaux inoubliables qui
               célèbrent la richesse de nos cultures africaines
             </p>
@@ -230,12 +230,12 @@ export default function Home() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="animate-pulse bg-surface-light rounded-xl h-96">
-                  <div className="h-48 bg-surface-dark rounded-t-xl" />
+                <div key={i} className="animate-pulse bg-gray-100 rounded-xl h-96">
+                  <div className="h-48 bg-gray-200 rounded-t-xl" />
                   <div className="p-6 space-y-4">
-                    <div className="h-4 bg-surface-dark rounded w-3/4" />
-                    <div className="h-4 bg-surface-dark rounded w-1/2" />
-                    <div className="h-4 bg-surface-dark rounded w-full" />
+                    <div className="h-4 bg-gray-200 rounded w-3/4" />
+                    <div className="h-4 bg-gray-200 rounded w-1/2" />
+                    <div className="h-4 bg-gray-200 rounded w-full" />
                   </div>
                 </div>
               ))}
@@ -243,11 +243,11 @@ export default function Home() {
           ) : events.length === 0 ? (
             <motion.div
               variants={itemVariants}
-              className="text-center py-16 bg-surface-light rounded-xl border border-white/10"
+              className="text-center py-16 bg-gray-50 rounded-xl border border-gray-200"
             >
-              <CalendarIcon className="h-16 w-16 text-slate-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-white mb-4">Aucun événement programmé</h3>
-              <p className="text-slate-300 mb-8 max-w-md mx-auto">Restez connecté ! De nouveaux événements seront bientôt annoncés</p>
+              <CalendarIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Aucun événement programmé</h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">Restez connecté ! De nouveaux événements seront bientôt annoncés</p>
               <Link href="/events" className="btn-primary inline-flex items-center gap-2">
                 <span>Voir tous les événements</span>
                 <ArrowRightIcon className="h-5 w-5" />
@@ -263,33 +263,33 @@ export default function Home() {
                         {event.imageUrl && (
                           <div className="relative h-48 overflow-hidden rounded-t-xl">
                             <Image src={event.imageUrl} alt={event.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-surface-dark/90 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                             <div className="absolute top-4 left-4">
-                              <span className="inline-flex items-center px-3 py-1 bg-accent text-surface-dark text-sm font-semibold rounded-full">À venir</span>
+                              <span className="inline-flex items-center px-3 py-1 bg-accent text-white text-sm font-semibold rounded-full">À venir</span>
                             </div>
                             {event.price && (
                               <div className="absolute top-4 right-4">
-                                <span className="bg-white/90 text-surface-dark px-3 py-1 rounded-full text-sm font-semibold">{event.price.toLocaleString()} FCFA</span>
+                                <span className="bg-white/95 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">{event.price.toLocaleString()} FCFA</span>
                               </div>
                             )}
                           </div>
                         )}
                         <div className="p-6">
-                          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-accent transition-colors line-clamp-2">{event.title}</h3>
+                          <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors line-clamp-2">{event.title}</h3>
                           <div className="space-y-2 mb-4">
-                            <div className="flex items-center gap-2 text-slate-300">
+                            <div className="flex items-center gap-2 text-gray-600">
                               <CalendarIcon className="w-5 h-5 text-accent flex-shrink-0" />
                               <span className="text-sm">
                                 {new Date(event.date).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
                               </span>
                             </div>
-                            <div className="flex items-center gap-2 text-slate-300">
+                            <div className="flex items-center gap-2 text-gray-600">
                               <MapPinIcon className="w-5 h-5 text-accent flex-shrink-0" />
                               <span className="text-sm">{event.location}{event.venue && ` - ${event.venue}`}</span>
                             </div>
                           </div>
                           {event.description && (
-                            <p className="text-slate-400 line-clamp-3 mb-4 text-sm leading-relaxed">{event.description}</p>
+                            <p className="text-gray-500 line-clamp-3 mb-4 text-sm leading-relaxed">{event.description}</p>
                           )}
                           <span className="inline-flex items-center text-accent font-semibold text-sm">
                             Billetterie
@@ -319,15 +319,15 @@ export default function Home() {
           initial="hidden"
           whileInView="visible"
           variants={containerVariants}
-          className="py-20 bg-surface-light/50"
-        >
-          <div className="container mx-auto px-4">
-            <motion.div variants={itemVariants} className="text-center mb-16">
-              <div className="flex items-center justify-center mb-6">
-                <MicrophoneIcon className="h-12 w-12 text-accent mr-4" />
-                <h2 className="text-4xl md:text-5xl font-bold text-white">Performances Récentes</h2>
-              </div>
-              <p className="text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed">
+        className="py-20 bg-gray-50"
+      >
+        <div className="container mx-auto px-4">
+          <motion.div variants={itemVariants} className="text-center mb-16">
+            <div className="flex items-center justify-center mb-6">
+              <MicrophoneIcon className="h-12 w-12 text-accent mr-4" />
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Performances Récentes</h2>
+            </div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 Revivez nos dernières performances et découvrez la magie de notre fusion musicale
               </p>
             </motion.div>
@@ -336,19 +336,19 @@ export default function Home() {
               {performances.map((performance) => (
                 <motion.div key={performance.id} variants={itemVariants} className="group">
                   <Link href={`/performances/${performance.id}`}>
-                    <div className="relative h-64 rounded-xl overflow-hidden shadow-lg border border-white/10 hover:border-accent/30 transition-colors">
+                    <div className="relative h-64 rounded-xl overflow-hidden shadow-lg border border-gray-200 hover:border-accent/50 transition-colors">
                       {performance.imageUrl ? (
                         <Image src={performance.imageUrl} alt={performance.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 25vw" />
                       ) : (
-                        <div className="w-full h-full bg-surface-dark flex items-center justify-center">
-                          <MicrophoneIcon className="h-16 w-16 text-slate-500" />
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                          <MicrophoneIcon className="h-16 w-16 text-gray-400" />
                         </div>
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-surface-dark/90 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">{performance.title}</h3>
-                        <p className="text-slate-200 text-sm mb-2">{performance.venue}</p>
-                        <p className="text-slate-300 text-xs">
+                        <h3 className="text-gray-900 font-bold text-lg mb-1 line-clamp-2">{performance.title}</h3>
+                        <p className="text-gray-600 text-sm mb-2">{performance.venue}</p>
+                        <p className="text-gray-500 text-xs">
                           {new Date(performance.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
                         </p>
                       </div>
@@ -374,7 +374,7 @@ export default function Home() {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="py-20 bg-surface-dark text-white"
+        className="py-20 bg-blue-50 text-gray-900"
       >
         <div className="container mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
@@ -384,7 +384,7 @@ export default function Home() {
               </div>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Rejoignez Notre Communauté</h2>
-            <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed text-slate-200">
+            <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed text-gray-600">
               Découvrez la richesse de la culture africaine à travers notre musique et devenez partie intégrante de notre famille artistique
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">

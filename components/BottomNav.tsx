@@ -121,7 +121,7 @@ export default function BottomNav() {
     pathname === href || (href !== "/" && pathname?.startsWith(href));
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-surface-dark border-t border-white/10 shadow-lg">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-200 shadow-lg">
       <div className="container mx-auto px-2">
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => {
@@ -136,13 +136,13 @@ export default function BottomNav() {
               >
                 <div
                   className={`relative flex items-center justify-center w-10 h-10 rounded-xl mb-1 border transition-colors ${
-                    active ? "bg-accent/20 border-accent/50" : "bg-white/5 border-white/10"
+                    active ? "bg-blue-50 border-accent/50" : "bg-gray-50 border-gray-200"
                   }`}
                 >
-                  <Icon className={`h-5 w-5 ${active ? "text-accent" : "text-slate-400"}`} />
+                  <Icon className={`h-5 w-5 ${active ? "text-accent" : "text-gray-500"}`} />
                 </div>
 
-                <span className={`text-[11px] font-medium tracking-wide ${active ? "text-accent" : "text-slate-400"}`}>
+                <span className={`text-[11px] font-medium tracking-wide ${active ? "text-accent" : "text-gray-500"}`}>
                   {item.label}
                 </span>
                 {active && <span className="absolute bottom-1 w-6 h-[2px] bg-accent rounded-full" />}
