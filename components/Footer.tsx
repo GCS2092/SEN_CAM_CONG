@@ -60,6 +60,12 @@ export default function Footer() {
 
   return (
     <footer className="bg-warm-100 border-t border-warm-200 mt-auto">
+      {/* Bande aux couleurs des trois pays */}
+      <div className="flex h-1.5">
+        <span className="flex-1 bg-senegal-green" aria-hidden />
+        <span className="flex-1 bg-senegal-yellow" aria-hidden />
+        <span className="flex-1 bg-senegal-red" aria-hidden />
+      </div>
       <div className="container mx-auto px-4 py-8 sm:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           <div className="lg:col-span-3 lg:flex lg:items-center lg:justify-between gap-8">
@@ -68,6 +74,11 @@ export default function Footer() {
                 <MusicalNoteIcon className="h-6 w-6 text-white" />
               </div>
               <span className="text-lg font-bold text-gray-900">SEN CAM CONG</span>
+              <span className="inline-flex gap-1" aria-hidden>
+                <span className="w-2 h-2 rounded-full bg-senegal-green" />
+                <span className="w-2 h-2 rounded-full bg-senegal-yellow" />
+                <span className="w-2 h-2 rounded-full bg-senegal-red" />
+              </span>
             </div>
             <p className="text-gray-600 text-sm leading-relaxed mb-3">
               La fusion musicale authentique de trois cultures africaines exceptionnelles.

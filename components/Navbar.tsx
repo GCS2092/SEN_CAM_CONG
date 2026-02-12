@@ -134,6 +134,11 @@ export default function Navbar() {
               <span className="text-base lg:text-lg font-bold text-gray-900">
                 SEN CAM CONG
               </span>
+              <span className="ml-1.5 inline-flex gap-0.5" aria-hidden>
+                <span className="w-1.5 h-1.5 rounded-full bg-senegal-green" />
+                <span className="w-1.5 h-1.5 rounded-full bg-senegal-yellow" />
+                <span className="w-1.5 h-1.5 rounded-full bg-senegal-red" />
+              </span>
               <p className="text-[10px] lg:text-xs text-gray-500 -mt-0.5 hidden lg:block">
                 Fusion Musicale
               </p>

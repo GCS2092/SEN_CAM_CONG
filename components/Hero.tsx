@@ -74,8 +74,8 @@ export default function Hero() {
         }}
       />
 
-      {/* Overlay clair – laisse mieux voir l'image de fond */}
-      <div className="absolute inset-0 z-10 bg-white/40 backdrop-blur-sm" />
+      {/* Overlay léger – image de fond nette et lisible */}
+      <div className="absolute inset-0 z-10 bg-white/25" />
 
       {/* Main Content */}
       <motion.div
@@ -172,6 +172,13 @@ export default function Hero() {
           <ChevronDownIcon className="h-6 w-6 text-accent animate-bounce" />
         </motion.div>
       </motion.div>
+
+      {/* Bande aux couleurs des trois pays (Sénégal, Cameroun, Congo) */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 flex h-1.5">
+        <span className="flex-1 bg-senegal-green" aria-hidden />
+        <span className="flex-1 bg-senegal-yellow" aria-hidden />
+        <span className="flex-1 bg-senegal-red" aria-hidden />
+      </div>
     </section>
   );
 }

@@ -10,3 +10,4 @@ if (typeof window !== 'undefined' && (!supabaseUrl || !supabaseAnonKey)) {
 export const supabase = supabaseUrl && supabaseAnonKey
   ? createClient(supabaseUrl, supabaseAnonKey)
   : createClient('https://placeholder.supabase.co', 'placeholder-key')
+ 

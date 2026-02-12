@@ -1,5 +1,6 @@
 import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcryptjs'
+import { Prisma } from '@prisma/client'
 import { prisma } from './prisma'
 import { getSupabaseAuthUser } from './supabase/server'
 
@@ -83,54 +84,50 @@ export async function getCurrentUserFromSupabaseToken(
     return { user: null, error: `SUPABASE: ${msg}` }
   }
 
+  type UserRow = { id: string; email: string; name: string | null; role: string; avatar: string | null }
   try {
-    // 1) Cherche par id = auth.users.id (utilisateurs créés par le trigger ou déjà synchronisés)
-    let appUser = await prisma.user.findUnique({
-      where: { id: authUser.id },
-      select: { id: true, email: true, name: true, role: true, avatar: true },
-    })
+    // 1) Cherche par id = auth.users.id (requêtes brutes pour éviter le bug Prisma "colonne")
+    const byId = await prisma.$queryRaw<UserRow[]>(
+      Prisma.sql`SELECT id, email, name, role, avatar FROM users WHERE id = ${authUser.id} LIMIT 1`
+    )
+    let appUser: UserRow | null = byId[0] ?? null
     if (appUser) {
       console.log('[getCurrentUserFromSupabaseToken] Trouvé par id (auth):', appUser.email)
       return { user: { ...appUser, role: appUser.role } }
     }
 
     // 2) Anciens comptes : chercher par supabaseAuthId
-    appUser = await prisma.user.findUnique({
-      where: { supabaseAuthId: authUser.id },
-      select: { id: true, email: true, name: true, role: true, avatar: true },
-    })
+    const bySupabaseId = await prisma.$queryRaw<UserRow[]>(
+      Prisma.sql`SELECT id, email, name, role, avatar FROM users WHERE "supabaseAuthId" = ${authUser.id} LIMIT 1`
+    )
+    appUser = bySupabaseId[0] ?? null
     if (appUser) {
       console.log('[getCurrentUserFromSupabaseToken] Trouvé par supabaseAuthId:', appUser.email)
       return { user: { ...appUser, role: appUser.role } }
     }
 
     const email = authUser.email!.toLowerCase().trim()
-    // 3) Lien par email (compte existant en base sans lien Auth)
-    const existingByEmail = await prisma.user.findFirst({
-      where: { email: { equals: email, mode: 'insensitive' } },
-      select: { id: true, email: true, name: true, role: true, avatar: true },
-    })
+    // 3) Lien par email (compte existant en base sans lien Auth) — requête brute pour éviter le bug Prisma "colonne" avec mode: 'insensitive'
+    const byEmail = await prisma.$queryRaw<UserRow[]>(
+      Prisma.sql`SELECT id, email, name, role, avatar FROM users WHERE LOWER(email) = LOWER(${email}) LIMIT 1`
+    )
+    const existingByEmail = byEmail[0] ?? null
     if (existingByEmail) {
       console.log('[getCurrentUserFromSupabaseToken] Liaison par email:', existingByEmail.email)
-      appUser = await prisma.user.update({
-        where: { id: existingByEmail.id },
-        data: { supabaseAuthId: authUser.id },
-        select: { id: true, email: true, name: true, role: true, avatar: true },
-      })
+      const updated = await prisma.$queryRaw<UserRow[]>(
+        Prisma.sql`UPDATE users SET "supabaseAuthId" = ${authUser.id}, "updatedAt" = NOW() WHERE id = ${existingByEmail.id} RETURNING id, email, name, role, avatar`
+      )
+      appUser = updated[0] ?? existingByEmail
       return { user: { ...appUser, role: appUser.role } }
     }
 
     // 4) Création (trigger n'a pas tourné ou compte créé avant le trigger) : id = auth.id pour rester aligné
     console.log('[getCurrentUserFromSupabaseToken] Création nouvel utilisateur:', email)
-    appUser = await prisma.user.create({
-      data: {
-        id: authUser.id,
-        email,
-        name: (authUser.user_metadata?.name as string) ?? (authUser.user_metadata?.full_name as string) ?? null,
-        role: 'USER',
-      },
-      select: { id: true, email: true, name: true, role: true, avatar: true },
-    })
+    const name = (authUser.user_metadata?.name as string) ?? (authUser.user_metadata?.full_name as string) ?? null
+    const created = await prisma.$queryRaw<UserRow[]>(
+      Prisma.sql`INSERT INTO users (id, email, name, role, "createdAt", "updatedAt") VALUES (${authUser.id}, ${email}, ${name}, 'USER', NOW(), NOW()) RETURNING id, email, name, role, avatar`
+    )
+    appUser = created[0]!
     return { user: { ...appUser, role: appUser.role } }
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error)

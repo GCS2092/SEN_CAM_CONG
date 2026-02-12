@@ -119,9 +119,16 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 text-xs font-semibold text-primary-700 mb-3">
             <SparklesIcon className="h-4 w-4" />
-            <span>Fusion musicale Sénégal · Cameroun · Congo</span>
+            <span className="inline-flex items-center gap-1.5">
+              <span className="inline-flex gap-0.5" aria-hidden>
+                <span className="w-1.5 h-1.5 rounded-full bg-senegal-green" />
+                <span className="w-1.5 h-1.5 rounded-full bg-senegal-yellow" />
+                <span className="w-1.5 h-1.5 rounded-full bg-senegal-red" />
+              </span>
+              Fusion musicale Sénégal · Cameroun · Congo
+            </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 pl-3 border-l-4 border-senegal-green">
             Trois pays, une même vibration
           </h2>
           <p className="text-sm sm:text-base text-gray-600 mb-5">
@@ -150,7 +157,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <motion.div variants={itemVariants} className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 pl-3 border-l-4 border-senegal-yellow max-w-fit mx-auto">
               Prochain événement
             </h2>
             <p className="text-base text-gray-600 max-w-2xl mx-auto mt-2">
@@ -251,7 +258,7 @@ export default function Home() {
                 <GlobeAltIcon className="h-12 w-12 text-accent" />
               </div>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Rejoignez Notre Communauté</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 pl-3 border-l-4 border-senegal-red max-w-fit mx-auto">Rejoignez Notre Communauté</h2>
             <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed text-gray-600">
               Découvrez la richesse de la culture africaine à travers notre musique et devenez partie intégrante de notre famille artistique
             </p>
