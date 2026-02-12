@@ -9,10 +9,10 @@ datasource db {
 }
 
 model User {
-  id               String        @id @default(cuid())
+  id               String        @id @default(cuid()) // UUID quand fourni (trigger Supabase ou premier login Auth)
   email            String        @unique
   name             String?
-  password         String?        // Gardé pour rétrocompat, inutilisé si supabaseAuthId est défini
+  password         String?       // Non utilisé avec Supabase Auth (géré par Supabase)
   role             Role          @default(USER)
   avatar           String?
   bio              String?

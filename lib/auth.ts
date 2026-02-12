@@ -84,8 +84,18 @@ export async function getCurrentUserFromSupabaseToken(
   }
 
   try {
-    // 1) Cherche par supabaseAuthId
+    // 1) Cherche par id = auth.users.id (utilisateurs créés par le trigger ou déjà synchronisés)
     let appUser = await prisma.user.findUnique({
+      where: { id: authUser.id },
+      select: { id: true, email: true, name: true, role: true, avatar: true },
+    })
+    if (appUser) {
+      console.log('[getCurrentUserFromSupabaseToken] Trouvé par id (auth):', appUser.email)
+      return { user: { ...appUser, role: appUser.role } }
+    }
+
+    // 2) Anciens comptes : chercher par supabaseAuthId
+    appUser = await prisma.user.findUnique({
       where: { supabaseAuthId: authUser.id },
       select: { id: true, email: true, name: true, role: true, avatar: true },
     })
@@ -95,7 +105,7 @@ export async function getCurrentUserFromSupabaseToken(
     }
 
     const email = authUser.email!.toLowerCase().trim()
-    // 2) Cherche par email (insensible à la casse)
+    // 3) Lien par email (compte existant en base sans lien Auth)
     const existingByEmail = await prisma.user.findFirst({
       where: { email: { equals: email, mode: 'insensitive' } },
       select: { id: true, email: true, name: true, role: true, avatar: true },
@@ -110,11 +120,11 @@ export async function getCurrentUserFromSupabaseToken(
       return { user: { ...appUser, role: appUser.role } }
     }
 
-    // 3) Crée un nouvel utilisateur (présent dans Auth mais pas dans table users)
+    // 4) Création (trigger n'a pas tourné ou compte créé avant le trigger) : id = auth.id pour rester aligné
     console.log('[getCurrentUserFromSupabaseToken] Création nouvel utilisateur:', email)
     appUser = await prisma.user.create({
       data: {
-        supabaseAuthId: authUser.id,
+        id: authUser.id,
         email,
         name: (authUser.user_metadata?.name as string) ?? (authUser.user_metadata?.full_name as string) ?? null,
         role: 'USER',

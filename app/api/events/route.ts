@@ -141,12 +141,24 @@ export const GET = withRateLimit(getEvents);
 
 async function createEvent(request: NextRequest) {
   try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "") || null;
+    if (!token) {
+      return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+    }
+
+    const { verifyTokenOrSupabase } = await import("@/lib/auth");
+    const payload = await verifyTokenOrSupabase(token);
+    if (!payload) {
+      return NextResponse.json({ error: "Token invalide ou expiré" }, { status: 401 });
+    }
+
     const body = await request.json();
-    const { eventSchema } = await import("@/lib/validations");
+    const { eventCreateSchema } = await import("@/lib/validations");
     const { handleValidationError, handleServerError } =
       await import("@/lib/api-helpers");
 
-    const validation = eventSchema.safeParse(body);
+    const validation = eventCreateSchema.safeParse(body);
     if (!validation.success) {
       return handleValidationError(validation.error);
     }
@@ -170,7 +182,7 @@ async function createEvent(request: NextRequest) {
         imageUrl: data.imageUrl,
         externalUrl: data.externalUrl,
         ticketPrice: data.ticketPrice,
-        userId: data.userId,
+        userId: payload.id,
         status: new Date(data.date) > new Date() ? "UPCOMING" : "PAST",
       },
       include: {

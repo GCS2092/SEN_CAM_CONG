@@ -61,6 +61,10 @@ function MigrateImagesPageContent() {
             Upload vers Vercel Blob Storage
           </h2>
 
+          <p className="text-gray-600 mb-6">
+            Cette migration lit les images depuis le dossier <code className="bg-gray-100 px-2 py-1 rounded">public/uploads</code> de
+            votre machine. <strong>Sur Vercel elle ne peut pas s&apos;exécuter</strong> (pas de dossier local). Lancez-la en local après avoir placé vos images dans <code className="bg-gray-100 px-2 py-1 rounded">public/uploads</code>.
+          </p>
           <p className="text-gray-600 mb-6">Ce script va :</p>
           <ul className="list-disc list-inside space-y-2 text-gray-600 mb-6">
             <li>

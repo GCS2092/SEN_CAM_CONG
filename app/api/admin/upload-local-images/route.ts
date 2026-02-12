@@ -46,12 +46,16 @@ export async function POST(request: NextRequest) {
       errors: [] as string[],
     }
 
-    // Lire les images du dossier uploads (en production, elles sont dans public/uploads)
+    // Lire les images du dossier uploads (en local uniquement ; sur Vercel le système de fichiers est éphémère)
     const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
     
     if (!fs.existsSync(uploadsDir)) {
+      const onVercel = process.env.VERCEL === '1'
+      const message = onVercel
+        ? 'Cette migration ne peut pas s\'exécuter sur Vercel (pas de dossier public/uploads). Lancez-la en local : placez vos images dans public/uploads puis exécutez la migration depuis http://localhost:3000/admin/migrate-images.'
+        : 'Le dossier public/uploads n\'existe pas. Créez-le et ajoutez-y vos images, puis relancez la migration.'
       return NextResponse.json(
-        { error: 'Le dossier public/uploads n\'existe pas' },
+        { error: message },
         { status: 404 }
       )
     }

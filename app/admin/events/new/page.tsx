@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 import ImageUpload from '@/components/ImageUpload'
 import AdminGuard from '@/components/AdminGuard'
-import { eventSchema } from '@/lib/validations'
+import { eventCreateSchema } from '@/lib/validations'
 
 function NewEventPageContent() {
   const router = useRouter()
@@ -37,11 +37,7 @@ function NewEventPageContent() {
     }
 
     try {
-      // Récupérer l'ID de l'utilisateur depuis le token
-      const payload = JSON.parse(atob(token.split('.')[1]))
-      
-      // Valider avec Zod
-      // S'assurer que imageUrl est null si vide, sinon garder la valeur
+      // Valider le formulaire (userId est ajouté côté API à partir du token)
       const imageUrl = formData.imageUrl && formData.imageUrl.trim() !== '' 
         ? formData.imageUrl.trim() 
         : null
@@ -52,19 +48,17 @@ function NewEventPageContent() {
         ticketPrice: formData.ticketPrice ? parseFloat(formData.ticketPrice) : null,
       })
       
-      // Vérifier que l'image est bien présente
       if (!imageUrl) {
         console.warn('⚠️  Aucune image URL dans le formulaire')
       } else {
         console.log('✅ Image URL présente:', imageUrl)
       }
 
-      const validation = eventSchema.safeParse({
+      const validation = eventCreateSchema.safeParse({
         ...formData,
         imageUrl,
         date: new Date(formData.date).toISOString(),
         ticketPrice: formData.ticketPrice ? parseFloat(formData.ticketPrice) : null,
-        userId: payload.id,
       })
 
       if (!validation.success) {

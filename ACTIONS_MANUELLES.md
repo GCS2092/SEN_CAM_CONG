@@ -294,13 +294,16 @@ npm install
 - Vérifiez que le port 3000 n'est pas déjà utilisé
 
 ### Authentification Supabase (connexion / inscription)
-L’app utilise **Supabase Auth** pour la connexion et l’inscription.
+L’app utilise **Supabase Auth** pour la connexion et l’inscription. Les mots de passe sont gérés uniquement par Supabase (pas de colonne `password` utilisée pour le login Supabase).
 
 - **Supabase** : Authentication → Providers → Email activé. (Optionnel : désactiver « Confirm email » pour ne pas exiger la confirmation par email.)
 - **Réinitialisation mot de passe** : Authentication → URL Configuration → **Redirect URLs** : ajoutez l’URL de la page de réinitialisation, ex. `https://votredomaine.com/login/reset-password` (et en local `http://localhost:3000/login/reset-password` si vous testez).
 - **.env et Vercel** : `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Supabase → Project Settings → API).
-- Après mise à jour du schéma : `npx prisma db push` pour ajouter la colonne `supabaseAuthId`.
-- Les utilisateurs existants sont liés au premier login avec le même email.
+- **Sync Auth → table `users`** : exécuter une fois le script `prisma/supabase-auth-sync-trigger.sql` dans Supabase → SQL Editor. Ainsi, à chaque inscription via Supabase Auth, une ligne est créée dans `public.users` avec le **même id** (UUID), ce qui évite les 401 « Token invalide ou utilisateur non trouvé ».
+- Les utilisateurs déjà dans Auth mais pas dans `users` sont créés ou liés au premier login par l’app.
+
+### Erreur « prepared statement "s0" / "s3" already exists » (42P05) sur Vercel
+Vous utilisez le **pooler Supabase** (port 6543) sans indiquer à Prisma qu’il s’agit de PgBouncer. **Sur Vercel**, dans `DATABASE_URL`, ajoutez **`?pgbouncer=true`** à la fin de l’URL (si l’URL a déjà des paramètres, utilisez **`&pgbouncer=true`**). Exemple : `...supabase.co:6543/postgres?pgbouncer=true`. Puis redéployez.
 
 ### Erreur 500 sur la connexion (login) en production (Vercel)
 - **Vercel** → Settings → Environment Variables : `DATABASE_URL`, `JWT_SECRET`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
@@ -317,7 +320,7 @@ Si vous voyez **« Token invalide ou utilisateur non trouvé »** ou **401** apr
 
 2. **Variables d’environnement sur Vercel**  
    Vercel → Projet → Settings → Environment Variables. Vérifiez :
-   - `DATABASE_URL` : utilisez la **chaîne de connexion pooler** (port **6543**) depuis Supabase (Project Settings → Database → Connection string → **Connection pooling**). La connexion directe (5432) peut échouer sur Vercel.
+   - `DATABASE_URL` : utilisez la **chaîne de connexion pooler** (port **6543**) depuis Supabase (Project Settings → Database → Connection string → **Connection pooling**). **Ajoutez `?pgbouncer=true`** à la fin de l’URL (ex. `...6543/postgres?pgbouncer=true`), sinon Prisma provoque l’erreur « prepared statement already exists » (42P05).
    - `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` : identiques à Supabase (Project Settings → API).
    - `JWT_SECRET` : même valeur qu’en local si vous voulez des sessions cohérentes.
 
@@ -328,6 +331,20 @@ Si vous voyez **« Token invalide ou utilisateur non trouvé »** ou **401** apr
 
 4. **Redéploiement**  
    Après toute modification des variables, faites **Redeploy** sur le dernier déploiement (Vercel → Deployments → ⋮ → Redeploy).
+
+---
+
+## 🔄 SYNCHRONISATION SUPABASE AUTH → TABLE `users` (recommandé)
+
+Pour que **auth.users** et **public.users** restent alignés (même id = plus de 401) :
+
+1. Ouvrez **Supabase** → **SQL Editor**.
+2. Copiez-collez le contenu du fichier **`prisma/supabase-auth-sync-trigger.sql`**.
+3. Exécutez le script.
+
+À chaque **nouvelle inscription** via Supabase Auth, une ligne sera créée automatiquement dans `public.users` avec le même UUID que dans Auth. Les utilisateurs déjà présents dans Auth seront créés ou liés au premier login.
+
+**Vérifier que tout marche :** voir le guide **`VERIFICATION_AUTH.md`** (trigger, comparaison Auth / users, test inscription + connexion, requête `/api/auth/verify` en 200).
 
 ---
 

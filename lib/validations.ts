@@ -36,6 +36,9 @@ export const eventSchema = z.object({
   userId: z.string().min(1, 'ID utilisateur requis'),
 })
 
+/** Schéma pour la création d’événement : userId est ajouté côté API à partir du token. */
+export const eventCreateSchema = eventSchema.omit({ userId: true })
+
 export const eventUpdateSchema = eventSchema.partial().extend({
   title: z.string().min(1, 'Le titre est requis').max(200, 'Le titre est trop long').optional(),
   date: z.string().datetime('Date invalide').optional(),
